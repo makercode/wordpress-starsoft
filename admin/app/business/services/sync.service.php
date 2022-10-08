@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__file__).'/../../business/database/invoices.database.php';
+require_once dirname(__file__).'/../database/invoices.database.php';
 
 class SyncService {
 

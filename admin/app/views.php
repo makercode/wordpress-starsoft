@@ -24,7 +24,6 @@ function CrearMenu() {
 function MostrarSubContenido() {
   echo '<h1>Ajustes de Facturador</h1>';
 }
-
 add_action('admin_menu', 'CrearMenu');
 
 

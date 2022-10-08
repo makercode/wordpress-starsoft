@@ -5,17 +5,20 @@ require_once dirname(__file__).'/../database/products.database.php';
 require_once dirname(__file__).'/../database/settings.database.php';
 
 class InstallService {
-  public function init() {
-    $settingsDatabase = new SettingsDatabase;
-    $customersDatabase = new CustomersDatabase;
-    $productsDatabase = new ProductsDatabase;
 
+  public function __construct() {
+    $this->settingsDatabase = new SettingsDatabase;
+    $this->customersDatabase = new CustomersDatabase;
+    $this->productsDatabase = new ProductsDatabase;
+  }
+
+  public function init() {
     // Create tables if not exist.
-    $settingsDatabase->createTable();
-    $customersDatabase->createTable();
-    $productsDatabase->createTable();
+    $this->settingsDatabase->createTable();
+    $this->customersDatabase->createTable();
+    $this->productsDatabase->createTable();
 
     // Set sku validation to false
-    $settingsDatabase->upsertSettingsData($data);
+    $this->settingsDatabase->upsertSettingsData($data);
   }
 }

@@ -1,6 +1,5 @@
 <?php 
 
-$invoicesDatabase = new InvoicesDatabase;
 // Detect when order change to completed
 function mysite_woocommerce_order_status_completed( $order_id ) {
   $info = [
@@ -8,7 +7,8 @@ function mysite_woocommerce_order_status_completed( $order_id ) {
     'Cancelled' => 0
   ];
 
-  return $invoicesDatabase->updateInvoice( $info, $order_id );
+  $invoicesDatabase = new InvoicesDatabase;
+  $result = $invoicesDatabase->updateInvoice( $info, $order_id );
 
   return $result;
 }
@@ -21,6 +21,7 @@ function action_woocommerce_order_refunded( $order_id, $refund_id ) {
     'Cancelled' => 1
   ];
 
+  $invoicesDatabase = new InvoicesDatabase;
   $result = $invoicesDatabase->updateInvoice( $info, $order_id );
 
   return $result;
@@ -35,6 +36,7 @@ function action_woocommerce_order_processing( $order_id ) {
     'Cancelled' => 0
   ];
 
+  $invoicesDatabase = new InvoicesDatabase;
   $result = $invoicesDatabase->updateInvoice( $info, $order_id );
 
   return $result;

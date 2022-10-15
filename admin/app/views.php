@@ -7,7 +7,7 @@ function CrearMenu() {
     'Control de ordenes Starsoft', // Titulo de la pagina
     'Starsoft', // Titulo del menu
     'manage_options', // Capability
-    plugin_dir_path(__file__).'/main/install/invoices-list.php', // slug
+    plugin_dir_path(__file__).'/main/validation/tosync-products-list.php', // slug
     null,
     plugin_dir_url(__file__).'/assets/img/icon.png'
   );

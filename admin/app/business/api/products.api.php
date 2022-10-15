@@ -1,0 +1,30 @@
+<?php 
+
+class ProductsApi {
+
+  public function __construct() {
+    $this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/VerificationProducts";
+  }
+
+
+  public function verifyProducts ($post_data) {
+
+    $json_post_data = json_encode( $post_data );
+    // var_dump($post_data);
+
+    $result = wp_remote_post(
+      $this->apiUrl ,
+      array(
+        'method' => 'POST',
+        'headers' => array(
+            'Authorization' => 'Bearer xxx',
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ),
+        'body' => $json_post_data
+      )
+    );
+    return $result['body'];
+  }
+
+}

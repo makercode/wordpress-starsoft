@@ -1,14 +1,13 @@
 <?php 
-  global $wpdb;
+  require_once dirname(__file__).'/../../business/database/invoices.database.php';
+  require_once dirname(__file__).'/../../business/database/products.database.php';
+  
+  require_once dirname(__file__).'/../../business/api/products.api.php';
 
-  $tabla  = "{$wpdb->prefix}invoices";
+  // get invoices
+  $invoicesDatabase = new InvoicesDatabase();
+  $invoicesArray = $invoicesDatabase->getInvoices();
 
-  $GetInvoicesQuery = "SELECT * FROM {$wpdb->prefix}sync_invoices";
-  $invoices_array = $wpdb->get_results($GetInvoicesQuery, ARRAY_A);
-
-  if( empty($invoices_array) ) {
-    $invoices_array = array();
-  }
 ?>
 <?php // print_r($_POST); ?>
 
@@ -20,8 +19,29 @@
     Añadir nueva
   </a>
   <div>
-    <?php 
+    <?php
       // Gg
+      /*
+      $order_object = wc_get_order(58);
+      $order_data = $order_object->get_data();
+      foreach ( $order_object->get_items() as $item_id => $item ) {
+        $product_id = $item->get_product_id();
+        $product_sku = $item->get_product()->get_sku(); 
+        $variation_id = $item->get_variation_id();
+        $product = $item->get_product(); // see link above to get $product info
+        $product_name = $item->get_name();
+        $quantity = $item->get_quantity();
+        $subtotal = $item->get_subtotal();
+        $total = $item->get_total();
+        $tax = $item->get_subtotal_tax();
+        $tax_class = $item->get_tax_class();
+        $tax_status = $item->get_tax_status();
+        $allmeta = $item->get_meta_data();
+        $somemeta = $item->get_meta( '_whatever', true );
+        $item_type = $item->get_type();
+        var_dump($quantity);
+        var_dump($product_sku);
+      }*/
     ?>
   </div>
   <table class="wp-list-table widefat fixed striped pages">
@@ -44,16 +64,10 @@
       <th>
         Sincronizado
       </th>
-      <th>
-        Factura Validada
-      </th>
-      <th>
-        Factura Anulada
-      </th>
     </thead>
     <tbody>
       <?php 
-        foreach ($invoices_array as $key => $value) {
+        foreach ($invoicesArray as $key => $value) {
           $id = $value['InvoiceId'];
           $date = date('m/d/Y', $value['Date']);
           $orderid = $value['OrderId'];
@@ -81,12 +95,6 @@
               </td>
               <td>
                 {$sync}
-              </td>
-              <td>
-                {$valid}
-              </td>
-              <td>
-                {$canceled}
               </td>
             </tr>
           ";

@@ -24,6 +24,19 @@ class InvoicesDatabase {
     $wpdb->query($setInvoicesTable);
   }
 
+  public function getInvoices(){
+    global $wpdb;
+
+    $GetInvoicesQuery = "SELECT * FROM {$this->table}";
+    $invoices_array = $wpdb->get_results($GetInvoicesQuery, ARRAY_A);
+
+    if( empty($invoices_array) ) {
+      $invoices_array = array();
+    }
+
+    return $invoices_array;
+  } 
+
   public function updateInvoice( $info, $order_id ) {
     global $wpdb;
 

@@ -110,10 +110,10 @@
                   {$postid}
                 </td>
                 <td>
-                  <a href='{$postLink}' class='page-title-action d-inline-block'>
+                  <a href='{$postLinkToEdit}' class='page-title-action d-inline-block'>
                     Convertir a Borrador
                   </a>
-                  <a href='{$postLink}' class='page-title-action d-inline-block'>
+                  <a href='{$postLinkToEdit}' class='page-title-action d-inline-block'>
                     Editar
                   </a>
                 </td>

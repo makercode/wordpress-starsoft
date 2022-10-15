@@ -1,7 +1,12 @@
 <?php 
   require_once dirname(__file__).'/../../business/database/products.database.php';
   require_once dirname(__file__).'/../../business/api/products.api.php';
-  
+
+
+  if(isset($_POST['btndraft'])) {
+    echo "yep";
+  }
+
   // writting products from woocommerce to sync
   $productsDatabase = new ProductsDatabase();
   $create = $productsDatabase->createTable();
@@ -110,12 +115,14 @@
                   {$postid}
                 </td>
                 <td>
-                  <a href='{$postLinkToEdit}' class='page-title-action d-inline-block'>
-                    Convertir a Borrador
-                  </a>
-                  <a href='{$postLinkToEdit}' class='page-title-action d-inline-block'>
-                    Editar
-                  </a>
+                  <form method='POST'>
+                    <button href='{$postLinkToEdit}' type='submit' name='btnguardar' id='btnguardar' class='page-title-action d-inline-block'>
+                      Convertir a Borrador
+                    </button>
+                    <a href='{$postLinkToEdit}' class='page-title-action d-inline-block'>
+                      Editar
+                    </a>
+                  </form>
                 </td>
               </tr>
               ";

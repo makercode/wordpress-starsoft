@@ -2,11 +2,6 @@
   require_once dirname(__file__).'/../../business/database/products.database.php';
   require_once dirname(__file__).'/../../business/api/products.api.php';
 
-
-  if(isset($_POST['btndraft'])) {
-    echo "yep";
-  }
-
   // writting products from woocommerce to sync
   $productsDatabase = new ProductsDatabase();
   $create = $productsDatabase->createTable();
@@ -32,9 +27,18 @@
     }
     return false;
   }
-  function setDraftByPostId($postid) {
-    wp_update_post(array('ID' => $postid, 'post_status'   =>  'draft'));
+
+
+  if(isset($_POST['btndraft'])) {
+    $postid = $_POST['postid'];
+    echo $postid;
+
+    $product = wc_get_product( $postid );
+
+    $status = $product->set_status('draft');
+    echo $status;
   }
+
 ?>
 
 <style>
@@ -49,6 +53,10 @@
   }
   .d-inline-block {
     display: inline-block;
+  }
+  .my-auto {
+    margin-top: auto!important;
+    margin-bottom: auto!important;
   }
   .ml-auto {
     margin: auto!important;
@@ -67,7 +75,7 @@
     <p>
       Resultados (Solo productos simples y variables)
     </p>
-    <a href="#exampleModal" data-bs-toggle="modal" data-bs-target="#exampleModal" class="page-title-action ml-auto">
+    <a href="javascript:window.location.reload(true)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="page-title-action ml-auto">
       Comprobar nuevamente
     </a>
   </div>
@@ -81,7 +89,7 @@
         <th>
           Estado
         </th>
-        <th>
+        <th width="10%">
           PostId
         </th>
         <th>
@@ -116,10 +124,11 @@
                 </td>
                 <td>
                   <form method='POST'>
-                    <button href='{$postLinkToEdit}' type='submit' name='btnguardar' id='btnguardar' class='page-title-action d-inline-block'>
+                    <input type='hidden' value='{$postid}' href='#' name='postid' id='postid'>
+                    <button href='{$postLinkToEdit}' type='submit' name='btndraft' id='btndraft' value='btndraft' class='page-title-action d-inline-block'>
                       Convertir a Borrador
                     </button>
-                    <a href='{$postLinkToEdit}' class='page-title-action d-inline-block'>
+                    <a href='{$postLinkToEdit}' class='page-title-action d-inline-block' target='_blank'>
                       Editar
                     </a>
                   </form>
@@ -131,6 +140,16 @@
         ?>
       </tbody>
     </table>
+    <div class="tablenav bottom">
+      <div class="alignleft actions bulkactions">
+        <label for="bulk-action-selector-bottom" class="screen-reader-text">Seleccionar acción múltiple</label>
+        <select name="action2" id="bulk-action-selector-bottom">
+          <option value="">Acciones masivas</option>
+          <option value="trash">Convertir todos a borrador</option>
+        </select>
+        <input type="submit" id="doaction2" class="button action" value="Aplicar">
+      </div>
+    </div>
     <div class="d-none">
       <p>
         Entiendo que si los productos existen en Starsoft se duplicarán.

@@ -44,63 +44,68 @@ class ProductsDatabase {
 
 
   public function getWCProductsSyncData () {
-      // Send 
-      $args = array(
-          'post_type' => 'product',
-          'posts_per_page' => -1
-      );
-      $loop = new WP_Query( $args );
+    // Send 
+    $args = array(
+      'post_type' => 'product',
+      'posts_per_page' => -1
+    );
+    $loop = new WP_Query( $args );
 
-      $productsStack = array();
+    $productsStack = array();
 
-      if ( $loop->have_posts() ): 
-        while ( $loop->have_posts() ): $loop->the_post();
-          global $product;
+    if ( $loop->have_posts() ):
+      while ( $loop->have_posts() ): $loop->the_post();
+        global $product;
 
+        $_temp_product = new ProductSyncDTO($product->get_sku(), $product->get_id() ,'0');
+
+        if($product->get_status()=="publish") {
           if ($product->get_type() == "grouped") {
-              continue;
+            continue;
           }
           if ($product->get_type() == "external") {
-              continue;
+            continue;
           }
           if ($product->get_type() == "variable") {
             foreach ( $product->get_children( false ) as $child_id ) {
-                // get an instance of the WC_Variation_product Object
-                $variation = wc_get_product( $child_id ); 
+              // get an instance of the WC_Variation_product Object
+              $variation = wc_get_product( $child_id ); 
 
-                if ( ! $variation || ! $variation->exists() ) {
-                    continue;
-                }
+              if ( ! $variation || ! $variation->exists() ) {
+                continue;
+              }
 
-                $_temp_product = new ProductSyncDTO($variation->get_sku(), $variation->get_id() ,'0');
-                array_push($productsStack, $_temp_product);
+              // $_temp_product = new ProductSyncDTO($variation->get_sku(), $product->get_id() ,'0');
+              array_push($productsStack, $_temp_product);
             }
-          } 
-          if ($product->get_type() == "simple")  {
-            $_temp_product = new ProductSyncDTO($product->get_sku(), $product->get_id() ,'0');
+          }
+          if ($product->get_type() == "simple") {
             array_push($productsStack, $_temp_product);
           }
-        endwhile; 
-      endif; 
-      return $productsStack;
-      wp_reset_query();
+        }
+      endwhile; 
+    endif; 
+    return $productsStack;
+    wp_reset_query();
   }
 
 
   public function getWCProductsData () {
-      // Send 
-      $args = array(
-          'post_type' => 'product',
-          'posts_per_page' => -1
-      );
-      $loop = new WP_Query( $args );
+    // Send 
+    $args = array(
+      'post_type' => 'product',
+      'posts_per_page' => -1
+    );
+    $loop = new WP_Query( $args );
 
-      $productsStack = array();
+    $productsStack = array();
 
-      if ( $loop->have_posts() ): 
-        while ( $loop->have_posts() ): $loop->the_post();
-          global $product;
+    if ( $loop->have_posts() ): 
+      while ( $loop->have_posts() ): $loop->the_post();
+        global $product;
 
+        if($product->get_status()=="publish") {
+          $_temp_product = new ProductSkuDTO($product->get_sku());
           if ($product->get_type() == "grouped") {
               continue;
           }
@@ -116,20 +121,24 @@ class ProductsDatabase {
                     continue;
                 }
 
-                $_temp_product = new ProductSkuDTO($variation->get_sku());
+                // $_temp_product = new ProductSkuDTO($product->get_sku());
                 array_push($productsStack, $_temp_product);
             }
-          } else {
-            $_temp_product = new ProductSkuDTO($product->get_sku());
+          }
+          if ($product->get_type() == "simple")  {
             array_push($productsStack, $_temp_product);
           }
-        endwhile; 
-      endif;
+        }
+      endwhile;
+    endif;
 
-      return $productsStack;
-      wp_reset_query();
+    return $productsStack;
+    wp_reset_query();
   }
 
+  public function setWCProductDraft ($postid) {
+    update_post_meta( $postid, 'status', 'draft' );
+  }
 
   public function setProductsSyncData ($productsStack) {
     global $wpdb;

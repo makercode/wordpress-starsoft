@@ -26,7 +26,7 @@ function action_save_post( $post_id ) {
       $product->set_status('draft');
       $message .= ' ' . __('El producto se envio a "Borrador".', 'woocommerce' );
     }
-    WC_Admin_Meta_Boxes::add_error( $message );
+    return false;
   }
 }
 add_action( 'save_post', 'action_save_post', 10);

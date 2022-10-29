@@ -15,6 +15,29 @@ function action_woocommerce_order_status_completed( $order_id ) {
 add_action( 'woocommerce_order_status_completed', 'action_woocommerce_order_status_completed', 10, 1 );
 
 
+function action_woocommerce_update_product( $product_id ) {
+  /*
+  global $wpdb;
+
+  $info = [
+    'SettingId'        => '2',
+    'SettingProperty'  => 'product_id',
+    'SettingValue'     => $product_id
+  ];
+  $where = [
+    'SettingId'  => '2'
+  ];
+  $settings_table = "{$wpdb->prefix}sync_settings";
+
+  // update
+  $result = $wpdb->update( $settings_table, $info, $where );
+  // or insert
+  if ($result === FALSE || $result < 1) {
+    $wpdb->insert($settings_table, $info);
+  }*/
+}
+add_action( 'woocommerce_update_product', 'action_woocommerce_update_product', 10, 4 );
+
 // Detect when order change to refunded
 /*
 function action_woocommerce_order_refunded( $order_id, $refund_id ) {

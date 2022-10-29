@@ -32,7 +32,6 @@ function ActivePlugin() {
 
   $syncService = new SyncService;
   $syncService->init();
-
 }
 
 

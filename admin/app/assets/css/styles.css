@@ -1,0 +1,21 @@
+
+.w-100 {
+  width: 100%;
+}
+.d-none {
+  display: none;
+}
+.d-flex {
+  display: flex;
+}
+.d-inline-block {
+  display: inline-block;
+}
+.my-auto {
+  margin-top: auto!important;
+  margin-bottom: auto!important;
+}
+.ml-auto {
+  margin: auto!important;
+  margin-right: 0!important;
+}

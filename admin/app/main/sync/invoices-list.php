@@ -1,8 +1,4 @@
 <?php 
-  require_once dirname(__file__).'/../../business/database/invoices.database.php';
-  require_once dirname(__file__).'/../../business/database/products.database.php';
-  
-  require_once dirname(__file__).'/../../business/api/products.api.php';
 
   // get invoices
   $invoicesDatabase = new InvoicesDatabase();
@@ -15,35 +11,6 @@
   <h1 class="wp-heading-inline">
     <?php echo get_admin_page_title(); ?>
   </h1>
-  <a href="#exampleModal" data-bs-toggle="modal" data-bs-target="#exampleModal" class="page-title-action">
-    Añadir nueva
-  </a>
-  <div>
-    <?php
-      // Gg
-      /*
-      $order_object = wc_get_order(58);
-      $order_data = $order_object->get_data();
-      foreach ( $order_object->get_items() as $item_id => $item ) {
-        $product_id = $item->get_product_id();
-        $product_sku = $item->get_product()->get_sku(); 
-        $variation_id = $item->get_variation_id();
-        $product = $item->get_product(); // see link above to get $product info
-        $product_name = $item->get_name();
-        $quantity = $item->get_quantity();
-        $subtotal = $item->get_subtotal();
-        $total = $item->get_total();
-        $tax = $item->get_subtotal_tax();
-        $tax_class = $item->get_tax_class();
-        $tax_status = $item->get_tax_status();
-        $allmeta = $item->get_meta_data();
-        $somemeta = $item->get_meta( '_whatever', true );
-        $item_type = $item->get_type();
-        var_dump($quantity);
-        var_dump($product_sku);
-      }*/
-    ?>
-  </div>
   <table class="wp-list-table widefat fixed striped pages">
     <thead>
       <th style="width:5%">
@@ -67,15 +34,15 @@
     </thead>
     <tbody>
       <?php 
-        foreach ($invoicesArray as $key => $value) {
-          $id = $value['InvoiceId'];
-          $date = date('m/d/Y', $value['Date']);
-          $orderid = $value['OrderId'];
-          $customerid = $value['CustomerId'];
-          $paid = ($value['Paid']) ? "SI": "x";
-          $sync = ($value['Sync']) ? "SI": "x";
-          $valid = ($value['Valid']) ? "SI": "x";
-          $canceled = ($value['Canceled']) ? "SI": "x";
+        foreach ($invoicesArray as $key => $invoice) {
+          $id = $invoice['InvoiceId'];
+          $date = date('m/d/Y', $invoice['Date']);
+          $orderid = $invoice['OrderId'];
+          $customerid = $invoice['CustomerId'];
+          $paid = ($invoice['Paid']) ? "SI": "x";
+          $sync = ($invoice['Sync']) ? "SI": "x";
+          $valid = ($invoice['Valid']) ? "SI": "x";
+          $canceled = ($invoice['Canceled']) ? "SI": "x";
           echo "
             <tr>
               <td>

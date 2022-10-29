@@ -6,7 +6,6 @@ class ProductsApi {
     $this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/VerificationProducts";
   }
 
-
   public function verifyProducts ($post_data) {
 
     $json_post_data = json_encode( $post_data );

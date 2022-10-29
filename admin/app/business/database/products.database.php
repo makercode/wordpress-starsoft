@@ -2,11 +2,13 @@
 
 class ProductSyncDTO {
   public $sku;
+  public $parentid;
   public $postid;
   public $sync;
 
-  public function __construct(string $sku, string $postid, string $sync) {
+  public function __construct(string $sku, string $parentid, string $postid, string $sync) {
     $this->sku = $sku;
+    $this->parentid = $parentid;
     $this->postid = $postid;
     $this->sync = $sync;
   }
@@ -34,7 +36,6 @@ class ProductsDatabase {
     $setProductsTable = "CREATE TABLE IF NOT EXISTS {$this->table}(
       `ProductId` INT NOT NULL AUTO_INCREMENT,
       `Sku` VARCHAR(45) NOT NULL,
-      `PostId` VARCHAR(45) NOT NULL,
       `Sync` INT(11) NULL,
       PRIMARY KEY (`ProductId`),
       UNIQUE KEY (`Sku`)
@@ -57,7 +58,12 @@ class ProductsDatabase {
       while ( $loop->have_posts() ): $loop->the_post();
         global $product;
 
-        $_temp_product = new ProductSyncDTO($product->get_sku(), $product->get_id() ,'0');
+        $_temp_product = new ProductSyncDTO(
+          $product->get_sku(),
+          $product->get_id(),
+          $product->get_id(),
+          '0'
+        );
 
         if($product->get_status()=="publish") {
           if ($product->get_type() == "grouped") {
@@ -75,7 +81,12 @@ class ProductsDatabase {
                 continue;
               }
 
-              // $_temp_product = new ProductSyncDTO($variation->get_sku(), $product->get_id() ,'0');
+              $_temp_product = new ProductSyncDTO(
+                $variation->get_sku(),
+                $product->get_id() ,
+                $variation->get_id() ,
+                '0'
+              );
               array_push($productsStack, $_temp_product);
             }
           }
@@ -107,22 +118,22 @@ class ProductsDatabase {
         if($product->get_status()=="publish") {
           $_temp_product = new ProductSkuDTO($product->get_sku());
           if ($product->get_type() == "grouped") {
-              continue;
+            continue;
           }
           if ($product->get_type() == "external") {
-              continue;
+            continue;
           }
           if ($product->get_type() == "variable") {
             foreach ( $product->get_children( false ) as $child_id ) {
-                // get an instance of the WC_Variation_product Object
-                $variation = wc_get_product( $child_id ); 
+              // get an instance of the WC_Variation_product Object
+              $variation = wc_get_product( $child_id ); 
 
-                if ( ! $variation || ! $variation->exists() ) {
-                    continue;
-                }
+              if ( ! $variation || ! $variation->exists() ) {
+                  continue;
+              }
 
-                // $_temp_product = new ProductSkuDTO($product->get_sku());
-                array_push($productsStack, $_temp_product);
+              $_temp_product = new ProductSkuDTO($variation->get_sku());
+              array_push($productsStack, $_temp_product);
             }
           }
           if ($product->get_type() == "simple")  {
@@ -145,39 +156,29 @@ class ProductsDatabase {
 
     $values = '';
 
-    foreach($productsStack as $key => $value) {
+    foreach($productsStack as $key => $product) {
       if ($key !== 0) {
         $values .= ',';
       }
       $values .= '("';
-      $values .= $value->sku;
+      $values .= $product->sku;
       $values .= '"';
       $values .= ',';
-      $values .= '"';
-      $values .= $value->postid;
+      $values .= $product->parentid;
       $values .= '"';
       $values .= ',';
-      $values .= $value->sync;
+      $values .= $product->sync;
       $values .= ')';
     }
 
     $query = "
-      INSERT INTO {$this->table} 
-        (Sku, PostId, Sync)
-      VALUES 
+      INSERT INTO {$this->table}
+        (Sku, Sync)
+      VALUES
         {$values}
       ON DUPLICATE KEY UPDATE 
-        PostId=VALUES(PostId)
-    ";
-    /*
-      INSERT INTO {$this->table} 
-        (Sku, PostId, Sync)
-      VALUES 
-        {$values}
-      ON DUPLICATE KEY UPDATE 
-        Postid=VALUES(PostId),
         Sync=VALUES(Sync)
-    */
+    ";
 
     return $wpdb->query($query);
   }

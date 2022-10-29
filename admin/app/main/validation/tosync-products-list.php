@@ -1,79 +1,42 @@
 <?php 
-  require_once dirname(__file__).'/../../business/database/products.database.php';
-  require_once dirname(__file__).'/../../business/api/products.api.php';
-
-  // writting products from woocommerce to sync
-  $productsDatabase = new ProductsDatabase();
-  $create = $productsDatabase->createTable();
-  // var_dump($create);
-  $wcProductsSync = $productsDatabase->getWCProductsSyncData();
-  $wcProducts = $productsDatabase->getWCProductsData();
-  $syncProducts = $productsDatabase->setProductsSyncData($wcProductsSync);
-  // var_dump($syncProducts);
-  // var_dump($wcProductsSync);
-
-  // sending api post data to verify sku list
-  $productsApi = new ProductsApi();
-  $responseSyncProds = $productsApi->verifyProducts($wcProducts);
-  // var_dump($responseSyncProds);
-
-  $responseSyncProdsObj = json_decode($responseSyncProds, true);
-
-  function findPostIdBySku($sku, $wcProductsSync) {
-    foreach ( $wcProductsSync as $product ) {
-      if ( $sku == $product->sku ) {
-        return $product->postid;
-      }
-    }
-    return false;
-  }
-
-
+  // Catch post
   if(isset($_POST['btndraft'])) {
     $postid = $_POST['postid'];
-    echo $postid;
+    // echo $postid;
+    wp_update_post(array('ID' => intval($postid), 'post_status'   =>  'draft'));
 
-    $product = wc_get_product( $postid );
-
-    $status = $product->set_status('draft');
-    echo $status;
+    // Delete deleted old items 
+    // Reload if the list is empty (So you will se the configured invoices view) 
+    $script = "
+      <script>
+        jQuery( document ).ready(function() {
+          jQuery(`.wp-list-table tr[data-id='{$postid}']`).fadeOut(1000, function() {
+            jQuery(this).remove();
+            let trLength = jQuery(`.wp-list-table tbody tr`).length;
+            console.log(trLength);
+            // If not more item, then reload website
+            if(trLength<1) {
+              location.reload();
+            }
+          });
+          console.log({$postid});
+        });
+      </script>
+    ";
+    echo $script;
   }
-
 ?>
-
-<style>
-  .w-100 {
-    width: 100%;
-  }
-  .d-none {
-    display: none;
-  }
-  .d-flex {
-    display: flex;
-  }
-  .d-inline-block {
-    display: inline-block;
-  }
-  .my-auto {
-    margin-top: auto!important;
-    margin-bottom: auto!important;
-  }
-  .ml-auto {
-    margin: auto!important;
-    margin-right: 0!important;
-  }
-</style>
 
 <div class="wrap">
   <div class="">
     <h1 class="wp-heading-inline">
-      Verificación de productos en Starsoft
+      La sincronización aún no está funcionando.
     </h1>
   </div>
 
   <div class="d-flex w-100">
     <p>
-      Resultados (Solo productos simples y variables)
+      Debes co-relacionar los siguientes SKU con Starsoft o ponerlos en borrador (no se podrán vender) momentaneamente.
     </p>
     <a href="javascript:window.location.reload(true)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="page-title-action ml-auto">
       Comprobar nuevamente
@@ -90,7 +53,10 @@
           Estado
         </th>
         <th width="10%">
-          PostId
+          Id de Producto
+        </th>
+        <th width="10%">
+          Id de Variante
         </th>
         <th>
           Acciones
@@ -98,37 +64,29 @@
       </thead>
       <tbody>
         <?php 
-          foreach ($responseSyncProdsObj as $key => $value) {
-            $sku = $value['SKU'];
-            $exist = $value['Exists'];
-            $postid = findPostIdBySku($sku, $wcProductsSync);
-            $empty = $value['SKU'] === '';
-            $postLinkToEdit = get_edit_post_link($postid);
-            // $postLinkToDraft = setDraftByPostId($postid);
-
-            if(!$exist) {
-              $message = "No se encontró este SKU en starsoft";
-              if($empty) {
-                $message = "No se admiten SKU vacios";
-              }
+          foreach ($productNotSyncList as $key => $product) {
+            if(!$exists) {
               echo "
-              <tr>
+              <tr data-id='{$product->parentid}'>
                 <td>
-                  {$sku}
+                  {$product->sku}
                 </td>
                 <td>
-                  {$message}
+                  {$product->message}
                 </td>
                 <td>
-                  {$postid}
+                  {$product->parentid}
+                </td>
+                <td>
+                  {$product->postid}
                 </td>
                 <td>
                   <form method='POST'>
-                    <input type='hidden' value='{$postid}' href='#' name='postid' id='postid'>
-                    <button href='{$postLinkToEdit}' type='submit' name='btndraft' id='btndraft' value='btndraft' class='page-title-action d-inline-block'>
+                    <input type='hidden' value='{$product->parentid}' href='#' name='postid' id='postid'>
+                    <button href='{$product->postLinkToEdit}' type='submit' name='btndraft' id='btndraft' value='btndraft' class='page-title-action d-inline-block'>
                       Convertir a Borrador
                     </button>
-                    <a href='{$postLinkToEdit}' class='page-title-action d-inline-block' target='_blank'>
+                    <a href='{$product->postLinkToEdit}' class='page-title-action d-inline-block'>
                       Editar
                     </a>
                   </form>
@@ -142,21 +100,15 @@
     </table>
     <div class="tablenav bottom">
       <div class="alignleft actions bulkactions">
-        <label for="bulk-action-selector-bottom" class="screen-reader-text">Seleccionar acción múltiple</label>
+        <label for="bulk-action-selector-bottom" class="screen-reader-text">
+          Seleccionar acción múltiple
+        </label>
         <select name="action2" id="bulk-action-selector-bottom">
           <option value="">Acciones masivas</option>
           <option value="trash">Convertir todos a borrador</option>
         </select>
         <input type="submit" id="doaction2" class="button action" value="Aplicar">
       </div>
-    </div>
-    <div class="d-none">
-      <p>
-        Entiendo que si los productos existen en Starsoft se duplicarán.
-      </p>
-      <a href="#exampleModal" data-bs-toggle="modal" data-bs-target="#exampleModal" class="page-title-action ml-auto">
-        Exportar productos a Starsoft
-      </a>
     </div>
   </div>
 </div>

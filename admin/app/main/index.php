@@ -7,6 +7,8 @@
   require_once dirname(__file__).'/../business/api/products.api.php';
   require_once dirname(__file__).'/../business/helpers/products.helpers.php';
 
+  require_once dirname(__file__).'/../business/api/invoices.api.php';
+
 
   // writting products from woocommerce to sync
   $productsDatabase = new ProductsDatabase();
@@ -19,14 +21,15 @@
   $settingsDatabase = new SettingsDatabase;
   $isValidated = $settingsDatabase->isValidated()[0]['SettingValue'];
   $isLogged = $settingsDatabase->isLogged()[0]['SettingValue'];
-  // var_dump($isValidated);
 
   if($isLogged=='0') {
+    // var_dump("aguante megadeth1");
     include dirname(__file__).'/login/login.php';
     return;
   }
 
-  if($isValidated!=='0') {
+  if($isValidated=='1') {
+    // var_dump("aguante megadeth2");
     include dirname(__file__).'/sync/invoices-list.php';
     return;
   }
@@ -35,8 +38,10 @@
   $responseSyncProdsJson= $productsApi->verifyProducts($wcProducts);
   $responseSyncProdsObj = json_decode($responseSyncProdsJson, true);
 
+
   $productsDatabase = new ProductsHelpers();
   $productNotSyncList = $productsDatabase->getNonexistentProducts($responseSyncProdsObj, $wcProductsSync);
+
 
   if( sizeof( $productNotSyncList, 0 ) >= 1 ) {
     // this include require starsoft service communication, we try use less posible

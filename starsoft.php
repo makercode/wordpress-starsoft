@@ -14,7 +14,6 @@ require_once dirname(__file__).'/admin/app/business/services/sync.service.php';
 // Admin hooks
 include dirname(__file__).'/admin/app/imports.php';
 
-include dirname(__file__).'/admin/app/requirements.php';
 include dirname(__file__).'/admin/app/listeners.php';
 include dirname(__file__).'/admin/app/views.php';
 

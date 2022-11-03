@@ -24,6 +24,7 @@ class SettingsDatabase {
     global $wpdb;
 
     $info = [
+      'SettingId'  => '1',
       'SettingProperty'  => 'validated',
       'SettingValue'     => 0
     ];
@@ -33,7 +34,7 @@ class SettingsDatabase {
     $settings_table = "{$this->table}";
 
     // update
-    $result = $wpdb->update($settings_table, $info, $where );
+    $result = $wpdb->update($settings_table, $info, $where);
     // or insert
     if ($result === FALSE || $result < 1) {
       $wpdb->insert($settings_table, $info);

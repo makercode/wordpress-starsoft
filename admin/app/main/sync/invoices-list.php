@@ -1,9 +1,10 @@
-<?php 
-
+<?php
   // get invoices
   $invoicesDatabase = new InvoicesDatabase();
   $invoicesArray = $invoicesDatabase->getInvoices();
 
+  // $invoicesApi = new InvoicesApi();
+  // $responseSyncInvoicesJson = $invoicesApi->setInvoice(60);
 ?>
 <?php // print_r($_POST); ?>
 

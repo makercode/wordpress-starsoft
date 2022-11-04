@@ -30,6 +30,9 @@ function order_created( $order_id ) {
 }
 add_action('woocommerce_new_order', 'order_created', 10, 1);
 
+
+
+
 // Save the custom billing fields (once order is placed)
 function save_custom_billing_fields( $order, $data ) {
   if ( isset( $_POST['billing_identifier'] ) && ! empty( $_POST['billing_identifier'] ) ) {

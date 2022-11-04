@@ -3,10 +3,39 @@
   $invoicesDatabase = new InvoicesDatabase();
   $invoicesArray = $invoicesDatabase->getInvoices();
 
-  // $invoicesApi = new InvoicesApi();
-  // $responseSyncInvoicesJson = $invoicesApi->setInvoice(60);
+  $order_object = wc_get_order(58);
+  $order_data = $order_object->get_data();
+
+  $index = 0;
+  foreach ( $order_object->get_items() as $item_id => $item ) {
+    if ($index !== 0) {
+      $products_list .= ',';
+    }
+    $sale_price = 0;
+    var_dump($item->get_data());
+    /*
+    if($item->get_sale_price()){
+      $sale_price = $item->get_sale_price();
+    }
+    $discount_money = $item->get_price()-$sale_price;
+    $discount_percent = ($discount_money*100)/$item->get_subtotal();
+
+      $products_list .= '
+      {
+        "Order_number": "'.$post_id.'", // id de orden
+        "Identifier_Product": "'.$item->get_sku().'",
+        "Quantity": '.$item->get_quantity().',
+        "Price_Sale": '.$item->get_sale_price().',
+        "Subtotal" : '.$item->get_subtotal().', // unid * cant
+        "Discount_Value": '.$discount_item.', // Descuento total
+        "Percentage_Discount": '.$discount_percent.' // Descuento porcentaje total
+      }
+    ';*/
+    $index++;
+  }
+  // var_dump($product_list);
 ?>
-<?php // print_r($_POST); ?>
+<?php // print_r($order_object); ?>
 
 <div class="wrap">
   <h1 class="wp-heading-inline">

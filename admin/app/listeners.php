@@ -1,4 +1,8 @@
 <?php 
+
+
+
+/*
 // Detect when order change to completed
 function action_woocommerce_order_status_completed( $order_id ) {
   $info = [
@@ -14,11 +18,6 @@ function action_woocommerce_order_status_completed( $order_id ) {
 add_action( 'woocommerce_order_status_completed', 'action_woocommerce_order_status_completed', 10, 1 );
 
 
-
-
-
-// Detect when order change to refunded
-/*
 
 function action_woocommerce_update_product( $product_id ) {
   global $wpdb;
@@ -43,6 +42,7 @@ function action_woocommerce_update_product( $product_id ) {
 add_action( 'woocommerce_update_product', 'action_woocommerce_update_product', 10, 4 );
 
 
+// Detect when order change to refunded
 function action_woocommerce_order_refunded( $order_id, $refund_id ) {
   $info = [
     'Cancelled' => 1
@@ -64,12 +64,14 @@ function action_woocommerce_order_processing( $order_id ) {
   global $wpdb;
 
   $invoicesApi = new InvoicesApi();
-  $responseInvoiceSetted = $invoicesApi->setInvoice(60);
+  $responseInvoiceSetted = $invoicesApi->setInvoice($order_id);
 
+
+  // script de prueba solamente
   $info = [
     'SettingId'        => '3',
     'SettingProperty'  => 'order_id',
-    'SettingValue'     => $order_id
+    'SettingValue'     => $responseInvoiceSetted
   ];
   $where = [
     'SettingId'  => '3'
@@ -86,3 +88,5 @@ function action_woocommerce_order_processing( $order_id ) {
 
 }
 add_action( 'woocommerce_order_status_processing', 'action_woocommerce_order_processing' );
+
+

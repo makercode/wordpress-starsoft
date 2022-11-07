@@ -16,17 +16,18 @@ class InvoicesApi {
 		$currency = $order_object->get_currency();
 		$currency_starsoft = 'MN';
 		if($currency!=='PEN') {
-				$currency_starsoft = 'ME';
+			$currency_starsoft = 'ME';
 		}
 
 		$products_list = '';
 		$index = 0;
 
 		$order_total_discount_price = 0;
-		
+
 		foreach ( $order_object->get_items() as $product_id => $product_order_data ) {
 			$product_data = new WC_Product( $product_order_data->get_data()['product_id'] );
 			$quantity_order_line = $product_order_data->get_data()['quantity'];
+
 			if ($index !== 0) {
 				$products_list .= ',';
 			}
@@ -47,7 +48,6 @@ class InvoicesApi {
 			$total_line_sale_discount_percent = $unit_sale_discount_price*100/$unit_regular_price;
 			var_dump($unit_sale_discount_price);
 			var_dump($unit_sale_price);
-
 
 			$products_list .= '
 				{
@@ -121,8 +121,6 @@ class InvoicesApi {
 			)
 		);
 		return $result['body'];
-		/*
-		*/
 	}
 
 }

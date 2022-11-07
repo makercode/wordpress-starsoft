@@ -107,6 +107,7 @@ class InvoicesApi {
 	}
 
 	public function setInvoice ( $post_id ) {
+
 		$json_data = $this->getInvoiceJson( $post_id );
 		$result = wp_remote_post(
 			$this->apiRegisterUrl,
@@ -121,6 +122,7 @@ class InvoicesApi {
 			)
 		);
 		return $result['body'];
+		
 	}
 
 }

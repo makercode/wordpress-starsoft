@@ -24,7 +24,7 @@ class InvoicesDatabase {
 		$wpdb->query($setInvoicesTable);
 	}
 
-	public function getInvoices(){
+	public function getInvoices() {
 		global $wpdb;
 
 		$GetInvoicesQuery = "SELECT * FROM {$this->table}";

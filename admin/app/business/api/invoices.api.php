@@ -23,6 +23,7 @@ class InvoicesApi {
 		$index = 0;
 
 		$order_total_discount_price = 0;
+		
 		foreach ( $order_object->get_items() as $product_id => $product_order_data ) {
 			$product_data = new WC_Product( $product_order_data->get_data()['product_id'] );
 			$quantity_order_line = $product_order_data->get_data()['quantity'];

@@ -1,10 +1,10 @@
 <?php
 /*
-  Plugin Name: Control de pedidos Starsoft
-  Author: Starsoft
-  Author URI: https://starsoft.com.pe
-  Description: Version alpha de sincronizador para el modulo de inventarios de el ERP Starsoft
-  Version: 0.0.1
+	Plugin Name: Control de pedidos Starsoft
+	Author: Starsoft
+	Author URI: https://starsoft.com.pe
+	Description: Version alpha de sincronizador para el modulo de inventarios de el ERP Starsoft
+	Version: 0.0.1
 */
 
 require_once dirname(__file__).'/admin/app/business/services/install.service.php';
@@ -26,11 +26,11 @@ include dirname(__file__).'/public/app/listeners.php';
 
 // Detect when plugin is activated
 function ActivePlugin() {
-  $installService = new InstallService;
-  $installService->init();
+	$installService = new InstallService;
+	$installService->init();
 
-  $syncService = new SyncService;
-  $syncService->init();
+	$syncService = new SyncService;
+	$syncService->init();
 }
 
 

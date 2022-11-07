@@ -2,82 +2,126 @@
 
 class InvoicesApi {
 
-  public function __construct() {
-    $this->apiRegisterUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
-  }
-
-  public function setInvoice ( $post_id ) {
-	$order = wc_get_order($post_id);
-
-	$order_identifier = get_post_meta($post_id, '_billing_identifier', true);
-
-	$products_list = "";
-
-	foreach ( $order->get_items() as $item_id => $item ) {
-		if ($item_id !== 0) {
-			$products_list .= ',';
-		}
-		$discount_money = $item->get_date_on_sale_from()-$item->get_date_on_sale_to();
-		$discount_percent = ($discount_money*100)/$item->get_subtotal();
-
-	    $products_list .= '
-			{
-				"Order_number": "'.$post_id.'", // id de orden
-				"Identifier_Product": "'.$item->get_sku().'",
-				"Quantity": '.$item->get_quantity().',
-				"Price_Sale": '.$item->get_sale_price().',
-				"Subtotal" : '.$item->get_subtotal().', // unid * cant
-				"Discount_Value": '.$discount_item.', // Descuento total
-				"Percentage_Discount": '.$discount_percent.' // Descuento porcentaje total
-			}
-	    ';
+	public function __construct() {
+		$this->apiRegisterUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
 	}
 
-  	$json_data = '{
-	  "Client": {
-	    "Identifier": "'.$order_identifier.'",
-	    "Address": "Av. Naranjal 1584 - Los Olivos",
-	    "Document_Type": "1",
-	    "Document_Identification": "'.$order_identifier.'",
-	    "Business_Name": "", //razon s
-	    "First_Name": "Desde",
-	    "Second_Name": "Levento",
-	    "Last_Name": "Moreno",
-	    "Last_Mother_Name": "Sialer",
-	    "Number_Ruc": "",
-	    "Email": "jmoreno@starsoft.com.pe"
-	  },
-	  "OrderStarsoft": {
-	    "OrderHeader": {
-	      "Order_Number": "1", // pedido numero id
-	      "Sale_Date": "20221027",
-	      "Total_Amount": 50, // precio final
-	      "Currency": "MN",
-	      "Discount_Value": 0, // descuento porsiaca
-	      "Gloss": "Envio Wordpress Api",
-	      "Address": "Av. Naranjal 1584 - Los Olivos"
-	    },
-	    "orderDetails": [
-	    	'.$products_list.'
-	    ]
-	  }
-	}';
+	public function getInvoiceJson ( $post_id ) {
 
-    $result = wp_remote_post(
-      $this->apiRegisterUrl,
-      array(
-        'method' => 'POST',
-        'headers' => array(
-            'Authorization' => 'Bearer xxx',
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-        ),
-        'body' => $json_data
-      )
-    );
-    return $result['body'];
-	/*
-    */
-  }
+		$order_object = wc_get_order( $post_id );
+		$order_data = $order_object->get_data();
+
+		var_dump( $order_data );
+
+		$currency = $order_object->get_currency();
+		$currency_starsoft = 'MN';
+		if($currency!=='PEN') {
+				$currency_starsoft = 'ME';
+		}
+
+		$products_list = '';
+		$index = 0;
+
+		$order_total_discount_price = 0;
+		foreach ( $order_object->get_items() as $product_id => $product_order_data ) {
+			$product_data = new WC_Product( $product_order_data->get_data()['product_id'] );
+			$quantity_order_line = $product_order_data->get_data()['quantity'];
+			if ($index !== 0) {
+				$products_list .= ',';
+			}
+
+			$unit_sale_discount_price = intval($product_data->get_regular_price()) - intval($product_data->get_price());
+			var_dump( intval($product_data->get_price()) );
+
+
+			// $total_line_sale_discount_price = 0;
+			$total_line_sale_discount_price = $unit_sale_discount_price*$quantity_order_line;
+
+
+			$total_regular_price =  $product_order_data->get_data()['total']+$total_line_sale_discount_price;
+			
+			$unit_sale_price = $product_order_data->get_data()['total']/$product_order_data->get_data()['quantity'];
+			$unit_regular_price = $total_regular_price/$quantity_order_line;
+
+			$total_line_sale_discount_percent = $unit_sale_discount_price*100/$unit_regular_price;
+			var_dump($unit_sale_discount_price);
+			var_dump($unit_sale_price);
+
+
+			$products_list .= '
+				{
+					"Product_Id": "'.$product_data->get_sku().'",
+					"Order_Id": "'.$product_order_data->get_data()['order_id'].'", // id de orden
+					"Product_Line_Quantity": '.$product_order_data->get_quantity().',
+					"Product_Unit_Price": '.$unit_regular_price.',
+					"Product_Line_Total_Price" : '.$total_regular_price.', // unid * cant
+					"Product_Line_Discount_Amount": '.$total_line_sale_discount_price.', // Descuento total
+					"Product_Line_Discount_Percentage": '.$total_line_sale_discount_percent.' // Descuento porcentaje total
+				}
+			';
+			var_dump($products_list);
+			/*
+			var_dump($product_order_data->get_data());
+			var_dump($product_data->get_data());
+			*/
+			$index++;
+			$order_total_discount_price += $total_line_sale_discount_price;
+		}
+
+		$order_customer_identifier = get_post_meta($post_id, '_billing_identifier', true);
+
+		$joined_address = $order_object->get_billing_address_1().'-'.$order_object->get_billing_address_2().'-'.$order_object->get_billing_city().'-'.$order_object->get_billing_country();
+
+		$json_data = '{
+			"Client": {
+				"Client_Id": "'.$order_customer_identifier.'",
+				"Address": "'.$joined_address.'",
+				"Document_Type": "1", // 1 = dni
+				"Document_Identification": "'.$order_customer_identifier.'",
+				"Business_Name": "", //razon social
+				"First_Name": "'.$order_object->get_billing_first_name().'",
+				"Second_Name": "",
+				"First_Surname": "'.$order_object->get_billing_last_name().'",
+				"Second_Surname": "",
+				"Number_Ruc": "",
+				"Email": "'.$order_object->get_billing_email().'"
+			},
+			"OrderStarsoft": {
+				"OrderHeader": {
+					"Order_Id": "'.$order_object->get_id().'", // order id
+					"Order_Date": "'.$order_object->get_date_created()->getTimestamp().'",
+					"Order_Total_Amount": '.$order_data['total'].', // precio final
+					"Order_Currency_Type": "'.$currency_starsoft.'",
+					"Order_Discount_Amount": '.$order_total_discount_price.', // descuento porsiaca
+					"Order_Gloss": "Envio Wordpress Api",
+					"Order_Address": "'.$joined_address.'"
+				},
+				"orderDetails": [
+						'.$products_list.'
+				]
+			}
+		}';
+
+		return $json_data;
+	}
+
+	public function setInvoice ( $post_id ) {
+		$json_data = $this->getInvoiceJson( $post_id );
+		$result = wp_remote_post(
+			$this->apiRegisterUrl,
+			array(
+				'method' => 'POST',
+				'headers' => array(
+						'Authorization' => 'Bearer xxx',
+						'Content-Type' => 'application/json',
+						'Accept' => 'application/json',
+				),
+				'body' => $json_data
+			)
+		);
+		return $result['body'];
+		/*
+		*/
+	}
 
 }

@@ -13,54 +13,84 @@
 	<table class="wp-list-table widefat fixed striped pages">
 	<thead>
 		<th style="width:5%">
-		ID
+			ID
 		</th>
 		<th>
-		Fecha
+			Fecha
 		</th>
 		<th>
-		NRO Orden WP
+			Nro de Orden WordPress
 		</th>
 		<th>
-		DNI/RUC cliente
+			Tipo de documento de Comprador
 		</th>
 		<th>
-		Completado
+			Numero de documento de Comprador
 		</th>
 		<th>
-		Sincronizado
+			Pedido completo
+		</th>
+		<th>
+			Pedido sincronizado starsoft
+		</th>
+		<th>
+			Tipo de comprobante
+		</th>
+		<th>
+			Numero de comprobante
+		</th>
+		<th>
+			Estado de comprobante
 		</th>
 	</thead>
 	<tbody>
 		<?php 
+		// var_dump($invoicesArray);
 		foreach ($invoicesArray as $key => $invoice) {
 			$id = $invoice['InvoiceId'];
-			$date = date('m/d/Y', $invoice['Date']);
+			$date = date('m/d/Y', $invoice['OrderDate']);
 			$orderid = $invoice['OrderId'];
+			$customeridtype = 'DNI';
+			if( $invoice['CustomerIdType']=='4' ) { $customeridtype = 'CARNET DE EXTRANJERÍA'; };
+			if( $invoice['CustomerIdType']=='6' ) { $customeridtype = 'RUC'; };
 			$customerid = $invoice['CustomerId'];
-			$paid = ($invoice['Paid']) ? "SI": "x";
-			$sync = ($invoice['Sync']) ? "SI": "x";
-			$valid = ($invoice['Valid']) ? "SI": "x";
-			$canceled = ($invoice['Canceled']) ? "SI": "x";
+			$orderState = ($invoice['OrderState']) ? "SI": "x";
+			$ordersync = ($invoice['OrderSync']) ? "SI": "x";
+			$documenttype = 'Boleta'; 
+			if( $invoice['DocumentType']=='1' ) { $documenttype = 'Factura'; };
+			$documentnumber = ($invoice['DocumentNumber']) ? "SI": "x";
+			$documentstate = ($invoice['DocumentState']) ? "SI": "x";
 			echo "
 			<tr>
 				<td>
-				{$id}
+					{$id}
 				</td>
 				<td>
-				{$date}
+					{$date}
 				</td>
 				<td>
-				{$orderid}
+					{$orderid}
 				</td>
 				<td>
-				{$customerid}
+					{$customeridtype}
 				</td>
 				<td>
-				{$paid}
+					{$customerid}
 				</td>
 				<td>
-				{$sync}
+					{$orderState}
+				</td>
+				<td>
+					{$ordersync}
+				</td>
+				<td>
+					{$documenttype}
+				</td>
+				<td>
+					{$documentnumber}
+				</td>
+				<td>
+					{$documentstate}
 				</td>
 			</tr>
 			";

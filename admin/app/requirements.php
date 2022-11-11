@@ -17,7 +17,7 @@ add_action('woocommerce_admin_process_product_object', 'mandatory_product_sku');
 // add_action('woocommerce_admin_process_variation_object', 'mandatory_product_sku');
 
 
-// revisar esta funcion
+// Revisar esta funcion
 function action_save_post( $post_id ) {
 	$message = __( 'El SKU es obligatorio para sincronizar y facturar los pedidos.', 'woocommerce' );
 
@@ -34,9 +34,24 @@ add_action( 'save_post', 'action_save_post', 10);
 
 // Admin orders Billing DNI/RUC editable field and display
 function admin_order_billing_identifier_editable_field( $fields ) {
-	global $the_order;
+	global $post;
+	$order = wc_get_order( $post->ID );
+	var_dump($order);
+	$fields['identifier_type'] = array(
+		'type'        => 'select',
+		'show'  => true,
+		'wrapper_class' => 'form-field-wide',
+		'label'       => __('Tipo de identificación', 'woocommerce'),
+		'options'     => array(
+			''			=> __( 'Selecciona un tipo de documento', '' 	),
+			'DNI' 		=> __( 'DNI'							, 'DNI' ),
+			'RUC'		=> __( 'RUC'   							, 'RUC' ),
+			'CE'		=> __( 'Carnet de Extranjería'			, 'CE' 	)
+		),
+		'style' => ''
+	);
 	$fields['identifier'] = array(
-		'label' => __('Dni/Ruc', 'woocommerce'),
+		'label' => __('DNI/RUC/CE', 'woocommerce'),
 		'show'  => true,
 		'wrapper_class' => 'form-field-wide',
 		'style' => ''
@@ -49,7 +64,7 @@ add_filter('woocommerce_admin_billing_fields', 'admin_order_billing_identifier_e
 
 function action_admin_enqueue_scripts( $hook ) {
 	wp_enqueue_style(
-		'bootstrapCss',
+		'adminCss',
 		plugins_url('/assets/css/styles.css',__FILE__)
 	);
 };

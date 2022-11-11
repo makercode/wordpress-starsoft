@@ -7,13 +7,14 @@
 	Version: 0.0.1
 */
 
-require_once dirname(__file__).'/admin/app/business/services/install.service.php';
-require_once dirname(__file__).'/admin/app/business/services/sync.service.php';
+require_once dirname(__file__).'/_business/services/install.service.php';
+require_once dirname(__file__).'/_business/services/sync.service.php';
 
+
+// Required objects
+include dirname(__file__).'/imports.php';
 
 // Admin hooks
-include dirname(__file__).'/admin/app/imports.php';
-
 include dirname(__file__).'/admin/app/listeners.php';
 include dirname(__file__).'/admin/app/views.php';
 

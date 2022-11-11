@@ -68,6 +68,7 @@ function action_woocommerce_order_processing( $order_id ) {
 
 
 	// script de prueba solamente
+	/*
 	$info = [
 		'SettingId'        => '3',
 		'SettingProperty'  => 'order_id',
@@ -85,7 +86,7 @@ function action_woocommerce_order_processing( $order_id ) {
 	if ($result === FALSE || $result < 1) {
 		$wpdb->insert($settings_table, $info);
 	}
-
+	*/
 
 
 	$info = [

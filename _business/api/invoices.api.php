@@ -70,14 +70,15 @@ class InvoicesApi {
 		}
 
 		$order_customer_identifier = get_post_meta($post_id, '_billing_identifier', true);
+		$order_customer_identifier_type = get_post_meta($post_id, '_billing_identifier_type', true);
 
 		$joined_address = $order_object->get_billing_address_1().'-'.$order_object->get_billing_address_2().'-'.$order_object->get_billing_city().'-'.$order_object->get_billing_country();
 
 		$json_data = '{
-			"Client": {
-				"Client_Id": "'.$order_customer_identifier.'",
+			"Customer": {
+				"Customer_Id": "'.$order_customer_identifier.'",
 				"Address": "'.$joined_address.'",
-				"Customer_Id_Type": "1", // 1 = dni
+				"Customer_Id_Type": '.$order_customer_identifier_type.', // 1 = dni
 				"Customer_Id_Number": "'.$order_customer_identifier.'",
 				"Business_Name": "", //razon social
 				"First_Name": "'.$order_object->get_billing_first_name().'",

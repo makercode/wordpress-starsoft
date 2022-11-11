@@ -8,7 +8,7 @@
 
 <div class="wrap">
 	<h1 class="wp-heading-inline">
-	<?php echo get_admin_page_title(); ?>
+		<?php echo get_admin_page_title(); ?>
 	</h1>
 	<table class="wp-list-table widefat fixed striped pages">
 	<thead>

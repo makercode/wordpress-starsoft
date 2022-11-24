@@ -1,67 +1,67 @@
 <?php
 
-function action_admin_enqueue_scripts( $hook ) {
+function action_public_enqueue_scripts( $hook ) {
 	wp_enqueue_style(
 		'publicCss',
 		plugins_url('/assets/css/styles.css',__FILE__)
 	);
 };
-add_action('wp_enqueue_scripts','action_admin_enqueue_scripts');
+add_action('wp_enqueue_scripts','action_public_enqueue_scripts');
 
 
- 
+
 function action_condition_checkout() {
-   global $wp;
+	global $wp;
 	if ( is_checkout() && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ) {
 		echo '
-		<script>
-			function resetIdValue() {
-  				jQuery("#billing_identifier").val("");
-			}
-			function checkInput() {
-      			$value = jQuery("#billing_identifier_type").val();
-      			if($value == "") {
-      				jQuery("#billing_identifier_field").hide();
-      				jQuery("#billing_company").val("");
-  					jQuery("#billing_company_field").hide();
-					jQuery("#billing_identifier").removeAttr("required");
-      			} else {
-      				jQuery("#billing_company").val("");
-  					jQuery("#billing_company_field").hide();
-					jQuery("#billing_identifier").attr("required", "required");
-
-      				if($value == "1") {
-      					jQuery("#billing_identifier").attr("Placeholder", "DNI");
-      					jQuery("#billing_identifier").attr("minlength", "8");
-      					jQuery("#billing_identifier").attr("maxlength", "8");
-      				}
-      				if($value == "4") {
-      					jQuery("#billing_identifier").attr("Placeholder", "CARNET DE EXTRANJERÍA");
-      					jQuery("#billing_identifier").attr("minlength", "20");
-      					jQuery("#billing_identifier").attr("maxlength", "20");
-      				}
-      				if($value == "6") {
-      					jQuery("#billing_identifier").attr("Placeholder", "RUC");
-      					jQuery("#billing_identifier").attr("minlength", "11");
-      					jQuery("#billing_identifier").attr("maxlength", "11");
-  							jQuery("#billing_company_field").show();
-      				}
-
-      				jQuery("#billing_identifier_field").show();
-      			}
-			}
-			jQuery("#billing_identifier_type").change( function() {
-				resetIdValue();
-				checkInput();
-			});
-			jQuery( document ).ready( 
-				function() {
-					checkInput();
-					console.log("rdy4pty");
+			<script>
+				function resetIdValue() {
+					jQuery("#billing_identifier").val("");
 				}
-			);
-      	</script>
-      ';
+				function checkInput() {
+					$value = jQuery("#billing_identifier_type").val();
+					if($value == "-") {
+						jQuery("#billing_identifier_field").hide();
+						jQuery("#billing_company").val("");
+						jQuery("#billing_company_field").hide();
+						jQuery("#billing_identifier").removeAttr("required");
+					} else {
+						jQuery("#billing_company").val("");
+						jQuery("#billing_company_field").hide();
+						jQuery("#billing_identifier").attr("required", "required");
+
+						if($value == "1") {
+							jQuery("#billing_identifier").attr("Placeholder", "DNI");
+							jQuery("#billing_identifier").attr("minlength", "8");
+							jQuery("#billing_identifier").attr("maxlength", "8");
+						}
+						if($value == "4") {
+							jQuery("#billing_identifier").attr("Placeholder", "CARNET DE EXTRANJERÍA");
+							jQuery("#billing_identifier").attr("minlength", "6");
+							jQuery("#billing_identifier").attr("maxlength", "15");
+						}
+						if($value == "6") {
+							jQuery("#billing_identifier").attr("Placeholder", "RUC");
+							jQuery("#billing_identifier").attr("minlength", "11");
+							jQuery("#billing_identifier").attr("maxlength", "11");
+							jQuery("#billing_company_field").show();
+						}
+
+						jQuery("#billing_identifier_field").show();
+					}
+				}
+				jQuery("#billing_identifier_type").change( function() {
+					resetIdValue();
+					checkInput();
+				});
+				jQuery( document ).ready( 
+					function() {
+						checkInput();
+						console.log("rdy4pty");
+					}
+				);
+			</script>
+		';
    }
 }
 add_action( 'wp_footer', 'action_condition_checkout', 9999 );
@@ -97,3 +97,5 @@ function display_identifier_billing_field( $billing_fields ) {
 	return $billing_fields;
 }
 add_filter( 'woocommerce_billing_fields', 'display_identifier_billing_field', 20, 1 );
+
+

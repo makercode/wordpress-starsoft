@@ -3,10 +3,11 @@
 class InvoicesApi {
 
 	public function __construct() {
-		$this->apiRegisterUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
+		// $this->apiRegisterUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
+		$this->apiRegisterUrl = "http://192.168.1.103:8063/Api/RegisterOrder";
 	}
 
-	public function getInvoiceJson ( $post_id ) {
+	public function getInvoiceJson( $post_id ) {
 
 		$order_object = wc_get_order( $post_id );
 		$order_data = $order_object->get_data();
@@ -78,14 +79,13 @@ class InvoicesApi {
 			"Customer": {
 				"Customer_Id": "'.$order_customer_identifier.'",
 				"Address": "'.$joined_address.'",
-				"Customer_Id_Type": '.$order_customer_identifier_type.', // 1 = dni
+				"Customer_Id_Type": "'.$order_customer_identifier_type.'", // 1 = dni
 				"Customer_Id_Number": "'.$order_customer_identifier.'",
-				"Business_Name": "", //razon social
+				"Business_Name": "'.$order_object->get_billing_company().'", //razon social
 				"First_Name": "'.$order_object->get_billing_first_name().'",
 				"Second_Name": "",
 				"First_Surname": "'.$order_object->get_billing_last_name().'",
 				"Second_Surname": "",
-				"Number_Ruc": "",
 				"Email": "'.$order_object->get_billing_email().'"
 			},
 			"OrderStarsoft": {
@@ -95,7 +95,7 @@ class InvoicesApi {
 					"Order_Total_Amount": '.$order_data['total'].', // precio final
 					"Order_Currency_Type": "'.$currency_starsoft.'",
 					"Order_Discount_Amount": '.$order_total_discount_price.', // descuento porsiaca
-					"Order_Gloss": "Envio Wordpress Api",
+					"Order_Gloss": "Pedidos Wordpress - '.$order_object->get_id().'",
 					"Order_Address": "'.$joined_address.'"
 				},
 				"orderDetails": [
@@ -106,7 +106,7 @@ class InvoicesApi {
 		return $json_data;
 	}
 
-	public function setInvoice ( $post_id ) {
+	public function setInvoice( $post_id ) {
 
 		$json_data = $this->getInvoiceJson( $post_id );
 		$result = wp_remote_post(
@@ -114,15 +114,20 @@ class InvoicesApi {
 			array(
 				'method' => 'POST',
 				'headers' => array(
-						'Authorization' => 'Bearer xxx',
-						'Content-Type' => 'application/json',
-						'Accept' => 'application/json',
+					'Authorization' => 'Bearer xxx',
+					'Content-Type' => 'application/json',
+					'Accept' => 'application/json',
 				),
 				'body' => $json_data
 			)
 		);
-		return $result['body'];
-		
+		// var_dump($result);
+		if( !is_wp_error( $result ) ) {
+			if( $result['body'] ) {
+				return $result['body'];
+			}
+		}
+		return false;
 	}
 
 }

@@ -37,7 +37,8 @@
 	$productsApi = new ProductsApi();
 	$responseSyncProdsJson= $productsApi->verifyProducts($wcProducts);
 	$responseSyncProdsObj = json_decode($responseSyncProdsJson, true);
-
+	var_dump($responseSyncProdsJson);
+	var_dump($responseSyncProdsObj);
 
 	$productsDatabase = new ProductsHelpers();
 	$productNotSyncList = $productsDatabase->getNonexistentProducts($responseSyncProdsObj, $wcProductsSync);

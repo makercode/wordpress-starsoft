@@ -40,7 +40,20 @@ class InvoicesDatabase {
 		}
 
 		return $invoices_array;
-	} 
+	}
+
+	public function getInvoice( $post_id ) {
+		global $wpdb;
+
+		$GetInvoiceQuery = "SELECT * FROM {$this->table} WHERE OrderId={$post_id}";
+		$invoice_array = $wpdb->get_results($GetInvoiceQuery, ARRAY_A);
+
+		if( empty($invoice_array) ) {
+			$invoice_array = array();
+		}
+
+		return $invoice_array;
+	}
 
 	public function updateInvoice( $info, $order_id ) {
 		global $wpdb;

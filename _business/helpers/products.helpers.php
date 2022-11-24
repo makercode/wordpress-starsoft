@@ -7,6 +7,7 @@ class ProductsHelpers {
 
 	function getNonexistentProducts ( $responseSyncProdsObj, $wcProductsSync ) {
 
+		var_dump($wcProductsSync);
 		function findPostIdBySku($sku, $wcProductsSync) {
 			foreach ( $wcProductsSync as $product ) {
 				if ( $sku == $product->sku ) {
@@ -27,6 +28,8 @@ class ProductsHelpers {
 
 		$productNotSyncList = array();
 		// check if product exists in db
+		// Aqui ocurre un problema cuando se activa el plugin
+		var_dump($responseSyncProdsObj);
 		foreach ($responseSyncProdsObj as $key => $product) {
 			$productNotSyncItem = new stdClass();
 

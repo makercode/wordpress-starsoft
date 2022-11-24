@@ -1,26 +1,7 @@
 <?php
 
-class ProductSyncDTO {
-	public $sku;
-	public $parentid;
-	public $postid;
-	public $sync;
-
-	public function __construct(string $sku, string $parentid, string $postid, string $sync) {
-		$this->sku = $sku;
-		$this->parentid = $parentid;
-		$this->postid = $postid;
-		$this->sync = $sync;
-	}
-}
-
-class ProductSkuDTO {
-	public $sku;
-
-	public function __construct(string $sku) {
-		$this->sku = $sku;
-	}
-}
+require_once dirname(__file__).'/../models/product.sync.dto.model.php';
+require_once dirname(__file__).'/../models/product.sku.dto.model.php';
 
 class ProductsDatabase {
 
@@ -34,11 +15,11 @@ class ProductsDatabase {
 		global $wpdb;
 
 		$setProductsTable = "CREATE TABLE IF NOT EXISTS {$this->table}(
-			`ProductId` INT NOT NULL AUTO_INCREMENT,
-			`Sku` VARCHAR(45) NOT NULL,
-			`Sync` INT(11) NULL,
-			PRIMARY KEY (`ProductId`),
-			UNIQUE KEY (`Sku`)
+			`ProductSyncId` INT NOT NULL AUTO_INCREMENT,
+			`ProductSku` VARCHAR(45) NOT NULL,
+			`ProductSync` INT(11) NULL,
+			PRIMARY KEY (`ProductSyncId`),
+			UNIQUE KEY (`ProductSku`)
 		)";
 		return $wpdb->query($setProductsTable);
 	}
@@ -129,7 +110,7 @@ class ProductsDatabase {
 							$variation = wc_get_product( $child_id ); 
 
 							if ( ! $variation || ! $variation->exists() ) {
-									continue;
+								continue;
 							}
 
 							$_temp_product = new ProductSkuDTO($variation->get_sku());
@@ -161,23 +142,31 @@ class ProductsDatabase {
 				$values .= ',';
 			}
 			$values .= '("';
-			$values .= $product->sku;
-			$values .= '"';
-			$values .= ',';
 			$values .= $product->parentid;
 			$values .= '"';
 			$values .= ',';
+			$values .= '"';
+			$values .= $product->variantId;
+			$values .= '"';
+			$values .= ',';
+			$values .= '"';
+			$values .= $product->sku;
+			$values .= '"';
+			$values .= ',';
+			$values .= '"';
 			$values .= $product->sync;
+			$values .= '"';
 			$values .= ')';
 		}
 
+
 		$query = "
 			INSERT INTO {$this->table}
-				(Sku, Sync)
+				(ProductParentId, ProductVariantId ,ProductSku , ProductSync)
 			VALUES
 				{$values}
 			ON DUPLICATE KEY UPDATE 
-				Sync=VALUES(Sync)
+				ProductSync=VALUES(ProductSync)
 		";
 
 		return $wpdb->query($query);

@@ -31,7 +31,7 @@
 			Pedido completo
 		</th>
 		<th>
-			Pedido sincronizado starsoft
+			Pedido sincronizado a Starsoft
 		</th>
 		<th>
 			Tipo de comprobante
@@ -48,18 +48,30 @@
 		// var_dump($invoicesArray);
 		foreach ($invoicesArray as $key => $invoice) {
 			$id = $invoice['InvoiceId'];
+
 			$date = date('m/d/Y', $invoice['OrderDate']);
+
 			$orderid = $invoice['OrderId'];
+
 			$customeridtype = 'DNI';
 			if( $invoice['CustomerIdType']=='4' ) { $customeridtype = 'CARNET DE EXTRANJERÍA'; };
 			if( $invoice['CustomerIdType']=='6' ) { $customeridtype = 'RUC'; };
+
 			$customerid = $invoice['CustomerId'];
-			$orderState = ($invoice['OrderState']) ? "SI": "x";
+
+			$orderState = "Pendiente";
+			if( $invoice['OrderState']==  '1' ) { $orderState = 'Completo'; };
+			if( $invoice['OrderState']== '-1' ) { $orderState = 'Reembolsado'; };
+
 			$ordersync = ($invoice['OrderSync']) ? "SI": "x";
-			$documenttype = 'Boleta'; 
+
+			$documenttype = 'Boleta';
 			if( $invoice['DocumentType']=='1' ) { $documenttype = 'Factura'; };
+
 			$documentnumber = ($invoice['DocumentNumber']) ? "SI": "x";
+
 			$documentstate = ($invoice['DocumentState']) ? "SI": "x";
+
 			echo "
 			<tr>
 				<td>

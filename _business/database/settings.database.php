@@ -17,7 +17,9 @@ class SettingsDatabase {
 			PRIMARY KEY (`SettingId`)
 		)";
 
-		$wpdb->query($setSettingsTable);
+		$result = $wpdb->query($setSettingsTable);
+
+		return $result;
 	}
 
 	public function upsertSettingsData () {
@@ -47,8 +49,9 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$settings_table = "{$this->table}";
-		$sql = $wpdb->prepare( "SELECT SettingValue FROM {$settings_table} WHERE SettingId=2");
-		$result = $wpdb->get_results( $sql , ARRAY_A );
+
+		$result = $wpdb->get_results("SELECT SettingValue FROM {$settings_table} WHERE SettingId=2");
+		// var_dump($result);
 
 		return $result;
 	}
@@ -57,8 +60,7 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$settings_table = "{$this->table}";
-		$sql = $wpdb->prepare( "SELECT SettingValue FROM {$settings_table} WHERE SettingId=1");
-		$result = $wpdb->get_results( $sql , ARRAY_A );
+		$result = $wpdb->get_results( "SELECT SettingValue FROM {$settings_table} WHERE SettingId=1");
 
 		return $result;
 	}

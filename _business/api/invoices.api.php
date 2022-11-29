@@ -4,15 +4,24 @@ class InvoicesApi {
 
 	public function __construct() {
 		// $this->apiRegisterUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
-		$this->apiRegisterUrl = "http://192.168.1.103:8063/Api/RegisterOrder";
+		$this->apiRegisterUrl = "http://192.168.1.108:8063/Api/RegisterOrder";
 	}
 
 	public function getInvoiceJson( $post_id ) {
 
+		// return db field if exist
+		$invoicesDatabase = new InvoicesDatabase();
+		$order = $invoicesDatabase->getInvoice("{$post_id}");
+		var_dump($invoicesDatabase);
+
+		if ( sizeof($order)>=1 ) {
+			$json_data = $order['0']['OrderJson'];
+			return $json_data;
+		}
+
+		// calculate json from actual 
 		$order_object = wc_get_order( $post_id );
 		$order_data = $order_object->get_data();
-
-		// var_dump( $order_data );
 
 		$currency = $order_object->get_currency();
 		$currency_starsoft = 'MN';

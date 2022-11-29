@@ -77,8 +77,7 @@ function action_woocommerce_order_processing( $order_id ) {
 	global $wpdb;
 
 	$info = [
-		'Paid' => 0,
-		'Cancelled' => 0
+		'OrderState' => 0
 	];
 
 	$invoicesDatabase = new InvoicesDatabase;

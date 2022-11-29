@@ -46,7 +46,7 @@
 	<tbody>
 		<?php 
 		// var_dump($invoicesArray);
-		foreach ($invoicesArray as $key => $invoice) {
+		foreach ($invoicesArray as $key_invoice => $invoice) {
 			$id = $invoice['InvoiceId'];
 
 			$date = date('m/d/Y', $invoice['OrderDate']);

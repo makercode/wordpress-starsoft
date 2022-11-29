@@ -9,17 +9,17 @@ function action_woocommerce_thankyou( $order_id ) {
 
 
 	$order = $invoicesDatabase->getInvoice("{$order_id}");
-	// var_dump($post_id);
-
 
 	// ¡ATENCIÓN! Antes de enviar a la api y guardarlos, debe verificar si ya ha sido sincronizado.
-	if( $order[0]['OrderSync'] == '1' ) {
-		// var_dump("syncronized");
-		return;
-	}
-	if( $order[0]['OrderId'] == $order_id ){
-		// var_dump("duplicated");
-		return;
+	if(sizeof($order) > 0) {
+		if( $order[0]['OrderSync'] == '1' ) {
+			// var_dump("syncronized");
+			return;
+		}
+		if( $order[0]['OrderId'] == $order_id ){
+			// var_dump("duplicated");
+			return;
+		}
 	}
 
 	// Getting an instance of the order object

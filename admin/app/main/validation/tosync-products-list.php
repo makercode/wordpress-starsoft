@@ -65,35 +65,33 @@
       <tbody>
         <?php 
           foreach ($productNotSyncList as $key => $product) {
-            if(!$exists) {
-              echo "
-              <tr data-id='{$product->parentid}'>
-                <td>
-                  {$product->sku}
-                </td>
-                <td>
-                  {$product->message}
-                </td>
-                <td>
-                  {$product->parentid}
-                </td>
-                <td>
-                  {$product->postid}
-                </td>
-                <td>
-                  <form method='POST'>
-                    <input type='hidden' value='{$product->parentid}' href='#' name='postid' id='postid'>
-                    <button href='{$product->postLinkToEdit}' type='submit' name='btndraft' id='btndraft' value='btndraft' class='page-title-action d-inline-block'>
-                      Convertir a Borrador
-                    </button>
-                    <a href='{$product->postLinkToEdit}' class='page-title-action d-inline-block'>
-                      Editar
-                    </a>
-                  </form>
-                </td>
-              </tr>
-              ";
-            };
+            echo "
+            <tr data-id='{$product->parentid}'>
+              <td>
+                {$product->sku}
+              </td>
+              <td>
+                {$product->message}
+              </td>
+              <td>
+                {$product->parentid}
+              </td>
+              <td>
+                {$product->postid}
+              </td>
+              <td>
+                <form method='POST'>
+                  <input type='hidden' value='{$product->parentid}' href='#' name='postid' id='postid'>
+                  <button href='{$product->postLinkToEdit}' type='submit' name='btndraft' id='btndraft' value='btndraft' class='page-title-action d-inline-block'>
+                    Convertir a Borrador
+                  </button>
+                  <a href='{$product->postLinkToEdit}' class='page-title-action d-inline-block'>
+                    Editar
+                  </a>
+                </form>
+              </td>
+            </tr>
+            ";
           }
         ?>
       </tbody>

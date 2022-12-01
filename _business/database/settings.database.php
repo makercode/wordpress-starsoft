@@ -7,7 +7,7 @@ class SettingsDatabase {
 		$this->table = "{$wpdb->prefix}sync_settings";
 	}
 
-	public function createTable () {
+	public function createTable() {
 		global $wpdb;
 		
 		$setSettingsTable = "CREATE TABLE IF NOT EXISTS {$this->table}(
@@ -22,16 +22,59 @@ class SettingsDatabase {
 		return $result;
 	}
 
-	public function upsertSettingsData () {
+	public function upsertValidatedData() {
 		global $wpdb;
 
 		$info = [
-			'SettingId'  => '1',
 			'SettingProperty'  => 'validated',
 			'SettingValue'     => 0
 		];
 		$where = [
 			'SettingId'  => '1'
+		];
+		$settings_table = "{$this->table}";
+
+		// update
+		$result = $wpdb->update($settings_table, $info, $where);
+		// or insert
+		if ($result === FALSE || $result < 1) {
+			$wpdb->insert($settings_table, $info);
+		}
+
+		return $result;
+	}
+
+	public function upsertLoggedData() {
+		global $wpdb;
+
+		$info = [
+			'SettingProperty'  => 'logged',
+			'SettingValue'     => 0
+		];
+		$where = [
+			'SettingId'  => '2'
+		];
+		$settings_table = "{$this->table}";
+
+		// update
+		$result = $wpdb->update($settings_table, $info, $where);
+		// or insert
+		if ($result === FALSE || $result < 1) {
+			$wpdb->insert($settings_table, $info);
+		}
+
+		return $result;
+	}
+
+	public function upsertTokenData() {
+		global $wpdb;
+
+		$info = [
+			'SettingProperty'  => 'token',
+			'SettingValue'     => ''
+		];
+		$where = [
+			'SettingId'  => '3'
 		];
 		$settings_table = "{$this->table}";
 
@@ -65,7 +108,7 @@ class SettingsDatabase {
 		return $result;
 	}
 
-	public function setTrueValidated () {
+	public function setTrueValidated() {
 		global $wpdb;
 
 		$info = [
@@ -73,7 +116,7 @@ class SettingsDatabase {
 			'SettingValue'     => 1
 		];
 		$where = [
-			'SettingId'  => 1
+			'SettingId'  => '1'
 		];
 		$settings_table = "{$this->table}";
 
@@ -83,7 +126,7 @@ class SettingsDatabase {
 		return $result;
 	}
 
-	public function setFalseValidated () {
+	public function setFalseValidated() {
 		global $wpdb;
 
 		$info = [
@@ -101,4 +144,58 @@ class SettingsDatabase {
 		return $result;
 	}
 
+
+	public function setTrueLogged() {
+		global $wpdb;
+
+		$info = [
+			'SettingProperty'  => 'logged',
+			'SettingValue'     => 1
+		];
+		$where = [
+			'SettingId'  => '2'
+		];
+		$settings_table = "{$this->table}";
+
+		// update
+		$result = $wpdb->update($settings_table, $info, $where);
+
+		return $result;
+	}
+
+	public function setFalseLogged() {
+		global $wpdb;
+
+		$info = [
+			'SettingProperty'  => 'logged',
+			'SettingValue'     => 0
+		];
+		$where = [
+			'SettingId'  => '2'
+		];
+		$settings_table = "{$this->table}";
+
+		// update
+		$result = $wpdb->update($settings_table, $info, $where);
+
+		return $result;
+	}
+
+
+	public function setToken($token) {
+		global $wpdb;
+
+		$info = [
+			'SettingValue'	=> $token
+		];
+		$where = [
+			'SettingId'  => '3'
+		];
+		$settings_table = "{$this->table}";
+
+		// update
+		$result = $wpdb->update($settings_table, $info, $where);
+
+		return $result;
+	}
 }

@@ -21,14 +21,32 @@ add_action('woocommerce_admin_process_product_object', 'mandatory_product_sku');
 
 
 
-function action_admin_enqueue_scripts( $hook ) {
+function action_admin_enqueue_scripts_css( $hook ) {
 	wp_enqueue_style(
 		'adminCss',
 		plugins_url('/assets/css/styles.css',__FILE__)
 	);
 };
-add_action('admin_enqueue_scripts','action_admin_enqueue_scripts');
+add_action('admin_enqueue_scripts','action_admin_enqueue_scripts_css');
 
+
+
+function action_admin_enqueue_scripts_js($hook) {
+	wp_enqueue_script(
+		'outterJs',
+		plugins_url('/assets/js/login.js?v1.7',__FILE__),
+		array('jquery')
+	);
+	wp_localize_script(
+		'outterJs',
+		'AjaxRequest',
+		[
+			'url' 	=> admin_url('admin-ajax.php'),
+			'token' => wp_create_nonce('seg')
+		]
+	);
+};
+add_action('admin_enqueue_scripts','action_admin_enqueue_scripts_js');
 
 
 

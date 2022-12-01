@@ -24,7 +24,7 @@
 	$isValidated = $settingsDatabase->isValidated()[0];
 	$isLogged = $settingsDatabase->isLogged()[0];
 
-	if($isLogged=='0') {
+	if($isLogged->SettingValue=='0') {
 		// var_dump("aguante megadeth - logged");
 		include dirname(__file__).'/login/login.php';
 		return;
@@ -32,7 +32,7 @@
 
 	if($isValidated=='1') {
 		// var_dump("aguante megadeth - validated");
-		include dirname(__file__).'/sync/invoices-list.php';
+		include dirname(__file__).'/sync/sync.php';
 		return;
 	}
 
@@ -50,7 +50,7 @@
 	if( is_array($productNotSyncList) ) {
 		if( sizeof( $productNotSyncList, 0 ) >= 1 ) {
 			// this include require starsoft service communication, we try use less posible
-			include dirname(__file__).'/validation/tosync-products-list.php';
+			include dirname(__file__).'/validation/validation.php';
 			return;
 		}
 	} else {
@@ -60,4 +60,4 @@
 
 	// save Validated true
 	$settingsDatabase->setTrueValidated();
-	include dirname(__file__).'/sync/invoices-list.php';
+	include dirname(__file__).'/sync/sync.php';

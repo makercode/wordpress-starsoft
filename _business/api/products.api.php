@@ -17,7 +17,7 @@ class ProductsApi {
 			array(
 				'method' => 'POST',
 				'headers' => array(
-					'Authorization' => 'Bearer xxx',
+					'Authorization' => 'Bearer token',
 					'Content-Type' => 'application/json',
 					'Accept' => 'application/json',
 				),

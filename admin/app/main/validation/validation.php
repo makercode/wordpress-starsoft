@@ -34,13 +34,13 @@
     </h1>
   </div>
 
-  <div class="d-flex w-100">
-    <p>
-      Debes co-relacionar los siguientes SKU con Starsoft o ponerlos en borrador (no se podrán vender) momentaneamente.
+  <div class=" w-100">
+    <p class="">
+      Actualiza los codigos SKU de los siguientes productos en Starsoft o despublicalos de wordpress.
+      <a href="javascript:window.location.reload(true)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="page-title-action d-inline-block w-auto m-0 top-0">
+        Comprobar con Starsoft
+      </a>
     </p>
-    <a href="javascript:window.location.reload(true)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="page-title-action ml-auto">
-      Comprobar nuevamente
-    </a>
   </div>
 
   <div class="">
@@ -82,12 +82,9 @@
               <td>
                 <form method='POST'>
                   <input type='hidden' value='{$product->parentid}' href='#' name='postid' id='postid'>
-                  <button href='{$product->postLinkToEdit}' type='submit' name='btndraft' id='btndraft' value='btndraft' class='page-title-action d-inline-block'>
-                    Convertir a Borrador
+                  <button href='{$product->postLinkToEdit}' type='submit' name='btndraft' id='btndraft' value='btndraft' class='page-title-action d-inline-block w-auto m-0 top-0'>
+                    Despublicar
                   </button>
-                  <a href='{$product->postLinkToEdit}' class='page-title-action d-inline-block'>
-                    Editar
-                  </a>
                 </form>
               </td>
             </tr>
@@ -96,7 +93,7 @@
         ?>
       </tbody>
     </table>
-    <div class="tablenav bottom">
+    <!--div class="tablenav bottom">
       <div class="alignleft actions bulkactions">
         <label for="bulk-action-selector-bottom" class="screen-reader-text">
           Seleccionar acción múltiple
@@ -107,6 +104,6 @@
         </select>
         <input type="submit" id="doaction2" class="button action" value="Aplicar">
       </div>
-    </div>
+    </div-->
   </div>
 </div>

@@ -12,7 +12,7 @@ class InvoicesApi {
 		// return db field if exist
 		$invoicesDatabase = new InvoicesDatabase();
 		$order = $invoicesDatabase->getInvoice("{$post_id}");
-		var_dump($invoicesDatabase);
+		// var_dump($invoicesDatabase);
 
 		if ( sizeof($order)>=1 ) {
 			$json_data = $order['0']['OrderJson'];
@@ -71,10 +71,6 @@ class InvoicesApi {
 				}
 			';
 			// var_dump($products_list);
-			/*
-			var_dump($product_order_data->get_data());
-			var_dump($product_data->get_data());
-			*/
 			$index++;
 			$order_total_discount_price += $total_line_sale_discount_price;
 		}
@@ -123,7 +119,7 @@ class InvoicesApi {
 			array(
 				'method' => 'POST',
 				'headers' => array(
-					'Authorization' => 'Bearer xxx',
+					'Authorization' => 'Bearer token',
 					'Content-Type' => 'application/json',
 					'Accept' => 'application/json',
 				),

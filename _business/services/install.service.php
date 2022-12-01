@@ -10,6 +10,7 @@ class InstallService {
 		$this->settingsDatabase = new SettingsDatabase;
 		$this->customersDatabase = new CustomersDatabase;
 		$this->productsDatabase = new ProductsDatabase;
+		$this->invoicesDatabase = new InvoicesDatabase;
 	}
 
 	public function init() {
@@ -17,8 +18,11 @@ class InstallService {
 		$this->settingsDatabase->createTable();
 		$this->customersDatabase->createTable();
 		$this->productsDatabase->createTable();
+		$this->invoicesDatabase->createTable();
 
-		// Set sku validation to false
-		$this->settingsDatabase->upsertSettingsData($data);
+		// Create and Set settings necessary fields in settings table.
+		$this->settingsDatabase->upsertValidatedData();
+		$this->settingsDatabase->upsertLoggedData();
+		$this->settingsDatabase->upsertTokenData();
 	}
 }

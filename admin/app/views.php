@@ -2,7 +2,7 @@
 
 // main view
 
-function CrearMenu() {
+function action_create_menu() {
 	add_menu_page(
 		'Control de ordenes Starsoft', // Titulo de la pagina
 		'Starsoft', // Titulo del menu
@@ -24,27 +24,4 @@ function CrearMenu() {
 function MostrarSubContenido() {
 	echo '<h1>Ajustes de Facturador</h1>';
 }
-add_action('admin_menu', 'CrearMenu');
-
-
-
-function EncolarJs($hook) {
-	if($hook != "starsoft/admin/invoices-list.php") {
-		return;
-	}
-	wp_enqueue_script(
-		'JsExterno',
-		plugins_url('admin/js/lista_encuestas.js?v1.7',__FILE__),
-		array('jquery')
-	);
-	wp_localize_script(
-		'JsExterno',
-		'SolicitudesAjax',
-		[
-			'url' => admin_url('admin-ajax.php'),
-			'seguridad' => wp_create_nonce('seg')
-		]
-	);
-};
-add_action('admin_enqueue_scripts','EncolarJs');
-
+add_action('admin_menu', 'action_create_menu');

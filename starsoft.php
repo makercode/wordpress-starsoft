@@ -8,7 +8,6 @@
 */
 
 require_once dirname(__file__).'/_business/services/install.service.php';
-require_once dirname(__file__).'/_business/services/sync.service.php';
 
 
 // Required objects
@@ -19,6 +18,7 @@ include dirname(__file__).'/admin/app/cronjob.php';
 include dirname(__file__).'/admin/app/requirements.php';
 include dirname(__file__).'/admin/app/listeners.php';
 include dirname(__file__).'/admin/app/views.php';
+include dirname(__file__).'/admin/app/ajax.php';
 
 // Front hooks
 include dirname(__file__).'/public/app/requirements.php';
@@ -37,10 +37,6 @@ include dirname(__file__).'/public/app/listeners.php';
 function ActivePlugin() {
 	$installService = new InstallService;
 	$installService->init();
-
-	$syncService = new SyncService;
-	$syncService->init();
-
 
     if( !wp_next_scheduled( 'starsoft_order_sync_cron_hook' ) ) {
         wp_schedule_event( current_time( 'timestamp' ), 'minutely', 'starsoft_order_sync_cron_hook' );

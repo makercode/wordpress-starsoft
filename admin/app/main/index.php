@@ -54,7 +54,7 @@
 			return;
 		}
 	} else {
-		echo "No hemos podido conectar con el servidor de Starsoft <br> NO SE PUDO INSTALAR.";
+		echo "No hemos podido conectar con el servidor de Starsoft contacte al area de soporte. <br> NO SE PUDO INSTALAR.";
 		return;
 	}
 

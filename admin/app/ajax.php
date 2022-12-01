@@ -33,11 +33,10 @@ function action_wp_ajax_starsoftlogin() {
 	    	)
 	    );
 	}
-	if( strlen($token) >= 1 ){
-		$settingsDatabase = new SettingsDatabase;
-		$tokenizer  = $settingsDatabase->setToken($token);
-		$loggerized = $settingsDatabase->setTrueLogged();
-	}
+	
+	$settingsDatabase = new SettingsDatabase;
+	$tokenizer  = $settingsDatabase->setToken($token);
+	$loggerized = $settingsDatabase->setTrueLogged();
 	echo $token;
 	die();
 }

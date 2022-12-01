@@ -13,7 +13,7 @@ class SettingsDatabase {
 		$setSettingsTable = "CREATE TABLE IF NOT EXISTS {$this->table}(
 			`SettingId` INT NOT NULL AUTO_INCREMENT,
 			`SettingProperty` VARCHAR(45) NULL,
-			`SettingValue` INT(11) NULL,
+			`SettingValue` INT(45) NULL,
 			PRIMARY KEY (`SettingId`)
 		)";
 
@@ -26,11 +26,12 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$info = [
+			'SettingId'  => 1,
 			'SettingProperty'  => 'validated',
 			'SettingValue'     => 0
 		];
 		$where = [
-			'SettingId'  => '1'
+			'SettingId'  => 1
 		];
 		$settings_table = "{$this->table}";
 
@@ -48,11 +49,12 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$info = [
+			'SettingId'  => 2,
 			'SettingProperty'  => 'logged',
 			'SettingValue'     => 0
 		];
 		$where = [
-			'SettingId'  => '2'
+			'SettingId'  => 2
 		];
 		$settings_table = "{$this->table}";
 
@@ -70,11 +72,12 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$info = [
+			'SettingId'  => 3,
 			'SettingProperty'  => 'token',
 			'SettingValue'     => ''
 		];
 		$where = [
-			'SettingId'  => '3'
+			'SettingId'  => 3
 		];
 		$settings_table = "{$this->table}";
 
@@ -116,7 +119,7 @@ class SettingsDatabase {
 			'SettingValue'     => 1
 		];
 		$where = [
-			'SettingId'  => '1'
+			'SettingId'  => 1
 		];
 		$settings_table = "{$this->table}";
 
@@ -134,7 +137,7 @@ class SettingsDatabase {
 			'SettingValue'     => 0
 		];
 		$where = [
-			'SettingId'  => '1'
+			'SettingId'  => 1
 		];
 		$settings_table = "{$this->table}";
 
@@ -153,7 +156,7 @@ class SettingsDatabase {
 			'SettingValue'     => 1
 		];
 		$where = [
-			'SettingId'  => '2'
+			'SettingId'  => 2
 		];
 		$settings_table = "{$this->table}";
 
@@ -171,7 +174,7 @@ class SettingsDatabase {
 			'SettingValue'     => 0
 		];
 		$where = [
-			'SettingId'  => '2'
+			'SettingId'  => 2
 		];
 		$settings_table = "{$this->table}";
 
@@ -189,7 +192,7 @@ class SettingsDatabase {
 			'SettingValue'	=> $token
 		];
 		$where = [
-			'SettingId'  => '3'
+			'SettingId'  => 3
 		];
 		$settings_table = "{$this->table}";
 

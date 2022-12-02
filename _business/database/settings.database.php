@@ -99,7 +99,7 @@ class SettingsDatabase {
 		$result = $wpdb->get_results("SELECT SettingValue FROM {$settings_table} WHERE SettingId=2");
 		// var_dump($result);
 
-		return $result;
+		return $result[0]->SettingValue;
 	}
 
 	public function isValidated() {
@@ -108,7 +108,7 @@ class SettingsDatabase {
 		$settings_table = "{$this->table}";
 		$result = $wpdb->get_results( "SELECT SettingValue FROM {$settings_table} WHERE SettingId=1");
 
-		return $result;
+		return $result[0]->SettingValue;
 	}
 
 	public function setTrueValidated() {
@@ -185,11 +185,20 @@ class SettingsDatabase {
 	}
 
 
+	public function getToken() {
+		global $wpdb;
+
+		$settings_table = "{$this->table}";
+		$result = $wpdb->get_results( "SELECT SettingValue FROM {$settings_table} WHERE SettingId=3");
+
+		return $result[0]->SettingValue;
+	}
+	
 	public function setToken($token) {
 		global $wpdb;
 
 		$info = [
-			'SettingValue'	=> $token
+			'SettingValue'	=> md5($token)
 		];
 		$where = [
 			'SettingId'  => 3

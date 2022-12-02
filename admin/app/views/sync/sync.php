@@ -36,12 +36,14 @@
 		<th>
 			Tipo de comprobante
 		</th>
+		<!--
 		<th>
 			Numero de comprobante
 		</th>
 		<th>
 			Estado de comprobante
 		</th>
+		-->
 	</thead>
 	<tbody>
 		<?php 
@@ -98,12 +100,14 @@
 					<td>
 						{$documenttype}
 					</td>
+					<!--
 					<td>
 						{$documentnumber}
 					</td>
 					<td>
 						{$documentstate}
 					</td>
+					-->
 				</tr>
 				";
 			};

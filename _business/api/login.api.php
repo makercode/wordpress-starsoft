@@ -32,10 +32,9 @@ class LoginApi {
 				'body' => $json_login_data
 			)
 		);
-		// var_dump($result);
 		if( !is_wp_error( $result ) ) {
 			if( $result['body'] ) {
-				return $result['body'];
+				return json_decode($result['body'])->Session;
 			}
 		}
 		// var_dump($result);

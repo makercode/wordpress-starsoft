@@ -7,7 +7,7 @@ function action_create_menu() {
 		'Control de ordenes Starsoft', // Titulo de la pagina
 		'Starsoft', // Titulo del menu
 		'manage_options', // Capability
-		plugin_dir_path(__file__).'/main/index.php', // slug
+		plugin_dir_path(__file__).'/views/index.php', // slug
 		null,
 		plugin_dir_url(__file__).'/assets/img/icon.png'
 	);

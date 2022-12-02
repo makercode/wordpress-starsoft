@@ -9,6 +9,9 @@ class ProductsApi {
 
 	public function verifyProducts( $post_data ) {
 
+		$settingsDatabase = new SettingsDatabase;
+		$token = $settingsDatabase->getToken();
+
 		$json_post_data = json_encode( $post_data );
 		// var_dump($post_data);
 
@@ -17,7 +20,7 @@ class ProductsApi {
 			array(
 				'method' => 'POST',
 				'headers' => array(
-					'Authorization' => 'Bearer token',
+					'Authorization' => "Bearer {$token}",
 					'Content-Type' => 'application/json',
 					'Accept' => 'application/json',
 				),

@@ -113,13 +113,17 @@ class InvoicesApi {
 
 	public function setInvoice( $post_id ) {
 
+		
+		$settingsDatabase = new SettingsDatabase;
+		$token = $settingsDatabase->getToken();
+		
 		$json_data = $this->getInvoiceJson( $post_id );
 		$result = wp_remote_post(
 			$this->apiRegisterUrl,
 			array(
 				'method' => 'POST',
 				'headers' => array(
-					'Authorization' => 'Bearer token',
+					'Authorization' =>  "Bearer {$token}",
 					'Content-Type' => 'application/json',
 					'Accept' => 'application/json',
 				),

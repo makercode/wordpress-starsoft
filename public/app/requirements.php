@@ -11,8 +11,8 @@ add_action('wp_enqueue_scripts','action_public_enqueue_scripts');
 
 
 function action_condition_checkout() {
-	global $wp;
-	if ( is_checkout() && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ) {
+	global $wpdb;
+	if ( is_checkout() && empty( $wpdb->query_vars['order-pay'] ) && ! isset( $wpdb->query_vars['order-received'] ) ) {
 		echo '
 			<script>
 				function resetIdValue() {

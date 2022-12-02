@@ -21,10 +21,10 @@
 	$settingsDatabase = new SettingsDatabase;
 	// $isValidated = $settingsDatabase->isValidated()[0]->SettingValue;
 	// $isLogged = $settingsDatabase->isLogged()[0]->SettingValue;
-	$isValidated = $settingsDatabase->isValidated()[0];
-	$isLogged = $settingsDatabase->isLogged()[0];
+	$isValidated = $settingsDatabase->isValidated();
+	$isLogged = $settingsDatabase->isLogged();
 
-	if($isLogged->SettingValue=='0') {
+	if($isLogged=='0') {
 		// var_dump("aguante megadeth - logged");
 		include dirname(__file__).'/login/login.php';
 		return;

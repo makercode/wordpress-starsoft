@@ -32,7 +32,7 @@
 
 	if($isValidated=='1') {
 		// var_dump("aguante megadeth - validated");
-		include dirname(__file__).'/sync/sync.php';
+		include dirname(__file__).'/synchronization/synchronization.php';
 		return;
 	}
 
@@ -60,4 +60,4 @@
 
 	// save Validated true
 	$settingsDatabase->setTrueValidated();
-	include dirname(__file__).'/sync/sync.php';
+	include dirname(__file__).'/synchronization/synchronization.php';

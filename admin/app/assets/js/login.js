@@ -16,6 +16,9 @@ jQuery(document).ready( function($) {
 		console.log(code);
 		console.log(username);
 		console.log(password);
+
+		$("#login-button").html("Esperando...");
+		$("#login-button").prop("disabled", true);
 		let url = AjaxRequest.url;
 		$.ajax({
 			type: "POST",
@@ -29,10 +32,13 @@ jQuery(document).ready( function($) {
 				password: password
 			},
 			success: function (data) {
+				$("#login-button").prop("disabled", false);
 				console.log(data);
 				location.reload();
 			},
 		    error: function(XMLHttpRequest, textStatus, errorThrown) {
+				$("#login-button").html("Ingresar");
+				$("#login-button").prop("disabled", false);
 		        alert("Status: " + textStatus); alert("Error: " + errorThrown); 
 		    }
 		})

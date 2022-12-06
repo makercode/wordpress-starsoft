@@ -27,10 +27,33 @@
   }
 ?>
 
+<div class="stepper">
+  <div class="stepbar">
+    <div href="#" class="step step-login active">
+      <span class="step-position">
+        ✓
+      </span>
+      Identificado
+    </div>
+    <div href="#" class="step step-validation processing">
+      <span class="step-position">
+        *
+      </span>
+      Validando...
+    </div>
+    <div href="#" class="step step-synchronization">
+      <span class="step-position">
+        !
+      </span>
+      Sincronizado
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
   <div class="">
     <h1 class="wp-heading-inline">
-      La sincronización aún no está funcionando.
+      Validando
     </h1>
   </div>
 
@@ -38,7 +61,7 @@
     <p class="">
       Actualiza los codigos SKU de los siguientes productos en Starsoft o despublicalos de wordpress.
       <a href="javascript:window.location.reload(true)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="page-title-action d-inline-block w-auto m-0 top-0">
-        Comprobar con Starsoft
+        Comprobar nuevamente
       </a>
     </p>
   </div>

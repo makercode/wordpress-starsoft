@@ -80,6 +80,10 @@ class InvoicesApi {
 
 		$joined_address = $order_object->get_billing_address_1().'-'.$order_object->get_billing_address_2().'-'.$order_object->get_billing_city().'-'.$order_object->get_billing_country();
 
+		// var_dump($order_object);
+		// var_dump($order_object->get_subtotal());
+		// var_dump($order_object->get_shipping_total());
+
 		$json_data = '{
 			"Customer": {
 				"Customer_Id": "'.$order_customer_identifier.'",
@@ -97,6 +101,8 @@ class InvoicesApi {
 				"OrderHeader": {
 					"Order_Id": "'.$order_object->get_id().'", // order id
 					"Order_Date": "'.$order_object->get_date_created()->getTimestamp().'",
+					"Order_Subtotal_Amount": '.$order_object->get_subtotal().', // precio sin shipping
+					"Order_Shipping": '.$order_object->get_shipping_total().',
 					"Order_Total_Amount": '.$order_data['total'].', // precio final
 					"Order_Currency_Type": "'.$currency_starsoft.'",
 					"Order_Discount_Amount": '.$order_total_discount_price.', // descuento porsiaca

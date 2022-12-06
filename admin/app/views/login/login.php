@@ -1,10 +1,31 @@
-
+<div class="stepper">
+	<div class="stepbar">
+		<div href="#" class="step step-login processing">
+			<span class="step-position">
+				*
+			</span>
+			Identificando...
+		</div>
+		<div href="#" class="step step-validation">
+			<span class="step-position">
+				!
+			</span>
+			Validado
+		</div>
+		<div href="#" class="step step-synchronization">
+			<span class="step-position">
+				!
+			</span>
+			Sincronizado
+		</div>
+	</div>
+</div>
 <div class="login-content">
 	<h1 class="text-center login-title">
 		Exclusivo para clientes Starsoft
 		<br>
 		<small>
-			Configura tu sincronización
+			Ingresa y Configura tu sincronización
 		</small>
 	</h1>
 	<?php 

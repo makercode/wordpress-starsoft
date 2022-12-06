@@ -5,7 +5,28 @@
 
 ?>
 <?php // print_r($order_object); ?>
-
+<div class="stepper">
+  <div class="stepbar">
+    <div href="#" class="step step-login active">
+      <span class="step-position">
+        ✓
+      </span>
+      Identificado
+    </div>
+    <div href="#" class="step step-validation active">
+      <span class="step-position">
+        ✓
+      </span>
+      Validado
+    </div>
+    <div href="#" class="step step-synchronization active">
+      <span class="step-position">
+        ✓
+      </span>
+      Sincronizado
+    </div>
+  </div>
+</div>
 <div class="wrap">
 	<h1 class="wp-heading-inline">
 		<?php echo get_admin_page_title(); ?>

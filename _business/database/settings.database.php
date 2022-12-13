@@ -13,7 +13,7 @@ class SettingsDatabase {
 		$setSettingsTable = "CREATE TABLE IF NOT EXISTS {$this->table}(
 			`SettingId` INT NOT NULL AUTO_INCREMENT,
 			`SettingProperty` VARCHAR(45) NULL,
-			`SettingValue` INT(45) NULL,
+			`SettingValue` VARCHAR(120) NULL,
 			PRIMARY KEY (`SettingId`)
 		)";
 

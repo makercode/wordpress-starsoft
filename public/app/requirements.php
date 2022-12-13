@@ -62,7 +62,7 @@ function action_condition_checkout() {
 				);
 			</script>
 		';
-   }
+	}
 }
 add_action( 'wp_footer', 'action_condition_checkout', 9999 );
 

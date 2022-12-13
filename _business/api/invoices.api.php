@@ -3,8 +3,8 @@
 class InvoicesApi {
 
 	public function __construct() {
-		// $this->apiRegisterUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
-		$this->apiRegisterUrl = "http://192.168.1.108:8063/Api/RegisterOrder";
+		$this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
+		// $this->apiUrl = "http://192.168.1.108:8063/Api/RegisterOrder";
 	}
 
 	public function getInvoiceJson( $post_id ) {
@@ -119,13 +119,12 @@ class InvoicesApi {
 
 	public function setInvoice( $post_id ) {
 
-		
 		$settingsDatabase = new SettingsDatabase;
 		$token = $settingsDatabase->getToken();
 		
 		$json_data = $this->getInvoiceJson( $post_id );
 		$result = wp_remote_post(
-			$this->apiRegisterUrl,
+			$this->apiUrl,
 			array(
 				'method' => 'POST',
 				'headers' => array(

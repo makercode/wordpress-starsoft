@@ -31,7 +31,12 @@ class ProductsHelpers {
 		// check if product exists in db
 		// Aqui ocurre un problema cuando se activa el 
 		if(!$responseSyncProdsObj){
-			// if response sync prods obj is null the cancel helper
+			// if response sync prods obj is null then cancel helper
+			return false;
+		}
+		var_dump($responseSyncProdsObj);
+		if( count($responseSyncProdsObj)<=0 ) {
+			// if response sync dont have any iem then cancel helper
 			return false;
 		}
 		foreach ($responseSyncProdsObj as $key => $product) {

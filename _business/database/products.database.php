@@ -150,17 +150,20 @@ class ProductsDatabase {
 			$values .= ')';
 		}
 
+		if(count($productsStack)>0) {
+			$query = "
+				INSERT INTO {$this->table}
+					(ProductParentId, ProductVariantId ,ProductSku , ProductSync)
+				VALUES
+					{$values}
+				ON DUPLICATE KEY UPDATE 
+					ProductSync=VALUES(ProductSync)
+			";
 
-		$query = "
-			INSERT INTO {$this->table}
-				(ProductParentId, ProductVariantId ,ProductSku , ProductSync)
-			VALUES
-				{$values}
-			ON DUPLICATE KEY UPDATE 
-				ProductSync=VALUES(ProductSync)
-		";
+			return $wpdb->query($query);
+		}
+		return false;
 
-		return $wpdb->query($query);
 	}
 
 	public function setProductSyncData () {

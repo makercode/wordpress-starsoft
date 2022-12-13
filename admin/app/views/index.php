@@ -25,13 +25,20 @@
 	$isLogged = $settingsDatabase->isLogged();
 
 	if($isLogged=='0') {
-		// var_dump("aguante megadeth - logged");
+		// no token
 		include dirname(__file__).'/login/login.php';
 		return;
 	}
 
+	if(count($wcProducts)==0) {
+		// no products
+		$settingsDatabase->setTrueValidated();
+		include dirname(__file__).'/synchronization/synchronization.php';
+		return;
+	}
+
 	if($isValidated=='1') {
-		// var_dump("aguante megadeth - validated");
+		// no valid skus
 		include dirname(__file__).'/synchronization/synchronization.php';
 		return;
 	}
@@ -42,6 +49,7 @@
 	// var_dump("-");
 	// var_dump($responseSyncProdsJson);
 	// var_dump($responseSyncProdsObj);
+
 
 	$productsHelpers = new ProductsHelpers();
 	$productNotSyncList = $productsHelpers->getNonexistentProducts($responseSyncProdsObj, $wcProductsSync);

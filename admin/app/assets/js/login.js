@@ -36,12 +36,12 @@ jQuery(document).ready( function($) {
 				console.log(data);
 				location.reload();
 			},
-		    error: function(XMLHttpRequest, textStatus, errorThrown) {
+		    error: function (XMLHttpRequest, textStatus, errorThrown) {
 				$("#login-button").html("Ingresar");
 				$("#login-button").prop("disabled", false);
 		        alert("Status: " + textStatus); alert("Error: " + errorThrown); 
 		    }
-		})
+		});
 		/**/
 		return false;
 	})

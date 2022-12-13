@@ -19,6 +19,24 @@ add_action('woocommerce_admin_process_product_object', 'mandatory_product_sku');
 */
 // add_action('woocommerce_admin_process_variation_object', 'mandatory_product_sku');
 
+function wpb_admin_notice_warn() {
+
+
+	if ( array_key_exists('page', $_GET) ) {
+		if ($_GET["page"] == 'starsoft/admin/app/views/index.php') {
+			return false;
+		}
+	}
+
+	$validatedGuard = new ValidatedGuard();
+	if ($validatedGuard->isValidated()=="0") {
+		echo '<div class="notice notice-error is-dismissible">
+			<p> STARSOFT: El plugin aun no está funcionando.<a href="'.plugin_dir_path(__file__).'/views/index.php'.'">Configuralo</a> </p>
+		</div>'; 
+	}
+}
+add_action( 'admin_notices', 'wpb_admin_notice_warn' );
+
 
 
 function action_admin_enqueue_scripts_css( $hook ) {

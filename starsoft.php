@@ -46,7 +46,6 @@ function ActivePlugin() {
 register_activation_hook(__file__, 'ActivePlugin');
 
 
-add_filter( 'cron_schedules', 'wpshout_add_cron_interval' );
 function wpshout_add_cron_interval( $schedules ) {
     $schedules['minutely'] = array(
             'interval'  => 60, // time in seconds
@@ -54,6 +53,7 @@ function wpshout_add_cron_interval( $schedules ) {
     );
     return $schedules;
 }
+add_filter( 'cron_schedules', 'wpshout_add_cron_interval' );
 
 
 // Detect when plugin is disabled

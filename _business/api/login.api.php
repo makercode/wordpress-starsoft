@@ -13,7 +13,7 @@ class LoginApi {
 			{
 				"User": "'.$username.'",
 				"Password": "'.$password.'",
-				"Domain": "'.$_SERVER['SERVER_NAME'].'",
+				"Domain": "'.site_url().'",
 				"RUC": "'.$licence.'",
 				"Bussines_Code": "'.$code.'",
 				"token": ""

@@ -29,6 +29,7 @@ class ProductsDatabase {
 	public function getWCProductsSyncData () {
 		$args = array(
 			'orderby'  => 'name',
+			'limit' => -1
 		);
 		$products = wc_get_products( $args );
 
@@ -81,6 +82,7 @@ class ProductsDatabase {
 
 		$args = array(
 			'orderby'  => 'name',
+			'limit' => -1
 		);
 		$products = wc_get_products( $args );
 

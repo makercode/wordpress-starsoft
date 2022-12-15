@@ -1,7 +1,7 @@
 <?php 
 	// Catch post
 	if(isset($_POST['btndraft'])) {
-		$postid = $_POST['postid'];
+		$postid = $_POST['postId'];
 		// echo $postid;
 		wp_update_post(array('ID' => intval($postid), 'post_status'   =>  'draft'));
 
@@ -48,6 +48,9 @@
 			<table class="wp-list-table widefat fixed striped pages">
 				<thead>
 					<th>
+						Nombre
+					</th>
+					<th>
 						SKU
 					</th>
 					<th>
@@ -65,25 +68,29 @@
 				</thead>
 				<tbody>
 					<?php 
-						foreach ($productNotSyncList as $key => $product) {
+						foreach ($draftableProducts as $key => $draftableProduct) {
+							var_dump($draftableProduct);
 							echo "
-							<tr data-id='{$product->parentid}'>
+							<tr data-id='{$draftableProduct->parentId}'>
 								<td>
-									{$product->sku}
+									{$draftableProduct->title}
 								</td>
 								<td>
-									{$product->message}
+									{$draftableProduct->sku}
 								</td>
 								<td>
-									{$product->parentid}
+									{$draftableProduct->message}
 								</td>
 								<td>
-									{$product->postid}
+									{$draftableProduct->parentId}
+								</td>
+								<td>
+									{$draftableProduct->variantId}
 								</td>
 								<td>
 									<form method='POST'>
-										<input type='hidden' value='{$product->parentid}' href='#' name='postid' id='postid'>
-										<button href='{$product->postLinkToEdit}' type='submit' name='btndraft' id='btndraft' value='btndraft' class='page-title-action d-inline-block w-auto m-0 top-0'>
+										<input type='hidden' value='{$draftableProduct->parentId}' href='#' name='postId' id='postId'>
+										<button href='{$draftableProduct->postLinkToEdit}' type='submit' name='btndraft' id='btndraft' value='btndraft' class='page-title-action d-inline-block w-auto m-0 top-0'>
 											Despublicar
 										</button>
 									</form>

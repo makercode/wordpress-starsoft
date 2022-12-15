@@ -41,22 +41,26 @@
 			return;
 		}
 
+
+
 		$productsApi = new ProductsApi();
-		// var_dump($wcProducts);
 		// var_dump("------------------------------------------------------");
+		// var_dump($wcProducts);
 		$responseSyncProdsJson = $productsApi->verifyProducts($wcProducts);
 		// var_dump("------------------------------------------------------");
-		// var_dump($responseSyncProdsJson);
+		
 		$responseSyncProdsObj = json_decode($responseSyncProdsJson, true);
 
 		$productsHelpers = new ProductsHelpers();
-		$productNotSyncList = $productsHelpers->getNonexistentProducts($responseSyncProdsObj, $wcProductsSync);
-		// var_dump("wcProductsSync");
-		// var_dump($wcProductsSync);
-		// var_dump($productNotSyncList); // return false when 
+
+		$noSyncedProductList = $productsHelpers->getNonexistentProducts($responseSyncProdsObj, $wcProductsSync);
+		$noSkuProductList = $productsHelpers->getNonSkuProducts($wcProductsSync);
+
+		$draftableProducts = array_merge($noSyncedProductList, $noSkuProductList);
+
 		// check if is array, empty or with elements
-		if( is_array($productNotSyncList) ) {
-			if( sizeof( $productNotSyncList, 0 ) >= 1 ) {
+		if( is_array($draftableProducts) ) {
+			if( sizeof( $draftableProducts, 0 ) >= 1 ) {
 				// this include require starsoft service communication, we try use less posible
 				include dirname(__file__).'/validation/validation.php';
 				return;

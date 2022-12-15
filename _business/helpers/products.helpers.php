@@ -27,7 +27,7 @@ class ProductsHelpers {
 			return false;
 		}
 
-		$productNotSyncList = array();
+		$NoSyncProductList = array();
 		// check if product exists in db
 		// Aqui ocurre un problema cuando se activa el 
 		if(!$responseSyncProdsObj){
@@ -40,28 +40,49 @@ class ProductsHelpers {
 			return false;
 		}
 		foreach ($responseSyncProdsObj as $key => $product) {
-			$productNotSyncItem = new stdClass();
 
+			$productNotSyncItem = new stdClass();
 			$productNotSyncItem->sku = $product['SKU'];
 			$productNotSyncItem->exists = $product['Exists'];
-			$productNotSyncItem->parentid = findParentIdBySku($product['SKU'], $wcProductsSync);
-			$productNotSyncItem->postid = findPostIdBySku($product['SKU'], $wcProductsSync);
+			$productNotSyncItem->parentId = findParentIdBySku($product['SKU'], $wcProductsSync);
+			$productNotSyncItem->variantId = findPostIdBySku($product['SKU'], $wcProductsSync);
 			$productNotSyncItem->empty = $product['SKU'] === '';
-			$productNotSyncItem->postLinkToEdit = get_edit_post_link($productNotSyncItem->parentid);
-
+			$productNotSyncItem->postLinkToEdit = get_edit_post_link($productNotSyncItem->parentId);
+			$productNotSyncItem->title = get_the_title($productNotSyncItem->parentId);
 			$productNotSyncItem->message = "No se encontró este SKU en starsoft";
-			if($productNotSyncItem->empty) {
-				$productNotSyncItem->message = "No se admiten SKU vacios";
-			}
 
 			if( !$productNotSyncItem->exists ) {
 				array_push(
-					$productNotSyncList,
+					$NoSyncProductList,
 					$productNotSyncItem
 				);
 			}
 		}
-		return $productNotSyncList;
+		return $NoSyncProductList;
+	}
+
+	function getNonSkuProducts ( $evaluableProducts ) {
+
+		$noSkuProductList = array();
+
+		foreach ( $evaluableProducts as $key => $noSkuProduct ) {
+			// var_dump($noSkuProduct);
+			if( empty($noSkuProduct->sku) ) {
+
+				$noSkuProductObj = new stdClass();
+				$noSkuProductObj->sku = $noSkuProduct->sku;
+				$noSkuProductObj->exists = false;
+				$noSkuProductObj->parentId = $noSkuProduct->parentId;
+				$noSkuProductObj->variantId = $noSkuProduct->variantId;
+				$noSkuProductObj->empty = $noSkuProduct->sku === '';
+				$noSkuProductObj->postLinkToEdit = get_edit_post_link($noSkuProduct->parentId);
+				$noSkuProductObj->title = get_the_title($noSkuProduct->parentId);
+				$noSkuProductObj->message = "No se admiten SKU vacios";
+
+				array_push($noSkuProductList, $noSkuProductObj);
+			}
+		}
+		return $noSkuProductList;
 	}
 
 }

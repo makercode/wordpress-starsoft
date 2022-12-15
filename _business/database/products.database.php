@@ -13,9 +13,10 @@ class ProductsDatabase {
 
 	public function createTable () {
 		global $wpdb;
-
 		$setProductsTable = "CREATE TABLE IF NOT EXISTS {$this->table}(
 			`ProductSyncId` INT NOT NULL AUTO_INCREMENT,
+			`ProductParentId` INT NULL,
+			`ProductVariantId` INT NULL,
 			`ProductSku` VARCHAR(45) NOT NULL,
 			`ProductSync` INT(11) NULL,
 			PRIMARY KEY (`ProductSyncId`),
@@ -119,9 +120,11 @@ class ProductsDatabase {
 		return $productsStack;
 	}
 
+
 	public function setWCProductDraft ($postid) {
 		update_post_meta( $postid, 'status', 'draft' );
 	}
+
 
 	public function setProductsSyncData ($productsStack) {
 		global $wpdb;
@@ -165,6 +168,7 @@ class ProductsDatabase {
 		return false;
 
 	}
+
 
 	public function setProductSyncData () {
 	}

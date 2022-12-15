@@ -21,7 +21,6 @@ add_action('woocommerce_admin_process_product_object', 'mandatory_product_sku');
 
 function wpb_admin_notice_warn() {
 
-
 	if ( array_key_exists('page', $_GET) ) {
 		if ($_GET["page"] == 'starsoft/admin/app/views/index.php') {
 			return false;
@@ -31,7 +30,7 @@ function wpb_admin_notice_warn() {
 	$validatedGuard = new ValidatedGuard();
 	if ($validatedGuard->isValidated()=="0") {
 		echo '<div class="notice notice-error is-dismissible">
-			<p> STARSOFT: El plugin aun no está funcionando.<a href="'.plugin_dir_path(__file__).'/views/index.php'.'">Configuralo</a> </p>
+			<p> STARSOFT PEDIDOS: Para poder sincronizar tus pedidos debes terminar de configurar el plugin </p>
 		</div>'; 
 	}
 }
@@ -40,6 +39,7 @@ add_action( 'admin_notices', 'wpb_admin_notice_warn' );
 
 
 function action_admin_enqueue_scripts_css( $hook ) {
+
 	wp_enqueue_style(
 		'adminCss',
 		plugins_url('/assets/css/styles.css',__FILE__)
@@ -50,6 +50,7 @@ add_action('admin_enqueue_scripts','action_admin_enqueue_scripts_css');
 
 
 function action_admin_enqueue_scripts_js($hook) {
+
 	wp_enqueue_script(
 		'outterJs',
 		plugins_url('/assets/js/login.js?v1.7',__FILE__),
@@ -65,9 +66,6 @@ function action_admin_enqueue_scripts_js($hook) {
 	);
 };
 add_action('admin_enqueue_scripts','action_admin_enqueue_scripts_js');
-
-
-
 
 
 
@@ -134,7 +132,7 @@ add_action( 'woocommerce_admin_order_data_after_billing_address', 'bbloomer_bill
 
 
 
-function misha_save_general_details( $order_id ){
+function misha_save_general_details( $order_id ) {
 	
 	update_post_meta( $order_id, '_billing_identifier', wc_clean( $_POST[ '_billing_identifier' ] ) );
 	update_post_meta( $order_id, '_billing_identifier_type', wc_clean( $_POST[ '_billing_identifier_type' ] ) );

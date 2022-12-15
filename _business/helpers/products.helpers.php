@@ -34,7 +34,7 @@ class ProductsHelpers {
 			// if response sync prods obj is null then cancel helper
 			return false;
 		}
-		var_dump($responseSyncProdsObj);
+		// var_dump($responseSyncProdsObj);
 		if( count($responseSyncProdsObj)<=0 ) {
 			// if response sync dont have any iem then cancel helper
 			return false;

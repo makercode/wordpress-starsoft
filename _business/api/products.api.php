@@ -16,7 +16,7 @@ class ProductsApi {
 			$post_data = array();
 		}
 
-		$json_post_data = json_encode( $post_data );
+		$json_data = json_encode( $post_data );
 		// var_dump($post_data);
 
 		$result = wp_remote_post(
@@ -28,10 +28,10 @@ class ProductsApi {
 					'Content-Type' => 'application/json',
 					'Accept' => 'application/json',
 				),
-				'body' => $json_post_data
+				'body' => $json_data
 			)
 		);
-		var_dump($result);
+		// var_dump($result);
 		if( !is_wp_error( $result ) ) {
 			if( $result['body'] ) {
 				return $result['body'];

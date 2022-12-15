@@ -40,7 +40,6 @@ function ActivePlugin() {
 
     if( !wp_next_scheduled( 'starsoft_order_sync_cron_hook' ) ) {
         wp_schedule_event( current_time( 'timestamp' ), 'minutely', 'starsoft_order_sync_cron_hook' );
-        // twicedaily
     }
 }
 register_activation_hook(__file__, 'ActivePlugin');

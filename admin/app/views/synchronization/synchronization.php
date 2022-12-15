@@ -9,7 +9,7 @@
 	<h1 class="wp-heading-inline">
 		Sincronizacion para clientes Starsoft
 	</h1>
-  <?php include dirname(__file__).'/../../includes/stepbar.php'; ?>
+	<?php include dirname(__file__).'/../../includes/stepbar.php'; ?>
 	<div class="">
 		<h1 class="wp-heading-inline">
 			<?php echo get_admin_page_title(); ?>

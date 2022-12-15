@@ -27,4 +27,3 @@ function starsoft_order_sync_cron_hook_action() {
 
 }
 add_action( 'starsoft_order_sync_cron_hook', 'starsoft_order_sync_cron_hook_action' );
-

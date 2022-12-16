@@ -37,8 +37,8 @@
 
 		<div class="w-100">
 			<p class="">
-				Aún no se encontraron los codigos SKU de los siguientes productos en Starsoft.
-				Complétalos en starsoft y comprueba o mándalos a borrador.
+				Aún no se encontraron estos productos con codigo SKU en Starsoft.
+				Soluciona los problemas que te indicamos.
 				<a href="javascript:window.location.reload(true)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="page-title-action d-inline-block w-auto m-0 top-0">
 					Comprobar nuevamente
 				</a>

@@ -1,15 +1,15 @@
 <?php 
 	
 	$loggedGuard = new LoggedGuard;
-	$is_logged = $loggedGuard->isLogged();
+	$isLogged = $loggedGuard->isLogged();
 
 	$validatedGuard = new ValidatedGuard;
-	$is_validated = $validatedGuard->isValidated();
+	$isValidated = $validatedGuard->isValidated();
 
  ?>
 <div class="stepper">
 	<div class="stepbar">
-		<?php if($is_logged=="0" && $is_validated=="0") { ?>
+		<?php if($isLogged=="0" && $isValidated=="0") { ?>
 			<div href="#" class="step step-login processing">
 				<span class="step-position">
 					!
@@ -29,7 +29,7 @@
 				No Sincronizado
 			</div>
 		<?php } ?>
-		<?php if($is_logged=="1" && $is_validated=="0") { ?>
+		<?php if($isLogged=="1" && $isValidated=="0") { ?>
 			<div href="#" class="step step-login active">
 				<span class="step-position">
 				✓
@@ -49,7 +49,7 @@
 				No Sincronizado
 			</div>
 		<?php } ?>
-		<?php if($is_logged=="1" && $is_validated=="1") { ?>
+		<?php if($isLogged=="1" && $isValidated=="1") { ?>
 			<div href="#" class="step step-login active">
 				<span class="step-position">
 				✓

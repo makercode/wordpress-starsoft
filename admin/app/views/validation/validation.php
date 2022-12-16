@@ -29,7 +29,7 @@
 
 <div class="wrap">
 	<h1 class="wp-heading-inline">
-		Sincronizacion para clientes Starsoft
+		Sincronización de pedidos para clientes Starsoft
 	</h1>
 	<?php include dirname(__file__).'/../../includes/stepbar.php'; ?>
 
@@ -37,7 +37,8 @@
 
 		<div class="w-100">
 			<p class="">
-				Aun no se encontraron los codigos SKU de los siguientes productos en Starsoft, completalos en starsoft o despublicalos en wordpress.
+				Aún no se encontraron los codigos SKU de los siguientes productos en Starsoft.
+				Complétalos en starsoft y comprueba o mándalos a borrador.
 				<a href="javascript:window.location.reload(true)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="page-title-action d-inline-block w-auto m-0 top-0">
 					Comprobar nuevamente
 				</a>
@@ -69,7 +70,6 @@
 				<tbody>
 					<?php 
 						foreach ($draftableProducts as $key => $draftableProduct) {
-							var_dump($draftableProduct);
 							echo "
 							<tr data-id='{$draftableProduct->parentId}'>
 								<td>
@@ -91,7 +91,7 @@
 									<form method='POST'>
 										<input type='hidden' value='{$draftableProduct->parentId}' href='#' name='postId' id='postId'>
 										<button href='{$draftableProduct->postLinkToEdit}' type='submit' name='btndraft' id='btndraft' value='btndraft' class='page-title-action d-inline-block w-auto m-0 top-0'>
-											Despublicar
+											Convertir a borrador
 										</button>
 									</form>
 								</td>

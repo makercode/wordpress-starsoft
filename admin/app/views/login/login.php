@@ -1,6 +1,6 @@
 <div class="wrap">
 	<h1 class="wp-heading-inline">
-		Sincronizacion para clientes Starsoft
+		Sincronización de pedidos para clientes Starsoft
 	</h1>
 	<?php include dirname(__file__).'/../../includes/stepbar.php'; ?>
 	<div class="login-content">

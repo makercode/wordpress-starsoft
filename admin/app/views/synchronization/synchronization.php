@@ -7,7 +7,7 @@
 <?php // print_r($order_object); ?>
 <div class="wrap">
 	<h1 class="wp-heading-inline">
-		Sincronizacion para clientes Starsoft
+		Sincronización de pedidos para clientes Starsoft
 	</h1>
 	<?php include dirname(__file__).'/../../includes/stepbar.php'; ?>
 	<div class="">
@@ -37,10 +37,10 @@
 				<th>
 					Pedido sincronizado a Starsoft
 				</th>
+				<!--
 				<th>
 					Tipo de comprobante
 				</th>
-				<!--
 				<th>
 					Numero de comprobante
 				</th>
@@ -69,14 +69,14 @@
 						if( $invoice['OrderState']==  '1' ) { $orderState = 'Completo'; };
 						if( $invoice['OrderState']== '-1' ) { $orderState = 'Reembolsado'; };
 
-						$ordersync = ($invoice['OrderSync']) ? "SI": "x";
+						$orderSync = ($invoice['OrderSync']) ? "SI": "NO";
 
-						$documenttype = 'Boleta';
-						if( $invoice['DocumentType']=='1' ) { $documenttype = 'Factura'; };
+						$receiptType = 'Boleta';
+						if( $invoice['ReceiptType']=='1' ) { $receiptType = 'Factura'; };
 
-						$documentnumber = ($invoice['DocumentNumber']) ? "SI": "x";
+						$receiptNumber = ($invoice['ReceiptNumber']) ? "SI": "NO";
 
-						$documentstate = ($invoice['DocumentState']) ? "SI": "x";
+						$receiptState = ($invoice['ReceiptState']) ? "SI": "NO";
 
 						echo "
 						<tr>
@@ -99,17 +99,17 @@
 								{$orderState}
 							</td>
 							<td>
-								{$ordersync}
-							</td>
-							<td>
-								{$documenttype}
+								{$orderSync}
 							</td>
 							<!--
 							<td>
-								{$documentnumber}
+								{$receiptType}
 							</td>
 							<td>
-								{$documentstate}
+								{$receiptNumber}
+							</td>
+							<td>
+								{$receiptState}
 							</td>
 							-->
 						</tr>

@@ -9,7 +9,7 @@ class LoginApi {
 
 	public function getToken( $licence, $code, $username, $password ) {
 
-		$json_login_data .= '
+		$json_login_data = '
 			{
 				"User": "'.$username.'",
 				"Password": "'.$password.'",

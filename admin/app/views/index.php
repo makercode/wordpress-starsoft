@@ -41,14 +41,12 @@
 			return;
 		}
 
-
-
 		$productsApi = new ProductsApi();
 		// var_dump("------------------------------------------------------");
 		// var_dump($wcProducts);
 		$responseSyncProdsJson = $productsApi->verifyProducts($wcProducts);
 		// var_dump("------------------------------------------------------");
-		
+
 		$responseSyncProdsObj = json_decode($responseSyncProdsJson, true);
 
 		$productsHelpers = new ProductsHelpers();
@@ -70,6 +68,8 @@
 			return;
 		}
 		$settingsDatabase->setTrueValidated();
+		include dirname(__file__).'/synchronization/synchronization.php';
+		return;
 	}
 
 	if($isLogged=="1" && $isValidated=="1") {

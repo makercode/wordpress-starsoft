@@ -13,9 +13,9 @@ function starsoft_order_sync_cron_hook_action() {
 
 			$invoicesApi = new InvoicesApi;
 			$responseInvoiceSetted = $invoicesApi->setInvoice( $orderId );
-			error_log( 'Mi evento ejecuto el envio de invoice: '.$invoiceId.'para la orden'.$orderId.'resultado:'.$responseInvoiceSetted );
+			error_log( 'Mi evento ejecuto el envio de invoice: '.$invoiceId.'para la orden'.$orderId.'con resultado:'.$responseInvoiceSetted );
 					
-			if($responseInvoiceSetted) {
+			if($responseInvoiceSetted==true) {
 				$info = [
 					'OrderSync'   => 1
 				];

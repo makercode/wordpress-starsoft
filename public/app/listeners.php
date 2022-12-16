@@ -35,8 +35,8 @@ function action_woocommerce_thankyou( $order_id ) {
 		$orderDate      = $order_data['date_created']->getTimestamp();
 		$orderState     = ( $order->has_status('completed') ) ? 1 : 0 ;
 		$orderSync      = 0;
-		$documentType   = '3'; if( $customerIdType=='RUC' ){ $documentType = '1'; };
-		$documentState  = 0;
+		$receiptType    = '3'; if( $customerIdType=='RUC' ){ $receiptType = '1'; };
+		$receiptState   = 0;
 
 
 		// $table = "{$wpdb->prefix}sync_invoices";
@@ -48,8 +48,8 @@ function action_woocommerce_thankyou( $order_id ) {
 			'OrderDate'       => $orderDate, // Timestamp
 			'OrderState'      => $orderState, // Complete 1, pending 0
 			'OrderSync'       => $orderSync, // Successfully sent to starsoft 0: false, 1: true
-			'DocumentType'    => $documentType, // (SUNAT TABLA_10) BOLETA: 3, FACTURA: 1
-			'DocumentState'   => $documentState // Deny: 0, Accepted: 1, nulled: -1
+			'ReceiptType'     => $receiptType, // (SUNAT TABLA_10) BOLETA: 3, FACTURA: 1
+			'ReceiptState'    => $receiptState // Deny: 0, Accepted: 1, nulled: -1
 		];
 
 		$invoicesDatabase->setInvoice( $info, $order_id );

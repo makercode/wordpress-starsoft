@@ -57,13 +57,13 @@
 
 						$date = date('m/d/Y', $invoice['OrderDate']);
 
-						$orderid = $invoice['OrderId'];
+						$orderId = $invoice['OrderId'];
 
-						$customeridtype = 'DNI';
-						if( $invoice['CustomerIdType']=='4' ) { $customeridtype = 'CARNET DE EXTRANJERÍA'; };
-						if( $invoice['CustomerIdType']=='6' ) { $customeridtype = 'RUC'; };
+						$customerIdType = 'DNI';
+						if( $invoice['CustomerIdType']=='4' ) { $customerIdType = 'CARNET DE EXTRANJERÍA'; };
+						if( $invoice['CustomerIdType']=='6' ) { $customerIdType = 'RUC'; };
 
-						$customerid = $invoice['CustomerId'];
+						$customerId = $invoice['CustomerId'];
 
 						$orderState = "Pendiente";
 						if( $invoice['OrderState']==  '1' ) { $orderState = 'Completo'; };
@@ -87,13 +87,13 @@
 								{$date}
 							</td>
 							<td>
-								{$orderid}
+								{$orderId}
 							</td>
 							<td>
-								{$customeridtype}
+								{$customerIdType}
 							</td>
 							<td>
-								{$customerid}
+								{$customerId}
 							</td>
 							<td>
 								{$orderState}

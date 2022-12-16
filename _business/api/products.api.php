@@ -7,27 +7,27 @@ class ProductsApi {
 		// $this->apiUrl = "http://192.168.1.108:8063/Api/VerificationProducts";
 	}
 
-	public function verifyProducts( $product_sku_list ) {
+	public function verifyProducts( $productSkuList ) {
 
 		$settingsDatabase = new SettingsDatabase;
 		$token = $settingsDatabase->getToken();
 
-		if(count($product_sku_list)<=0) {
-			$product_sku_list = array();
+		if(count($productSkuList)<=0) {
+			$productSkuList = array();
 		}
 
-		foreach ($product_sku_list as $key => $product_sku) {
-			// var_dump($product_sku->sku);
-			if( empty($product_sku->sku) ) {
-				// var_dump($product_sku_list[$key]);
-				unset($product_sku_list[$key]);
+		foreach ($productSkuList as $key => $productSku) {
+			// var_dump($productSku->sku);
+			if( empty($productSku->sku) ) {
+				// var_dump($productSkuList[$key]);
+				unset($productSkuList[$key]);
 			}
 		}
 
 		// reindex the array indexes after deleted
-		$product_sku_list = array_values( $product_sku_list );
+		$productSkuList = array_values( $productSkuList );
 
-		$json_data = json_encode( $product_sku_list );
+		$productSkuListJson = json_encode( $productSkuList );
 
 		$result = wp_remote_post(
 			$this->apiUrl,
@@ -38,7 +38,7 @@ class ProductsApi {
 					'Content-Type' => 'application/json',
 					'Accept' => 'application/json',
 				),
-				'body' => $json_data
+				'body' => $productSkuListJson
 			)
 		);
 		// var_dump($result);

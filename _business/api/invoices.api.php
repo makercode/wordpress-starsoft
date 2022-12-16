@@ -102,6 +102,8 @@ class InvoicesApi {
 					"Order_Id": "'.$order_object->get_id().'", // order id
 					"Order_Date": "'.$order_object->get_date_created()->getTimestamp().'",
 					"Order_Subtotal_Amount": '.$order_object->get_subtotal().', // precio sin shipping
+					"Order_Disccount_Subtotal_Amount": '.$order_data['discount_total'].', // Descuento
+					"Order_Shipping_Subtotal_Amount": '.$order_data['shipping_total'].', // Descuento
 					"Order_Shipping": '.$order_object->get_shipping_total().',
 					"Order_Total_Amount": '.$order_data['total'].', // precio final
 					"Order_Currency_Type": "'.$currency_starsoft.'",
@@ -114,6 +116,7 @@ class InvoicesApi {
 				]
 			}
 		}';
+		var_dump($json_data);
 		return $json_data;
 	}
 

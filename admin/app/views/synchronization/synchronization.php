@@ -20,10 +20,10 @@
 					ID
 				</th>
 				<th>
-					Fecha
+					Nro de Orden WordPress
 				</th>
 				<th>
-					Nro de Orden WordPress
+					Fecha
 				</th>
 				<th>
 					Tipo de documento de Comprador
@@ -84,10 +84,10 @@
 								{$id}
 							</td>
 							<td>
-								{$date}
+								{$orderId}
 							</td>
 							<td>
-								{$orderId}
+								{$date}
 							</td>
 							<td>
 								{$customerIdType}

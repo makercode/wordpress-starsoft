@@ -1,7 +1,7 @@
 <?php 
 
 // Detect when order created
-function action_woocommerce_thankyou( $order_id ) {
+function action_woocommerce_thankyou( $orderId ) {
 	$validatedGuard = new ValidatedGuard;
 	if( $validatedGuard->isValidated()=="1" ) {
 		global $wpdb;
@@ -10,7 +10,7 @@ function action_woocommerce_thankyou( $order_id ) {
 		$invoicesDatabase = new InvoicesDatabase();
 
 
-		$order = $invoicesDatabase->getInvoice("{$order_id}");
+		$order = $invoicesDatabase->getInvoice("{$orderId}");
 
 		// ¡ATENCIÓN! Antes de enviar a la api y guardarlos, debe verificar si ya ha sido sincronizado.
 		if(sizeof($order) > 0) {
@@ -18,20 +18,20 @@ function action_woocommerce_thankyou( $order_id ) {
 				// var_dump("syncronized");
 				return;
 			}
-			if( $order[0]['OrderId'] == $order_id ){
+			if( $order[0]['OrderId'] == $orderId ){
 				// var_dump("duplicated");
 				return;
 			}
 		}
 
 		// Getting an instance of the order object
-		$order          = wc_get_order($order_id);
+		$order          = wc_get_order($orderId);
 		$order_data     = $order->get_data();
 
 		$orderId        = $order->get_id();
-		$orderJson  	= $invoicesApi->getInvoiceJson($order_id);
-		$customerIdType = get_post_meta($order_id, '_billing_identifier_type', true);
-		$customerId     = get_post_meta($order_id, '_billing_identifier', true);
+		$orderJson  	= $invoicesApi->getInvoiceJson($orderId);
+		$customerIdType = get_post_meta($orderId, '_billing_identifier_type', true);
+		$customerId     = get_post_meta($orderId, '_billing_identifier', true);
 		$orderDate      = $order_data['date_created']->getTimestamp();
 		$orderState     = ( $order->has_status('completed') ) ? 1 : 0 ;
 		$orderSync      = 0;
@@ -52,10 +52,10 @@ function action_woocommerce_thankyou( $order_id ) {
 			'ReceiptState'    => $receiptState // Deny: 0, Accepted: 1, nulled: -1
 		];
 
-		$invoicesDatabase->setInvoice( $info, $order_id );
+		$invoicesDatabase->setInvoice( $info, $orderId );
 
 
-		$responseInvoiceSetted = $invoicesApi->setInvoice( $order_id );
+		$responseInvoiceSetted = $invoicesApi->setInvoice( $orderId );
 
 		// var_dump($responseInvoiceSetted);
 
@@ -63,7 +63,7 @@ function action_woocommerce_thankyou( $order_id ) {
 			$info = [
 				'OrderSync'   => 1
 			];
-			$invoicesDatabase->updateInvoice( $info, $order_id );
+			$invoicesDatabase->updateInvoice( $info, $orderId );
 		}
 
 		// var_dump($invoicesDatabase);

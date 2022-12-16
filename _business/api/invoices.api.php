@@ -7,11 +7,11 @@ class InvoicesApi {
 		// $this->apiUrl = "http://192.168.1.108:8063/Api/RegisterOrder";
 	}
 
-	public function getInvoiceJson( $post_id ) {
+	public function getInvoiceJson( $invoiceId ) {
 
 		// return db field if exist
 		$invoicesDatabase = new InvoicesDatabase();
-		$order = $invoicesDatabase->getInvoice("{$post_id}");
+		$order = $invoicesDatabase->getInvoice("{$invoiceId}");
 		// var_dump($invoicesDatabase);
 
 		if ( sizeof($order)>=1 ) {
@@ -20,7 +20,7 @@ class InvoicesApi {
 		}
 
 		// calculate json from actual 
-		$order_object = wc_get_order( $post_id );
+		$order_object = wc_get_order( $invoiceId );
 		$order_data = $order_object->get_data();
 
 		$currency = $order_object->get_currency();
@@ -75,8 +75,8 @@ class InvoicesApi {
 			$order_total_discount_price += $total_line_sale_discount_price;
 		}
 
-		$order_customer_identifier = get_post_meta($post_id, '_billing_identifier', true);
-		$order_customer_identifier_type = get_post_meta($post_id, '_billing_identifier_type', true);
+		$order_customer_identifier = get_post_meta($invoiceId, '_billing_identifier', true);
+		$order_customer_identifier_type = get_post_meta($invoiceId, '_billing_identifier_type', true);
 
 		$joined_address = $order_object->get_billing_address_1().'-'.$order_object->get_billing_address_2().'-'.$order_object->get_billing_city().'-'.$order_object->get_billing_country();
 
@@ -117,12 +117,12 @@ class InvoicesApi {
 		return $json_data;
 	}
 
-	public function setInvoice( $post_id ) {
+	public function setInvoice( $invoiceId ) {
 
 		$settingsDatabase = new SettingsDatabase;
 		$token = $settingsDatabase->getToken();
 		
-		$json_data = $this->getInvoiceJson( $post_id );
+		$json_data = $this->getInvoiceJson( $invoiceId );
 		$result = wp_remote_post(
 			$this->apiUrl,
 			array(

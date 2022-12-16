@@ -19,7 +19,7 @@ add_action( 'woocommerce_order_status_completed', 'action_woocommerce_order_stat
 
 
 
-function action_woocommerce_order_refunded( $orderId, $refund_id ) {
+function action_woocommerce_order_refunded( $orderId, $refundId ) {
 	$validatedGuard = new ValidatedGuard;
 	if( $validatedGuard->isValidated()=="1" ) {
 		$info = [

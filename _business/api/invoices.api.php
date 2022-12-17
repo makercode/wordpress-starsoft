@@ -66,8 +66,10 @@ class InvoicesApi {
 					"Product_Line_Quantity": '.$product_order_data->get_quantity().',
 					"Product_Unit_Price": '.$unit_regular_price.',
 					"Product_Line_Total_Price" : '.$total_regular_price.', // unid * cant
-					"Product_Line_Discount_Amount": '.$total_line_sale_discount_price.', // Descuento total
-					"Product_Line_Discount_Percentage": '.$total_line_sale_discount_percent.' // Descuento porcentaje total
+					"Product_Line_Product_Discount_Amount": '.$total_line_sale_discount_price.', // Descuento Producto subtotal linea 
+					"Product_Line_Product_Discount_Percentage": '.$total_line_sale_discount_percent.' // Descuento Producto porcentaje total por producto
+					"Product_Line_Coupon_Discount_Amount": '.$total_line_sale_discount_price.', // Descuento total
+					"Product_Line_Coupon_Discount_Percentage": '.$total_line_sale_discount_percent.' // Descuento porcentaje total
 				}
 			';
 			// var_dump($products_list);
@@ -80,7 +82,7 @@ class InvoicesApi {
 
 		$joined_address = $order_object->get_billing_address_1().'-'.$order_object->get_billing_address_2().'-'.$order_object->get_billing_city().'-'.$order_object->get_billing_country();
 
-		// var_dump($order_object);
+		var_dump($order_object);
 		// var_dump($order_object->get_subtotal());
 		// var_dump($order_object->get_shipping_total());
 

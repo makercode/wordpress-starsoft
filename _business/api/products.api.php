@@ -3,9 +3,11 @@
 class ProductsApi {
 
 	public function __construct() {
+		
 		$this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/VerificationProducts";
 		// $this->apiUrl = "http://192.168.1.108:8063/Api/VerificationProducts";
 	}
+
 
 	public function verifyProducts( $productSkuList ) {
 

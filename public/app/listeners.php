@@ -26,13 +26,13 @@ function action_woocommerce_thankyou( $orderId ) {
 
 		// Getting an instance of the order object
 		$order          = wc_get_order($orderId);
-		$order_data     = $order->get_data();
+		$orderData     = $order->get_data();
 
 		$orderId        = $order->get_id();
 		$orderJson  	= $invoicesApi->getInvoiceJson($orderId);
 		$customerIdType = get_post_meta($orderId, '_billing_identifier_type', true);
 		$customerId     = get_post_meta($orderId, '_billing_identifier', true);
-		$orderDate      = $order_data['date_created']->getTimestamp();
+		$orderDate      = $orderData['date_created']->getTimestamp();
 		$orderState     = ( $order->has_status('completed') ) ? 1 : 0 ;
 		$orderSync      = 0;
 		$receiptType    = '3'; if( $customerIdType=='RUC' ){ $receiptType = '1'; };

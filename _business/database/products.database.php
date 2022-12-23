@@ -6,12 +6,14 @@ require_once dirname(__file__).'/../models/product.sku.dto.model.php';
 class ProductsDatabase {
 
 	public function __construct() {
+
 		global $wpdb;
 		$this->table = "{$wpdb->prefix}sync_products";
 	}
 
 
 	public function createTable () {
+
 		global $wpdb;
 		$setProductsTable = "CREATE TABLE IF NOT EXISTS {$this->table}(
 			`ProductSyncId` INT NOT NULL AUTO_INCREMENT,
@@ -27,6 +29,7 @@ class ProductsDatabase {
 
 
 	public function getWCProductsSyncData () {
+
 		$args = array(
 			'orderby'  => 'name',
 			'limit' => -1
@@ -110,7 +113,7 @@ class ProductsDatabase {
 						array_push($productsStack, $_temp_product);
 					}
 				}
-				if ($value_product->get_type() == "simple")  {
+				if ($value_product->get_type() == "simple") {
 					array_push($productsStack, $_temp_product);
 				}
 			}
@@ -124,11 +127,13 @@ class ProductsDatabase {
 
 
 	public function setWCProductDraft ($postid) {
+
 		update_post_meta( $postid, 'status', 'draft' );
 	}
 
 
 	public function setProductsSyncData ($productsStack) {
+
 		global $wpdb;
 
 		$values = '';
@@ -168,7 +173,6 @@ class ProductsDatabase {
 			return $wpdb->query($query);
 		}
 		return false;
-
 	}
 
 

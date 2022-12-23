@@ -3,9 +3,11 @@
 class LoginApi {
 
 	public function __construct() {
+
 		$this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/LoginAccountWooCommerce";
 		// $this->apiUrl = "http://192.168.1.108:8063/Api/LoginAccountWooCommerce";
 	}
+
 
 	public function getToken( $licence, $code, $username, $password ) {
 

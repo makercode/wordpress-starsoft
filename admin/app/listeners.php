@@ -2,6 +2,7 @@
 
 // Detect when order change to completed
 function action_woocommerce_order_status_completed( $orderId ) {
+
 	$validatedGuard = new ValidatedGuard;
 	if( $validatedGuard->isValidated()=="1" ) {
 		$info = [
@@ -20,6 +21,7 @@ add_action( 'woocommerce_order_status_completed', 'action_woocommerce_order_stat
 
 
 function action_woocommerce_order_refunded( $orderId, $refundId ) {
+
 	$validatedGuard = new ValidatedGuard;
 	if( $validatedGuard->isValidated()=="1" ) {
 		$info = [
@@ -31,6 +33,7 @@ function action_woocommerce_order_refunded( $orderId, $refundId ) {
 
 		return $result;
 	}
+	
 }
 add_action( 'woocommerce_order_refunded', 'action_woocommerce_order_refunded', 10, 2 );
 
@@ -38,6 +41,7 @@ add_action( 'woocommerce_order_refunded', 'action_woocommerce_order_refunded', 1
 
 // Revisar esta funcion
 function action_woocommerce_new_and_update_product( $postId ) {
+
 	$loggedGuard = new LoggedGuard;
 	if( $loggedGuard->isLogged()=="1") {
 		global $wpdb;
@@ -87,6 +91,7 @@ function action_woocommerce_new_and_update_product( $postId ) {
 			}
 		}
 	}
+
 }
 add_action( 'woocommerce_update_product', 'action_woocommerce_new_and_update_product', 10, 1 );
 

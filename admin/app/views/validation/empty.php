@@ -27,14 +27,11 @@
 	}
 ?>
 
-
 <div class="wrap">
-	<div class="">
-		<h1 class="wp-heading-inline">
-			No hay nada que sincronizar
-		</h1>
-		<?php include dirname(__file__).'/../../includes/stepbar.php'; ?>
-	</div>
+	<h1 class="wp-heading-inline">
+		No hay nada que sincronizar
+	</h1>
+	<?php include dirname(__file__).'/../../includes/stepbar.php'; ?>
 	<div class="">
 		<?php echo "complete los productos en su tienda."; ?>
 	</div>

@@ -28,7 +28,8 @@ class ReceiptsDatabase {
 			`ReceiptState` INT(11) NULL,
 			PRIMARY KEY (`ReceiptId`)
 		)";
-		$wpdb->query($receiptsTable);
+		$result = $wpdb->query($receiptsTable);
+		return $result;
 	}
 
 
@@ -92,5 +93,4 @@ class ReceiptsDatabase {
 
 		return $updateResult;
 	}
-
 }

@@ -160,5 +160,4 @@ class ReceiptsApi {
 		}
 		return false;
 	}
-
 }

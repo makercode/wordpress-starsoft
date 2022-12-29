@@ -52,5 +52,4 @@ class ProductsApi {
 		// var_dump($result);
 		return false;
 	}
-
 }

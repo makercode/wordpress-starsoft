@@ -8,6 +8,7 @@ class OrdersDatabase {
 		$this->table = "{$wpdb->prefix}sync_orders";
 	}
 
+
 	public function createTable() {
 
 		global $wpdb;
@@ -25,10 +26,14 @@ class OrdersDatabase {
 			`ReceiptType` VARCHAR(11) NULL,
 			`ReceiptNumber` VARCHAR(20) NULL,
 			`ReceiptState` INT(11) NULL,
-			PRIMARY KEY (`OrderId`)
+			PRIMARY KEY (`OrderSyncId`)
 		)";
-		$wpdb->query($ordersTable);
+		$result = $wpdb->query($ordersTable);
+
+		error_log($result);
+		return $result;
 	}
+
 
 	public function getOrders() {
 
@@ -44,6 +49,7 @@ class OrdersDatabase {
 		return $ordersList;
 	}
 
+
 	public function getOrder( $postId ) {
 
 		global $wpdb;
@@ -57,6 +63,7 @@ class OrdersDatabase {
 
 		return $orderList;
 	}
+
 
 	public function updateOrder( $info, $orderId ) {
 
@@ -73,6 +80,7 @@ class OrdersDatabase {
 		return $updateResult;
 	}
 
+
 	public function setOrder( $info, $orderId ) {
 
 		global $wpdb;
@@ -87,5 +95,4 @@ class OrdersDatabase {
 
 		return $updateResult;
 	}
-
 }

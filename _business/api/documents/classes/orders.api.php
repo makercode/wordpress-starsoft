@@ -9,11 +9,11 @@ class OrdersApi {
 	}
 
 
-	public function getOrderJson( $orderId ) {
+	private function getOrderJson( $orderId ) {
 
 		// return db field if exist
-		$invoicesDatabase = new InvoicesDatabase();
-		$order = $invoicesDatabase->getInvoice("{$orderId}");
+		$invoicesDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
+		$order = $invoicesDatabase->getDocument("{$orderId}");
 		// var_dump($invoicesDatabase);
 
 		if ( sizeof($order)>=1 ) {
@@ -145,7 +145,7 @@ class OrdersApi {
 			array(
 				'method' => 'POST',
 				'headers' => array(
-					'Authorization' =>  "Bearer {$token}",
+					'Authorization' => "Bearer {$token}",
 					'Content-Type' => 'application/json',
 					'Accept' => 'application/json',
 				),
@@ -160,5 +160,4 @@ class OrdersApi {
 		}
 		return false;
 	}
-
 }

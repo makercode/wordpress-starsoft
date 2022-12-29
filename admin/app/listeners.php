@@ -9,8 +9,8 @@ function action_woocommerce_order_status_completed( $orderId ) {
 			'OrderState' => 1
 		];
 
-		$invoicesDatabase = new InvoicesDatabase;
-		$result = $invoicesDatabase->updateInvoice( $info, $orderId );
+		$documentsDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
+		$result = $documentsDatabase->updateDocument( $info, $orderId );
 
 		return $result;
 	}
@@ -28,8 +28,8 @@ function action_woocommerce_order_refunded( $orderId, $refundId ) {
 			'OrderState' => -1
 		];
 
-		$invoicesDatabase = new InvoicesDatabase;
-		$result = $invoicesDatabase->updateInvoice( $info, $orderId );
+		$invoicesDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
+		$result = $invoicesDatabase->updateDocument( $info, $orderId );
 
 		return $result;
 	}
@@ -107,8 +107,8 @@ function action_woocommerce_order_processing( $orderId ) {
 			'OrderState' => 0
 		];
 
-		$invoicesDatabase = new InvoicesDatabase;
-		$result = $invoicesDatabase->updateInvoice( $info, $orderId );
+		$invoicesDatabase = new DocumentsDatabase( new InvoicesDatabaseAdapter );
+		$result = $invoicesDatabase->updateDocument( $info, $orderId );
 
 		return $result;
 	}

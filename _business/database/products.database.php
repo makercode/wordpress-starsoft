@@ -39,43 +39,42 @@ class ProductsDatabase {
 		$productsStack = array();
 		foreach ($products as $key_product => $value_product) {
 
-				$_temp_product = new ProductSyncDTO(
-					$value_product->get_id(),
-					$value_product->get_id(),
-					$value_product->get_sku(),
-					'0'
-				);
+			$_temp_product = new ProductSyncDTO(
+				$value_product->get_id(),
+				$value_product->get_id(),
+				$value_product->get_sku(),
+				'0'
+			);
 
-				if($value_product->get_status()=="publish") {
-					if ($value_product->get_type() == "grouped") {
-						continue;
-					}
-					if ($value_product->get_type() == "external") {
-						continue;
-					}
-					if ($value_product->get_type() == "variable") {
-						foreach ( $value_product->get_children() as $child_id ) {
-							// get an instance of the WC_Variation_product Object
-							$variation = wc_get_product( $child_id ); 
+			if($value_product->get_status()=="publish") {
+				if ($value_product->get_type() == "grouped") {
+					continue;
+				}
+				if ($value_product->get_type() == "external") {
+					continue;
+				}
+				if ($value_product->get_type() == "variable") {
+					foreach ( $value_product->get_children() as $child_id ) {
+						// get an instance of the WC_Variation_product Object
+						$variation = wc_get_product( $child_id ); 
 
-							if ( ! $variation || ! $variation->exists() ) {
-								continue;
-							}
-
-							$_temp_product = new ProductSyncDTO(
-								$value_product->get_id() ,
-								$variation->get_id() ,
-								$variation->get_sku(),
-								'0'
-							);
-							array_push($productsStack, $_temp_product);
+						if ( ! $variation || ! $variation->exists() ) {
+							continue;
 						}
-					}
-					if ($value_product->get_type() == "simple") {
+
+						$_temp_product = new ProductSyncDTO(
+							$value_product->get_id() ,
+							$variation->get_id() ,
+							$variation->get_sku(),
+							'0'
+						);
 						array_push($productsStack, $_temp_product);
 					}
 				}
-			
+				if ($value_product->get_type() == "simple") {
+					array_push($productsStack, $_temp_product);
+				}
+			}
 		}
 		return $productsStack;
 	}
@@ -118,10 +117,6 @@ class ProductsDatabase {
 				}
 			}
 		}
-
-		// var_dump("g-productstack");
-		// var_dump($productsStack);
-
 		return $productsStack;
 	}
 
@@ -178,5 +173,4 @@ class ProductsDatabase {
 
 	public function setProductSyncData () {
 	}
-
 }

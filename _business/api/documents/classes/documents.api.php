@@ -2,18 +2,20 @@
 
 class DocumentsApi implements IDocumentsApi {
 
-	public function __construct() {
-		
+	private $documentsApiAdapter;
+
+
+	public function __construct( IDocumentsApi $documentsApiAdapter ) {
+		return $this->documentsApiAdapter = $documentsApiAdapter;
 	}
 
 
-	public function getDocumentJson( $documentId ) {
-		$ordersApiAdapter = new OrdersApiAdapter;
+	public function getDocumentJson( $orderId ) {
+		return $this->documentsApiAdapter->getDocumentJson( $orderId );
 	}
 
 
-	public function setDocument( $documentId ) {
-		$ordersApiAdapter = new OrdersApiAdapter;
+	public function setDocument( $orderId ) {
+		return $this->documentsApiAdapter->setDocument( $orderId );
 	}
-
 }

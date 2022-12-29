@@ -2,14 +2,20 @@
 
 class RecepitsApiAdapter implements IDocumentsApi {
 
-	public function __construct(ReceiptsApi $receiptsApi) {
+	protected $receiptsApi;
+
+
+	public function __construct() {
+		$this->receiptsApi = new ReceiptsApi;
 	}
 	
+
 	public function getDocumentJson( $orderId ) {
-		$ordersApi->getReceiptJson($orderId);
+		return $this->receiptsApi->getReceiptJson($orderId);
 	}
 
+
 	public function setDocument( $orderId ) {
-		$ordersApi->setReceipt($orderId);
+		return $this->receiptsApi->setReceipt($orderId);
 	}
 }

@@ -6,8 +6,8 @@ function action_woocommerce_thankyou( $orderId ) {
 	if( $validatedGuard->isValidated()=="1" ) {
 		global $wpdb;
 
-		$invoicesApi = new InvoicesApi();
-		$invoicesDatabase = new InvoicesDatabase();
+		$invoicesApi = new DocumentsApi( new OrdersApiAdapter );
+		$invoicesDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
 
 
 		$order = $invoicesDatabase->getInvoice("{$orderId}");
@@ -18,7 +18,7 @@ function action_woocommerce_thankyou( $orderId ) {
 				// var_dump("syncronized");
 				return;
 			}
-			if( $order[0]['OrderId'] == $orderId ){
+			if( $order[0]['OrderId'] == $orderId ) {
 				// var_dump("duplicated");
 				return;
 			}

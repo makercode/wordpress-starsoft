@@ -1,7 +1,7 @@
 <?php
 	// get invoices
-	$invoicesDatabase = new InvoicesDatabase();
-	$invoicesArray = $invoicesDatabase->getInvoices();
+	$documentsDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
+	$documentsArray = $documentsDatabase->getDocuments();
 
 ?>
 <?php // print_r($order_object); ?>
@@ -51,32 +51,32 @@
 			</thead>
 			<tbody>
 				<?php 
-					// var_dump($invoicesArray);
-					foreach ($invoicesArray as $keyInvoice => $invoice) {
-						$id = $invoice['InvoiceId'];
+					foreach ($documentsArray as $keyDocument => $document) {
+						var_dump($document);
+						$id = $document['InvoiceId'];
 
-						$date = date('m/d/Y', $invoice['OrderDate']);
+						$date = date('m/d/Y', $document['OrderDate']);
 
-						$orderId = $invoice['OrderId'];
+						$orderId = $document['OrderId'];
 
 						$customerIdType = 'DNI';
-						if( $invoice['CustomerIdType']=='4' ) { $customerIdType = 'CARNET DE EXTRANJERÍA'; };
-						if( $invoice['CustomerIdType']=='6' ) { $customerIdType = 'RUC'; };
+						if( $document['CustomerIdType']=='4' ) { $customerIdType = 'CARNET DE EXTRANJERÍA'; };
+						if( $document['CustomerIdType']=='6' ) { $customerIdType = 'RUC'; };
 
-						$customerId = $invoice['CustomerId'];
+						$customerId = $document['CustomerId'];
 
 						$orderState = "Pendiente";
-						if( $invoice['OrderState']==  '1' ) { $orderState = 'Completo'; };
-						if( $invoice['OrderState']== '-1' ) { $orderState = 'Reembolsado'; };
+						if( $document['OrderState']==  '1' ) { $orderState = 'Completo'; };
+						if( $document['OrderState']== '-1' ) { $orderState = 'Reembolsado'; };
 
-						$orderSync = ($invoice['OrderSync']) ? "SI": "NO";
+						$orderSync = ($document['OrderSync']) ? "SI": "NO";
 
 						$receiptType = 'Boleta';
-						if( $invoice['ReceiptType']=='1' ) { $receiptType = 'Factura'; };
+						if( $document['ReceiptType']=='1' ) { $receiptType = 'Factura'; };
 
-						$receiptNumber = ($invoice['ReceiptNumber']) ? "SI": "NO";
+						$receiptNumber = ($document['ReceiptNumber']) ? "SI": "NO";
 
-						$receiptState = ($invoice['ReceiptState']) ? "SI": "NO";
+						$receiptState = ($document['ReceiptState']) ? "SI": "NO";
 
 						echo "
 						<tr>

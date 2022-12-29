@@ -2,16 +2,20 @@
 
 class OrdersApiAdapter implements IDocumentsApi {
 
-	public function __construct(OrdersApi $ordersApi) {
+	protected $ordersApi;
+
+
+	public function __construct() {
+		$this->ordersApi = new OrdersApi;
 	}
 
+
 	public function getDocumentJson( $orderId ) {
-		$ordersApi->getOrderJson($orderId);
+		return $this->ordersApi->getOrderJson($orderId);
 	}
 
 
 	public function setDocument( $orderId ) {
-		$ordersApi->setOrder($orderId);
+		return $this->ordersApi->setOrder($orderId);
 	}
-
 }

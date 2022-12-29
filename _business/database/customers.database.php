@@ -8,6 +8,7 @@ class CustomersDatabase {
 		$this->table = "{$wpdb->prefix}sync_customers";
 	}
 
+
 	public function createTable () {
 
 		global $wpdb;
@@ -18,15 +19,15 @@ class CustomersDatabase {
 			`Ruc` VARCHAR(11) NULL,
 			`Sync` INT(11) NULL,
 			`Valid` INT(11) NULL,
-			PRIMARY KEY (`CustomerId`)
+			PRIMARY KEY (`CustomerSyncId`)
 		)";
-		$wpdb->query($setCustomersTable);
+		$result = $wpdb->query($setCustomersTable);
 	}
+
 
 	public function upsertCustomersData ($data) {
 		
 		// Customers are created on order details
 		return true;
 	}
-
 }

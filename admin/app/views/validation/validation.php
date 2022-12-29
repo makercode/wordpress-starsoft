@@ -32,9 +32,7 @@
 		Sincronización de pedidos para clientes Starsoft
 	</h1>
 	<?php include dirname(__file__).'/../../includes/stepbar.php'; ?>
-
 	<div class="">
-
 		<div class="w-100">
 			<p class="">
 				Aún no se encontraron estos productos con codigo SKU en Starsoft.

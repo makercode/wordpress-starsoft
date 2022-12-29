@@ -10,17 +10,35 @@ class InstallService {
 		$this->settingsDatabase = new SettingsDatabase;
 		$this->customersDatabase = new CustomersDatabase;
 		$this->productsDatabase = new ProductsDatabase;
-		$this->invoicesDatabase = new InvoicesDatabase;
+		$this->documentsDatabase = new DocumentsDatabase(new OrdersDatabaseAdapter);
+		// $this->documentsDatabase = new DocumentsDatabase(new OrdersDatabaseAdapter);
+		// $this->invoicesDatabase = new InvoicesDatabase;
 	}
+
 
 	public function init() {
 		// Create tables if not exist.
 		$this->settingsDatabase->createTable();
 		$this->customersDatabase->createTable();
 		$this->productsDatabase->createTable();
-		$this->invoicesDatabase->createTable();
+		$this->documentsDatabase->createTable();
 
 		// Create and Set settings necessary fields in settings table.
+		$this->settingsDatabase->upsertValidatedData();
+		$this->settingsDatabase->upsertLoggedData();
+		$this->settingsDatabase->upsertTokenData();
+	}
+
+
+	private function createTables() {
+		$this->settingsDatabase->createTable();
+		$this->customersDatabase->createTable();
+		$this->productsDatabase->createTable();
+		$this->documentsDatabase->createTable();
+	}
+
+
+	private function Settings() {
 		$this->settingsDatabase->upsertValidatedData();
 		$this->settingsDatabase->upsertLoggedData();
 		$this->settingsDatabase->upsertTokenData();

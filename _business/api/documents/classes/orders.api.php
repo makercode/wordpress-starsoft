@@ -9,7 +9,7 @@ class OrdersApi {
 	}
 
 
-	private function getOrderJson( $orderId ) {
+	public function getOrderJson( $orderId ) {
 
 		// return db field if exist
 		$invoicesDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );

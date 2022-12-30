@@ -20,9 +20,9 @@ class SettingsDatabase {
 			PRIMARY KEY (`SettingSyncId`)
 		)";
 
-		$result = $wpdb->query($setSettingsTable);
+		$wpdb->query($setSettingsTable);
 
-		return $result;
+		// return $result;
 	}
 
 

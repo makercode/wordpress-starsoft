@@ -15,7 +15,7 @@ class OrdersDatabase {
 
 		// The text characters 
 		$ordersTable = "CREATE TABLE IF NOT EXISTS {$this->table}(
-			`OrderSyncId` INT NOT NULL AUTO_INCREMENT,
+			`DocumentSyncId` INT NOT NULL AUTO_INCREMENT,
 			`OrderId` VARCHAR(45) NULL,
 			`OrderJson` TEXT NULL,
 			`CustomerIdType` VARCHAR(11) NULL,
@@ -26,12 +26,9 @@ class OrdersDatabase {
 			`ReceiptType` VARCHAR(11) NULL,
 			`ReceiptNumber` VARCHAR(20) NULL,
 			`ReceiptState` INT(11) NULL,
-			PRIMARY KEY (`OrderSyncId`)
+			PRIMARY KEY (`DocumentSyncId`)
 		)";
-		$result = $wpdb->query($ordersTable);
-
-		error_log($result);
-		return $result;
+		$wpdb->query($ordersTable);
 	}
 
 

@@ -107,7 +107,7 @@ function action_woocommerce_order_processing( $orderId ) {
 			'OrderState' => 0
 		];
 
-		$invoicesDatabase = new DocumentsDatabase( new InvoicesDatabaseAdapter );
+		$invoicesDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
 		$result = $invoicesDatabase->updateDocument( $info, $orderId );
 
 		return $result;

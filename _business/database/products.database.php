@@ -24,7 +24,7 @@ class ProductsDatabase {
 			PRIMARY KEY (`ProductSyncId`),
 			UNIQUE KEY (`ProductSku`)
 		)";
-		return $wpdb->query($setProductsTable);
+		$wpdb->query($setProductsTable);
 	}
 
 

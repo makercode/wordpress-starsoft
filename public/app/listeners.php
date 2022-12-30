@@ -6,11 +6,11 @@ function action_woocommerce_thankyou( $orderId ) {
 	if( $validatedGuard->isValidated()=="1" ) {
 		global $wpdb;
 
-		$invoicesApi = new DocumentsApi( new OrdersApiAdapter );
-		$invoicesDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
+		$documentsApi = new DocumentsApi( new OrdersApiAdapter );
+		$documentsDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
 
 
-		$order = $invoicesDatabase->getInvoice("{$orderId}");
+		$order = $documentsDatabase->getDocument("{$orderId}");
 
 		// ¡ATENCIÓN! Antes de enviar a la api y guardarlos, debe verificar si ya ha sido sincronizado.
 		if(sizeof($order) > 0) {
@@ -29,7 +29,7 @@ function action_woocommerce_thankyou( $orderId ) {
 		$orderData     = $order->get_data();
 
 		$orderId        = $order->get_id();
-		$orderJson  	= $invoicesApi->getInvoiceJson($orderId);
+		$orderJson  	= $documentsApi->getDocumentJson($orderId);
 		$customerIdType = get_post_meta($orderId, '_billing_identifier_type', true);
 		$customerId     = get_post_meta($orderId, '_billing_identifier', true);
 		$orderDate      = $orderData['date_created']->getTimestamp();
@@ -52,10 +52,10 @@ function action_woocommerce_thankyou( $orderId ) {
 			'ReceiptState'    => $receiptState // Deny: 0, Accepted: 1, nulled: -1
 		];
 
-		$invoicesDatabase->setInvoice( $info, $orderId );
+		$documentsDatabase->setDocument( $info, $orderId );
 
 
-		$responseInvoiceSetted = $invoicesApi->setInvoice( $orderId );
+		$responseInvoiceSetted = $documentsApi->setDocument( $orderId );
 
 		// var_dump($responseInvoiceSetted);
 
@@ -63,10 +63,10 @@ function action_woocommerce_thankyou( $orderId ) {
 			$info = [
 				'OrderSync'   => 1
 			];
-			$invoicesDatabase->updateInvoice( $info, $orderId );
+			$documentsDatabase->updateDocument( $info, $orderId );
 		}
 
-		// var_dump($invoicesDatabase);
+		// var_dump($documentsDatabase);
 
 		return true;
 	}

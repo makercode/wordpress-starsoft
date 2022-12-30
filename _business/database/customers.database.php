@@ -21,7 +21,7 @@ class CustomersDatabase {
 			`Valid` INT(11) NULL,
 			PRIMARY KEY (`CustomerSyncId`)
 		)";
-		$result = $wpdb->query($setCustomersTable);
+		$wpdb->query($setCustomersTable);
 	}
 
 

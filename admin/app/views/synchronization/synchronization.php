@@ -52,8 +52,8 @@
 			<tbody>
 				<?php 
 					foreach ($documentsArray as $keyDocument => $document) {
-						var_dump($document);
-						$id = $document['InvoiceId'];
+						// var_dump($document);
+						$id = $document['DocumentSyncId'];
 
 						$date = date('m/d/Y', $document['OrderDate']);
 

@@ -12,9 +12,10 @@ class OrdersApi {
 	public function getOrderJson( $orderId ) {
 
 		// return db field if exist
-		$invoicesDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
-		$order = $invoicesDatabase->getDocument("{$orderId}");
-		// var_dump($invoicesDatabase);
+		$settingsGlobal = new SettingsGlobal;
+		$documentsDatabase = $settingsGlobal->getDocumentsDatabaseInstance();
+		$order = $documentsDatabase->getDocument("{$orderId}");
+		// var_dump($documentsDatabase);
 
 		if ( sizeof($order)>=1 ) {
 			$orderSyncJson = $order['0']['OrderJson'];

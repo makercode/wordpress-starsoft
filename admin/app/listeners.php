@@ -9,7 +9,8 @@ function action_woocommerce_order_status_completed( $orderId ) {
 			'OrderState' => 1
 		];
 
-		$documentsDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
+		$settingsGlobal = new SettingsGlobal;
+		$documentsDatabase = $settingsGlobal->getDocumentsDatabaseInstance();
 		$result = $documentsDatabase->updateDocument( $info, $orderId );
 
 		return $result;
@@ -28,8 +29,9 @@ function action_woocommerce_order_refunded( $orderId, $refundId ) {
 			'OrderState' => -1
 		];
 
-		$invoicesDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
-		$result = $invoicesDatabase->updateDocument( $info, $orderId );
+		$settingsGlobal = new SettingsGlobal;
+		$documentsDatabase = $settingsGlobal->getDocumentsDatabaseInstance();
+		$result = $documentsDatabase->updateDocument( $info, $orderId );
 
 		return $result;
 	}
@@ -82,7 +84,7 @@ function action_woocommerce_new_and_update_product( $postId ) {
 			}
 
 			$isProductInStarsoft_obj = json_decode($isProductInStarsoft);
-			if(!$isProductInStarsoft_obj[0]->Exists){
+			if(!$isProductInStarsoft_obj[0]->Exists) {
 				remove_action( 'save_post', 'action_woocommerce_new_and_update_product' );
 				wp_update_post( array( 'ID' => $postId, 'post_status' => 'draft' ) );
 				add_action( 'save_post', 'action_woocommerce_new_and_update_product' );
@@ -107,8 +109,9 @@ function action_woocommerce_order_processing( $orderId ) {
 			'OrderState' => 0
 		];
 
-		$invoicesDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
-		$result = $invoicesDatabase->updateDocument( $info, $orderId );
+		$settingsGlobal = new SettingsGlobal;
+		$documentsDatabase = $settingsGlobal->getDocumentsDatabaseInstance();
+		$result = $documentsDatabase->updateDocument( $info, $orderId );
 
 		return $result;
 	}

@@ -1,12 +1,13 @@
 <?php 
 
+
 require_once dirname(__file__).'/_business/database/customers.database.php';
 require_once dirname(__file__).'/_business/database/products.database.php';
 require_once dirname(__file__).'/_business/database/settings.database.php';
 require_once dirname(__file__).'/_business/api/login.api.php';
 require_once dirname(__file__).'/_business/guards/logged.guard.php';
 require_once dirname(__file__).'/_business/guards/validated.guard.php';
-
+require_once dirname(__file__).'/_business/guards/choosed.guard.php';
 
 require_once dirname(__file__).'/_business/api/documents/interfaces/documents.api.interface.php';
 
@@ -27,3 +28,6 @@ require_once dirname(__file__).'/_business/database/documents/classes/receipts.d
 
 require_once dirname(__file__).'/_business/database/documents/adapters/orders.database.adapter.php';
 require_once dirname(__file__).'/_business/database/documents/adapters/receipts.database.adapter.php';
+
+
+require_once dirname(__file__).'/_business/globals/settings.global.php';

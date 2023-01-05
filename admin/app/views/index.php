@@ -6,16 +6,6 @@ require_once dirname(__file__).'/../../../_business/database/settings.database.p
 require_once dirname(__file__).'/../../../_business/api/products.api.php';
 require_once dirname(__file__).'/../../../_business/helpers/products.helpers.php';
 
-/*
-require_once dirname(__file__).'/../../../_business/database/documents/classes/documents.database.php';
-require_once dirname(__file__).'/../../../_business/database/documents/classes/orders.database.php';
-require_once dirname(__file__).'/../../../_business/database/documents/adapters/orders.database.adapter.php';
-require_once dirname(__file__).'/../../../_business/database/documents/adapters/receipts.database.adapter.php';
-
-require_once dirname(__file__).'/../../../_business/api/documents/classes/documents.api.php';
-require_once dirname(__file__).'/../../../_business/api/documents/adapters/orders.api.adapter.php';
-require_once dirname(__file__).'/../../../_business/api/documents/adapters/receipts.api.adapter.php';*/
-
 
 // writting products from woocommerce to sync
 $productsDatabase = new ProductsDatabase();
@@ -26,11 +16,12 @@ $wcProducts = $productsDatabase->getWCProductsData();
 $syncProducts = $productsDatabase->setProductsSyncData($wcProductsSync);
 
 $settingsDatabase = new SettingsDatabase;
-$isValidated = $settingsDatabase->isValidated();
 $isLogged = $settingsDatabase->isLogged();
+$isValidated = $settingsDatabase->isValidated();
+$isChoosed = $settingsDatabase->isChoosed();
 
 
-if($isLogged=="0" && $isValidated=="0") {
+if($isLogged=="0" && $isValidated=="0" && $isChoosed=="0") {
 
 	if($isLogged=='0') {
 		// no token
@@ -39,7 +30,7 @@ if($isLogged=="0" && $isValidated=="0") {
 	}
 }
 
-if($isLogged=="1" && $isValidated=="0") {
+if($isLogged=="1" && $isValidated=="0" && $isChoosed=="0") {
 
 	if( count($wcProducts)==0 ) {
 		// no products
@@ -75,11 +66,20 @@ if($isLogged=="1" && $isValidated=="0") {
 		return;
 	}
 	$settingsDatabase->setTrueValidated();
-	include dirname(__file__).'/synchronization/synchronization.php';
+	include dirname(__file__).'/document/document.php';
 	return;
 }
 
-if($isLogged=="1" && $isValidated=="1") {
+
+if($isLogged=="1" && $isValidated=="1" && $isChoosed=="0") {
+
+	// no valid skus
+	include dirname(__file__).'/document/document.php';
+	return;
+}
+
+
+if($isLogged=="1" && $isValidated=="1" && $isChoosed=="1") {
 
 	// no valid skus
 	include dirname(__file__).'/synchronization/synchronization.php';

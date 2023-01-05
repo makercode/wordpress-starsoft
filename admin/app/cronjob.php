@@ -3,7 +3,8 @@
 
 function starsoft_order_sync_cron_hook_action() {
 	// if has orders with sync false, then send sync
-	$documentsDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
+	$settingsGlobal = new SettingsGlobal;
+	$documentsDatabase = $settingsGlobal->getDocumentsDatabaseInstance();
 	$documentsArray = $documentsDatabase->getDocuments();
 
 	foreach ($documentsArray as $key_document => $document) {
@@ -11,7 +12,7 @@ function starsoft_order_sync_cron_hook_action() {
 			$documentSyncId = $document['DocumentSyncId'];
 			$orderId = $document['OrderId'];
 
-			$documentsApi = new DocumentsApi( new OrdersApiAdapter );
+			$documentsApi = $settingsGlobal->getDocumentsApiInstance();
 			$responseDocumentSetted = $documentsApi->setDocument( $orderId );
 			error_log( 'Mi evento ejecuto el envio de invoice: '.$documentSyncId.'para la orden'.$orderId.'con resultado:'.$responseDocumentSetted );
 					

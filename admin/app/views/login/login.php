@@ -31,7 +31,7 @@
 					<input type="password" placeholder="Enter Password" name="password" id="password-licence" required>
 				</div>
 
-				<button type="submit" id="login-button">Ingresar</button>
+				<button type="submit" id="login-button" class="primary-button">Ingresar</button>
 			</div>
 
 		</form>

@@ -1,6 +1,7 @@
 <?php
 	// get invoices
-	$documentsDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
+	$settingsGlobal = new SettingsGlobal;
+	$documentsDatabase = $settingsGlobal->getDocumentsDatabaseInstance();
 	$documentsArray = $documentsDatabase->getDocuments();
 
 ?>

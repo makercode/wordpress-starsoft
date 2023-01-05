@@ -6,8 +6,9 @@ function action_woocommerce_thankyou( $orderId ) {
 	if( $validatedGuard->isValidated()=="1" ) {
 		global $wpdb;
 
-		$documentsApi = new DocumentsApi( new OrdersApiAdapter );
-		$documentsDatabase = new DocumentsDatabase( new OrdersDatabaseAdapter );
+		$settingsGlobal = new SettingsGlobal;
+		$documentsApi = $settingsGlobal->getDocumentsApiInstance();
+		$documentsDatabase = $settingsGlobal->getDocumentsDatabaseInstance();
 
 
 		$order = $documentsDatabase->getDocument("{$orderId}");
@@ -26,7 +27,7 @@ function action_woocommerce_thankyou( $orderId ) {
 
 		// Getting an instance of the order object
 		$order          = wc_get_order($orderId);
-		$orderData     = $order->get_data();
+		$orderData      = $order->get_data();
 
 		$orderId        = $order->get_id();
 		$orderJson  	= $documentsApi->getDocumentJson($orderId);

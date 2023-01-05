@@ -31,7 +31,6 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$info = [
-			'SettingSyncId'  => 1,
 			'SettingSyncProperty'  => 'validated',
 			'SettingSyncValue'     => 0
 		];
@@ -56,7 +55,6 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$info = [
-			'SettingSyncId'  => 2,
 			'SettingSyncProperty'  => 'logged',
 			'SettingSyncValue'     => 0
 		];
@@ -81,7 +79,6 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$info = [
-			'SettingSyncId'  => 3,
 			'SettingSyncProperty'  => 'token',
 			'SettingSyncValue'     => ''
 		];
@@ -101,17 +98,40 @@ class SettingsDatabase {
 	}
 
 
-	public function upsertDestinyData() {
+	public function upsertDocumentTypeData() {
 
 		global $wpdb;
 
 		$info = [
-			'SettingSyncId'  => 3,
-			'SettingSyncProperty'  => 'token',
-			'SettingSyncValue'     => ''
+			'SettingSyncProperty'  => 'DocumentType',
+			'SettingSyncValue'     => '0'
 		];
 		$where = [
-			'SettingSyncId'  => 3
+			'SettingSyncId'  => 4
+		];
+		$settings_table = "{$this->table}";
+
+		// update
+		$result = $wpdb->update($settings_table, $info, $where);
+		// or insert
+		if ($result === FALSE || $result < 1) {
+			$wpdb->insert($settings_table, $info);
+		}
+
+		return $result;
+	}
+
+
+	public function upsertChoosedData() {
+
+		global $wpdb;
+
+		$info = [
+			'SettingSyncProperty'  => 'choosed',
+			'SettingSyncValue'     => 0
+		];
+		$where = [
+			'SettingSyncId'  => 5
 		];
 		$settings_table = "{$this->table}";
 
@@ -142,6 +162,16 @@ class SettingsDatabase {
 
 		$settings_table = "{$this->table}";
 		$result = $wpdb->get_results("SELECT SettingSyncValue FROM {$settings_table} WHERE SettingSyncId=1");
+		return $result[0]->SettingSyncValue;
+	}
+
+
+	public function isChoosed() {
+
+		global $wpdb;
+
+		$settings_table = "{$this->table}";
+		$result = $wpdb->get_results("SELECT SettingSyncValue FROM {$settings_table} WHERE SettingSyncId=5");
 		return $result[0]->SettingSyncValue;
 	}
 
@@ -226,6 +256,46 @@ class SettingsDatabase {
 	}
 
 
+	public function setTrueChoosed() {
+
+		global $wpdb;
+
+		$info = [
+			'SettingSyncProperty'  => 'choosed',
+			'SettingSyncValue'     => 1
+		];
+		$where = [
+			'SettingSyncId'  => 5
+		];
+		$settings_table = "{$this->table}";
+
+		// update
+		$result = $wpdb->update($settings_table, $info, $where);
+
+		return $result;
+	}
+
+
+	public function setFalseChoosed() {
+
+		global $wpdb;
+
+		$info = [
+			'SettingSyncProperty'  => 'choosed',
+			'SettingSyncValue'     => 0
+		];
+		$where = [
+			'SettingSyncId'  => 5
+		];
+		$settings_table = "{$this->table}";
+
+		// update
+		$result = $wpdb->update($settings_table, $info, $where);
+
+		return $result;
+	}
+
+
 	public function getToken() {
 
 		global $wpdb;
@@ -256,13 +326,13 @@ class SettingsDatabase {
 	}
 
 
-	public function setReceiptTypeDocument() {
+	public function setDocumentType(string $documentTypeId="0") {
 
 		global $wpdb;
 
 		$info = [
 			'SettingSyncProperty'  => 'type',
-			'SettingSyncValue'     => 1
+			'SettingSyncValue'     => $documentTypeId
 		];
 		$where = [
 			'SettingSyncId'  => 4
@@ -276,22 +346,14 @@ class SettingsDatabase {
 	}
 
 
-	public function setOrderTypeDocument() {
+	public function getDocumentType() {
 
 		global $wpdb;
 
-		$info = [
-			'SettingSyncProperty'  => 'type',
-			'SettingSyncValue'     => 0
-		];
-		$where = [
-			'SettingSyncId'  => 4
-		];
 		$settings_table = "{$this->table}";
+		$result = $wpdb->get_results("SELECT SettingSyncValue FROM {$settings_table} WHERE SettingSyncId=4");
 
-		// update
-		$result = $wpdb->update($settings_table, $info, $where);
-
-		return $result;
+		return $result[0]->SettingSyncValue;
 	}
+
 }

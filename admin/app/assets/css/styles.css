@@ -80,7 +80,7 @@ form {
 }
 
 /* Set a style for all buttons */
-.login-content button {
+button.primary-button {
 	background-color: #2271b1;
 	color: white;
 	padding: 14px 20px;
@@ -89,13 +89,12 @@ form {
 	cursor: pointer;
 	/* width: 100%; */
 }
-.login-content button:disabled {
+button.primary-button:disabled {
   background: #666!important;
   cursor: wait;
 }
-
 /* Add a hover effect for buttons */
-.login-content button:hover {
+button.primary-button:hover {
 	opacity: 0.8;
 }
 
@@ -148,19 +147,19 @@ span.psw {
 	text-align: center;
 	display: inline-block;
 	color: #999;
-    flex: 1;
-    border: 1px solid #999;
-    border-radius: 24px;
-    background: white;
-    padding-right: 12px;
-    background: #ebebeb;
-    color: #ddd;
+  flex: 1;
+  border: 1px solid #999;
+  border-radius: 24px;
+  background: white;
+  padding-right: 12px;
+  background: #ebebeb;
+  color: #ddd;
 }
 .stepbar .step.active {
 	opacity: 1;
-    background: #fff;
-    color: #333;
-    border: 1px solid #00bf3b;
+  background: #fff;
+  color: #333;
+  border: 1px solid #00bf3b;
 }
 .stepbar .step.active .step-position {
 	opacity: 1;
@@ -178,11 +177,38 @@ span.psw {
 }
 
 .stepbar {
-    margin-bottom: 35px;
-    border-bottom: 1px dashed #999;
-    height: 35px;
-    top: 5px;
+  margin-bottom: 35px;
+  border-bottom: 1px dashed #999;
+  height: 35px;
+  top: 5px;
 }
+
+.choose-content {
+	margin-top: 24px;
+}
+
+.document-type-choose {
+	max-width: 620px;
+	display: flex;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+.document-type-choose .document-type-choose-item {
+  align-items: center;
+	display: flex;
+  flex-grow: 1;
+  border: 1px solid #999;
+}
+
+.document-type-choose .document-type-choose-item label {
+	padding: 20px;
+}
+
+.document-type-choose .document-type-choose-item input {
+	margin: 10px 0 10px 20px!important;
+}
+
 
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {

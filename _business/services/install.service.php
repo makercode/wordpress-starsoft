@@ -10,6 +10,7 @@ class InstallService {
 		$this->settingsDatabase = new SettingsDatabase;
 		$this->customersDatabase = new CustomersDatabase;
 		$this->productsDatabase = new ProductsDatabase;
+		// this calls directly the two instances
 		$this->orderDocumentsDatabase = new DocumentsDatabase(new OrdersDatabaseAdapter);
 		$this->receiptDocumentsDatabase = new DocumentsDatabase(new ReceiptsDatabaseAdapter);
 		// $this->documentsDatabase = new DocumentsDatabase(new OrdersDatabaseAdapter);
@@ -39,5 +40,7 @@ class InstallService {
 		$this->settingsDatabase->upsertValidatedData();
 		$this->settingsDatabase->upsertLoggedData();
 		$this->settingsDatabase->upsertTokenData();
+		$this->settingsDatabase->upsertDocumentTypeData();
+		$this->settingsDatabase->upsertChoosedData();
 	}
 }

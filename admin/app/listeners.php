@@ -4,7 +4,8 @@
 function action_woocommerce_order_status_completed( $orderId ) {
 
 	$validatedGuard = new ValidatedGuard;
-	if( $validatedGuard->isValidated()=="1" ) {
+	$choosedGuard = new ChoosedGuard;
+	if( $validatedGuard->isValidated()=="1" && $choosedGuard->isChoosed() ) {
 		$info = [
 			'OrderState' => 1
 		];
@@ -24,7 +25,8 @@ add_action( 'woocommerce_order_status_completed', 'action_woocommerce_order_stat
 function action_woocommerce_order_refunded( $orderId, $refundId ) {
 
 	$validatedGuard = new ValidatedGuard;
-	if( $validatedGuard->isValidated()=="1" ) {
+	$choosedGuard = new ChoosedGuard;
+	if( $validatedGuard->isValidated()=="1" && $choosedGuard->isChoosed() ) {
 		$info = [
 			'OrderState' => -1
 		];
@@ -44,8 +46,9 @@ add_action( 'woocommerce_order_refunded', 'action_woocommerce_order_refunded', 1
 // Revisar esta funcion
 function action_woocommerce_new_and_update_product( $postId ) {
 
-	$loggedGuard = new LoggedGuard;
-	if( $loggedGuard->isLogged()=="1") {
+	$validatedGuard = new ValidatedGuard;
+	$choosedGuard = new ChoosedGuard;
+	if( $validatedGuard->isValidated()=="1" && $choosedGuard->isChoosed() ) {
 		global $wpdb;
 
 		$post = get_post($postId);
@@ -102,7 +105,8 @@ add_action( 'woocommerce_update_product', 'action_woocommerce_new_and_update_pro
 function action_woocommerce_order_processing( $orderId ) {
 
 	$validatedGuard = new ValidatedGuard;
-	if( $validatedGuard->isValidated()=="1") {
+	$choosedGuard = new ChoosedGuard;
+	if( $validatedGuard->isValidated()=="1" && $choosedGuard->isChoosed() ) {
 		global $wpdb;
 
 		$info = [

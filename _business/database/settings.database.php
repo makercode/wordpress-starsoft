@@ -31,6 +31,7 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$info = [
+			'SettingSyncId'  => 1,
 			'SettingSyncProperty'  => 'validated',
 			'SettingSyncValue'     => 0
 		];
@@ -39,13 +40,14 @@ class SettingsDatabase {
 		];
 		$settings_table = "{$this->table}";
 
-		// update
-		$result = $wpdb->update($settings_table, $info, $where);
-		// or insert
-		if ($result === FALSE || $result < 1) {
-			$wpdb->insert($settings_table, $info);
+		$row = $wpdb->get_results( "SELECT SettingSyncProperty FROM {$this->table} WHERE SettingSyncProperty = 'validated'" );
+		if(empty($row)) {
+			$result = $wpdb->insert($settings_table, $info);
+			return $result;
 		}
 
+		// or update
+		$result = $wpdb->update($settings_table, $info, $where);
 		return $result;
 	}
 
@@ -55,6 +57,7 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$info = [
+			'SettingSyncId'  => 2,
 			'SettingSyncProperty'  => 'logged',
 			'SettingSyncValue'     => 0
 		];
@@ -63,13 +66,15 @@ class SettingsDatabase {
 		];
 		$settings_table = "{$this->table}";
 
-		// update
-		$result = $wpdb->update($settings_table, $info, $where);
-		// or insert
-		if ($result === FALSE || $result < 1) {
-			$wpdb->insert($settings_table, $info);
+
+		$row = $wpdb->get_results( "SELECT SettingSyncProperty FROM {$this->table} WHERE SettingSyncProperty = 'logged'" );
+		if(empty($row)) {
+			$result = $wpdb->insert($settings_table, $info);
+			return $result;
 		}
 
+		// or update
+		$result = $wpdb->update($settings_table, $info, $where);
 		return $result;
 	}
 
@@ -79,6 +84,7 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$info = [
+			'SettingSyncId'  => 3,
 			'SettingSyncProperty'  => 'token',
 			'SettingSyncValue'     => ''
 		];
@@ -86,14 +92,16 @@ class SettingsDatabase {
 			'SettingSyncId'  => 3
 		];
 		$settings_table = "{$this->table}";
+	
 
-		// update
-		$result = $wpdb->update($settings_table, $info, $where);
-		// or insert
-		if ($result === FALSE || $result < 1) {
-			$wpdb->insert($settings_table, $info);
+		$row = $wpdb->get_results( "SELECT SettingSyncProperty FROM {$this->table} WHERE SettingSyncProperty = 'token'" );
+		if(empty($row)) {
+			$result = $wpdb->insert($settings_table, $info);
+			return $result;
 		}
 
+		// or update
+		$result = $wpdb->update($settings_table, $info, $where);
 		return $result;
 	}
 
@@ -103,6 +111,7 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$info = [
+			'SettingSyncId'  => 4,
 			'SettingSyncProperty'  => 'DocumentType',
 			'SettingSyncValue'     => '0'
 		];
@@ -111,13 +120,15 @@ class SettingsDatabase {
 		];
 		$settings_table = "{$this->table}";
 
-		// update
-		$result = $wpdb->update($settings_table, $info, $where);
-		// or insert
-		if ($result === FALSE || $result < 1) {
-			$wpdb->insert($settings_table, $info);
+
+		$row = $wpdb->get_results( "SELECT SettingSyncProperty FROM {$this->table} WHERE SettingSyncProperty = 'DocumentType'" );
+		if(empty($row)) {
+			$result = $wpdb->insert($settings_table, $info);
+			return $result;
 		}
 
+		// or update
+		$result = $wpdb->update($settings_table, $info, $where);
 		return $result;
 	}
 
@@ -127,6 +138,7 @@ class SettingsDatabase {
 		global $wpdb;
 
 		$info = [
+			'SettingSyncId'  => 5,
 			'SettingSyncProperty'  => 'choosed',
 			'SettingSyncValue'     => 0
 		];
@@ -134,15 +146,22 @@ class SettingsDatabase {
 			'SettingSyncId'  => 5
 		];
 		$settings_table = "{$this->table}";
-
+	
 		// update
-		$result = $wpdb->update($settings_table, $info, $where);
-		// or insert
-		if ($result === FALSE || $result < 1) {
-			$wpdb->insert($settings_table, $info);
+		
+
+
+		$row = $wpdb->get_results( "SELECT SettingSyncProperty FROM {$this->table} WHERE SettingSyncProperty = 'choosed'" );
+		if(empty($row)) {
+			$result = $wpdb->insert($settings_table, $info);
+			return $result;
 		}
 
+		// or insert
+		$result = $wpdb->update($settings_table, $info, $where);
 		return $result;
+
+
 	}
 
 

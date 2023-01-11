@@ -129,7 +129,12 @@ span.psw {
 }
 
 .stepper {
-	margin-right: 21px;
+	/*margin-right: 21px;*/
+}
+.stepbar {
+  margin-bottom: 35px;
+  top: 5px;
+  display: flex;
 }
 .stepbar .step .step-position {
 	display: inline-block;
@@ -143,15 +148,15 @@ span.psw {
 	opacity: .5;
 }
 .stepbar .step {
-	margin: 12px 20px 20px 0;
 	text-align: center;
 	display: inline-block;
 	color: #999;
   flex: 1;
   border: 1px solid #999;
-  border-radius: 24px;
+  /* border-radius: 24px; 
+	margin: 12px 20px 20px 0;
+  padding-right: 12px;*/
   background: white;
-  padding-right: 12px;
   background: #ebebeb;
   color: #ddd;
 }
@@ -160,6 +165,7 @@ span.psw {
   background: #fff;
   color: #333;
   border: 1px solid #00bf3b;
+  height: 42px;
 }
 .stepbar .step.active .step-position {
 	opacity: 1;
@@ -167,22 +173,14 @@ span.psw {
 }
 .stepbar .step.processing {
 	opacity: 1;
-    background: #fff;
-    color: #333;
-    border: 1px solid #bf9400;
+  background: #fff;
+  color: #333;
+  border: 1px solid #bf9400;
 }
 .stepbar .step.processing .step-position {
 	opacity: 1;
   background: #bf9400;
 }
-
-.stepbar {
-  margin-bottom: 35px;
-  border-bottom: 1px dashed #999;
-  height: 35px;
-  top: 5px;
-}
-
 .choose-content {
 	margin-top: 24px;
 }

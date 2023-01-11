@@ -1,6 +1,6 @@
 <?php 
 
-class RecepitsApiAdapter implements IDocumentsApi {
+class ReceiptsApiAdapter implements IDocumentsApi {
 
 	protected $receiptsApi;
 

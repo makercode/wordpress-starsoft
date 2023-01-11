@@ -4,6 +4,7 @@
 	$documentsDatabase = $settingsGlobal->getDocumentsDatabaseInstance();
 	$documentsArray = $documentsDatabase->getDocuments();
 
+	$documentType = $settingsDatabase->getDocumentType();
 ?>
 <?php // print_r($order_object); ?>
 <div class="wrap">
@@ -12,9 +13,9 @@
 	</h1>
 	<?php include dirname(__file__).'/../../includes/stepbar.php'; ?>
 	<div class="">
-		<h1 class="wp-heading-inline">
-			<?php echo get_admin_page_title(); ?>
-		</h1>
+		<h2 class="wp-heading-inline">
+			Sincronización está activa
+		</h2>
 		<table class="wp-list-table widefat fixed striped pages">
 			<thead>
 				<th style="width:5%">
@@ -38,17 +39,17 @@
 				<th>
 					Pedido sincronizado a Starsoft
 				</th>
-				<!--
-				<th>
-					Tipo de comprobante
-				</th>
-				<th>
-					Numero de comprobante
-				</th>
-				<th>
-					Estado de comprobante
-				</th>
-				-->
+				<?php if( $documentType=="1" ) { ?>
+					<th>
+						Tipo de comprobante
+					</th>
+					<th>
+						Numero de comprobante
+					</th>
+					<th>
+						Estado de comprobante
+					</th>
+				<?php } ?>
 			</thead>
 			<tbody>
 				<?php 
@@ -101,20 +102,22 @@
 							</td>
 							<td>
 								{$orderSync}
-							</td>
-							<!--
-							<td>
-								{$receiptType}
-							</td>
-							<td>
-								{$receiptNumber}
-							</td>
-							<td>
-								{$receiptState}
-							</td>
-							-->
-						</tr>
-						";
+							</td>";
+
+						if( $documentType=="1" ) {
+							echo "
+								<td>
+									{$receiptType}
+								</td>
+								<td>
+									{$receiptNumber}
+								</td>
+								<td>
+									{$receiptState}
+								</td>
+							";
+						}
+						echo "</tr>";
 					};
 				?>
 			</tbody>

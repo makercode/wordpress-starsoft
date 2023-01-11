@@ -3,7 +3,8 @@
 // Detect when order created
 function action_woocommerce_thankyou( $orderId ) {
 	$validatedGuard = new ValidatedGuard;
-	if( $validatedGuard->isValidated()=="1" ) {
+	$choosedGuard = new ChoosedGuard;
+	if( $validatedGuard->isValidated()=="1" && $choosedGuard->isChoosed()=="1" ) {
 		global $wpdb;
 
 		$settingsGlobal = new SettingsGlobal;

@@ -66,7 +66,7 @@ if($isLogged=="1" && $isValidated=="0" && $isChoosed=="0") {
 		return;
 	}
 	$settingsDatabase->setTrueValidated();
-	include dirname(__file__).'/document/document.php';
+	include dirname(__file__).'/selection/selection.php';
 	return;
 }
 
@@ -74,7 +74,7 @@ if($isLogged=="1" && $isValidated=="0" && $isChoosed=="0") {
 if($isLogged=="1" && $isValidated=="1" && $isChoosed=="0") {
 
 	// no valid skus
-	include dirname(__file__).'/document/document.php';
+	include dirname(__file__).'/selection/selection.php';
 	return;
 }
 

@@ -15,7 +15,10 @@ function action_condition_checkout() {
 	if ( is_checkout() && empty( $wpdb->query_vars['order-pay'] ) && ! isset( $wpdb->query_vars['order-received'] ) ) {
 		echo '
 			<script>
-				function resetIdValue() {
+				function resetIdentifierTypeValue() {
+					jQuery("#billing_identifier_type").val("");
+				}
+				function resetIdentifierValue() {
 					jQuery("#billing_identifier").val("");
 				}
 				function checkInput() {
@@ -51,7 +54,7 @@ function action_condition_checkout() {
 					}
 				}
 				jQuery("#billing_identifier_type").change( function() {
-					resetIdValue();
+					resetIdentifierValue();
 					checkInput();
 				});
 				jQuery( document ).ready( 
@@ -70,29 +73,41 @@ add_action( 'wp_footer', 'action_condition_checkout', 9999 );
 
 // Saving DNI/RUC in admin order
 function display_identifier_billing_field( $billing_fields ) {
-	$billing_fields['billing_identifier_type'] = array(
-		'type'        => 'select',
-		'label'       => __('Tipo de identificación'),
-		'class'       => array('form-row-wide'),
-		'priority'    => 25,
-		'options'     => array(
-			'-'			=> __( 'Selecciona un tipo de documento'  , '' ),
-			'1' 		=> __( 'DNI'					, 'DNI' ),
-			'6'		=> __( 'RUC'   					, 'RUC' ),
-			'4'		=> __( 'Carnet de Extranjería'	, 'CE' )
+	$billing_fields['billing_order_document'] = array(
+		'type'    		=> 'select',
+		'label'   		=> __('Tipo de Comprobante'),
+		'class'   		=> array('form-row-wide'),
+		'priority'		=> 25,
+		'options' 		=> array(
+			'01'			=> __( 'BOLETA'					, 'BOLETA' ),
+			'03'			=> __( 'FACTURA'   				, 'FACTURA' )
 		),
-		'required'    => false,
-		'clear'       => true,
+		'required'		=> false,
+		'clear'   		=> true,
+	);
+	$billing_fields['billing_identifier_type'] = array(
+		'type'    		=> 'select',
+		'label'   		=> __('Tipo de identificación'),
+		'class'   		=> array('form-row-wide'),
+		'priority'		=> 25,
+		'options' 		=> array(
+			'-'				=> __( 'ANÓNIMO'  , '' ),
+			'1'				=> __( 'DNI'					, 'DNI' ),
+			'6'				=> __( 'RUC'   					, 'RUC' ),
+			'4'				=> __( 'C. DE EXTRANJERÍA'	, 'CE' )
+		),
+		'required'		=> false,
+		'clear'   		=> true,
 	);
 	$billing_fields['billing_identifier'] = array(
-		'type'        => 'text',
-		'label'       => __('Numero de identificación'),
-		'class'       => array('form-row-wide'),
-		'priority'    => 25,
-		'placeholder' => "DNI/RUC/CE",
-		'maxlength'   => 20,
-		'required'    => false,
-		'clear'       => true,
+		'type'       	=> 'text',
+		'label'      	=> __('Numero de identificación'),
+		'class'      	=> array('form-row-wide'),
+		'priority'   	=> 25,
+		'placeholder'	=> "DNI/RUC/CE",
+		'maxlength'  	=> 20,
+		'required'   	=> false,
+		'clear'      	=> true,
 	);
 	return $billing_fields;
 }

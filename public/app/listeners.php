@@ -59,13 +59,15 @@ function action_woocommerce_thankyou( $orderId ) {
 
 		$responseInvoiceSetted = $documentsApi->setDocument( $orderId );
 
-		// var_dump($responseInvoiceSetted);
+		var_dump($responseInvoiceSetted);
 
 		if($responseInvoiceSetted) {
-			$info = [
-				'OrderSync'   => 1
-			];
-			$documentsDatabase->updateDocument( $info, $orderId );
+			if($responseInvoiceSetted===true){
+				$info = [
+					'OrderSync'   => 1
+				];
+				$documentsDatabase->updateDocument( $info, $orderId );
+			}
 		}
 
 		// var_dump($documentsDatabase);

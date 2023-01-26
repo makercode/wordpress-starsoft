@@ -79,7 +79,7 @@ class ReceiptsApi {
 					"Product_Unit_Price": '.$unitRegularPrice.',
 					"Product_Line_Total_Price" : '.$totalRegularPrice.', // unid * cant
 					"Product_Line_Product_Discount_Amount": '.$totalLineProductSaleDiscountPrice.', // Descuento Producto subtotal linea 
-					"Product_Line_Product_Discount_Percentage": '.$totalLineProductSaleDiscountPercent.' // Descuento Producto porcentaje total por producto
+					"Product_Line_Product_Discount_Percentage": '.$totalLineProductSaleDiscountPercent.', // Descuento Producto porcentaje total por producto
 					"Product_Line_Coupon_Discount_Amount": '.$totalLineCouponSaleDiscountPrice.', // Descuento total
 					"Product_Line_Coupon_Discount_Percentage": '.$totalLineCouponSaleDiscountPercent.' // Descuento porcentaje total
 				}
@@ -154,7 +154,8 @@ class ReceiptsApi {
 		);
 		// var_dump($result);
 		if( !is_wp_error( $result ) ) {
-			if( $result['body'] ) {
+			var_dump($result);
+			if( $result['body'] && $result['body']!==true ) {
 				return $result['body'];
 			}
 		}

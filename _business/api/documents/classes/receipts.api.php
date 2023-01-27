@@ -155,8 +155,12 @@ class ReceiptsApi {
 		// var_dump($result);
 		if( !is_wp_error( $result ) ) {
 			var_dump($result);
-			if( $result['body'] && $result['body']!==true ) {
-				return $result['body'];
+			var_dump($result['response']['code']);
+			if( $result['response']['code'] == 200 ) {
+				var_dump($result['body']);
+				if($result['body'] == "true") {
+					return true;
+				}
 			}
 		}
 		return false;

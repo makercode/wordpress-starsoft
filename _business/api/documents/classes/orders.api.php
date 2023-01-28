@@ -116,12 +116,12 @@ class OrdersApi {
 					"Order_Id": "'.$orderObject->get_id().'", // order id
 					"Order_Date": "'.$orderObject->get_date_created()->getTimestamp().'",
 					"Order_Subtotal_Amount": '.$orderObject->get_subtotal().', // precio sin shipping
-					"Order_Disccount_Subtotal_Amount": '.$orderData['discount_total'].', // Descuento
-					"Order_Shipping_Subtotal_Amount": '.$orderData['shipping_total'].', // Descuento
-					"Order_Shipping": '.$orderObject->get_shipping_total().',
+					"Order_Discount_Subtotal_Amount": '.( $orderTotalDiscountPrice+$orderData['discount_total'] ).', // Descuentos totales de prods y coupon
+					"Order_Shipping_Subtotal_Amount": '.$orderData['shipping_total'].', // shipping valor
 					"Order_Total_Amount": '.$orderData['total'].', // precio final
 					"Order_Currency_Type": "'.$currencyStarsoft.'",
-					"Order_Discount_Amount": '.$orderTotalDiscountPrice.', // descuento porsiaca
+					"Order_Discount_Product_Amount": '.$orderTotalDiscountPrice.', // descuento solo de productos
+					"Order_Discount_Coupon_Amount": '.$orderData['discount_total'].', // descuento solo de cupones
 					"Order_Gloss": "Pedidos Wordpress - '.$orderObject->get_id().'",
 					"Order_Address": "'.$joinedAddress.'"
 				},

@@ -73,18 +73,25 @@ add_action( 'wp_footer', 'action_condition_checkout', 9999 );
 
 // Saving DNI/RUC in admin order
 function display_identifier_billing_field( $billing_fields ) {
-	$billing_fields['billing_order_document'] = array(
-		'type'    		=> 'select',
-		'label'   		=> __('Tipo de Comprobante'),
-		'class'   		=> array('form-row-wide'),
-		'priority'		=> 25,
-		'options' 		=> array(
-			'01'			=> __( 'BOLETA'					, 'BOLETA' ),
-			'03'			=> __( 'FACTURA'   				, 'FACTURA' )
-		),
-		'required'		=> false,
-		'clear'   		=> true,
-	);
+
+	$settingsDatabase = new SettingsDatabase;
+	$typeDocument = $settingsDatabase->getDocumentType();
+
+	if($typeDocument=='1') {
+		$billing_fields['billing_order_document'] = array(
+			'type'    		=> 'select',
+			'label'   		=> __('Tipo de Comprobante'),
+			'class'   		=> array('form-row-wide'),
+			'priority'		=> 25,
+			'options' 		=> array(
+				'01'			=> __( 'BOLETA'					, 'BOLETA' ),
+				'03'			=> __( 'FACTURA'   				, 'FACTURA' )
+			),
+			'required'		=> false,
+			'clear'   		=> true,
+		);
+	}
+	
 	$billing_fields['billing_identifier_type'] = array(
 		'type'    		=> 'select',
 		'label'   		=> __('Tipo de identificación'),

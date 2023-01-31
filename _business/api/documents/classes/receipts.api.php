@@ -5,16 +5,18 @@ class ReceiptsApi {
 	public function __construct() {
 
 		$this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
-		// $this->apiUrl = "http://192.168.1.108:8063/Api/RegisterOrder";
+		// $this->apiUrl = "http://192.168.1.107:8063/Api/RegisterOrder";
 	}
 
 
 	public function getReceiptJson( $receiptId ) {
 
+
 		// return db field if exist
-		$receiptsDatabase = new ReceiptsDatabase();
-		$order = $receiptsDatabase->getReceipt("{$receiptId}");
-		// var_dump($receiptsDatabase);
+		$settingsGlobal = new SettingsGlobal;
+		$documentsDatabase = $settingsGlobal->getDocumentsDatabaseInstance();
+		$order = $documentsDatabase->getDocument("{$receiptId}");
+		// var_dump($documentsDatabase);
 
 		if ( sizeof($order)>=1 ) {
 			$orderSyncJson = $order['0']['OrderJson'];
@@ -36,10 +38,12 @@ class ReceiptsApi {
 
 		$orderTotalDiscountPrice = 0;
 
+
 		foreach ( $orderObject->get_items() as $productId => $productOrderData ) {
 			$productData = new WC_Product( $productOrderData->get_data()['product_id'] );
 			$quantityOrderLine = $productOrderData->get_data()['quantity'];
-			// var_dump($productOrderData->get_data());
+
+			var_dump( $productOrderData->get_data() );
 			// var_dump($productOrderData->get_data()['subtotal']);
 			// var_dump($productOrderData->get_data()['total']);
 
@@ -47,41 +51,45 @@ class ReceiptsApi {
 				$productsList .= ',';
 			}
 
-			$unitSaleDiscountPrice = intval($productData->get_regular_price()) - intval($productData->get_price());
-			// var_dump( intval($productData->get_price()) );
+			var_dump($productData->get_regular_price());
+			var_dump($productData->get_price());
+			$unitSaleDiscountProductPrice = intval($productData->get_regular_price()) - intval($productData->get_price());
 
 
 			// $totalLineProductSaleDiscountPrice = 0;
-			$totalLineProductSaleDiscountPrice = $unitSaleDiscountPrice*$quantityOrderLine;
+			$totalLineProductSaleDiscountPrice = $unitSaleDiscountProductPrice*$quantityOrderLine;
 			// $totalLineCouponSaleDiscountPrice = 
 
 
-			$totalRegularPrice = $productOrderData->get_data()['total']+$totalLineProductSaleDiscountPrice;
+			$totalRegularPrice = $productOrderData->get_data()['total'];//+$totalLineProductSaleDiscountPrice
 
-			$totalLineCouponSaleDiscountPrice = number_format($productOrderData->get_data()['subtotal']) - number_format($productOrderData->get_data()['total']);
-			$totalLineCouponSaleDiscountPercent = $totalLineCouponSaleDiscountPrice*100 / number_format($productOrderData->get_data()['subtotal']);
+			$totalLineCouponSaleDiscountPrice = number_format($productOrderData->get_data()['subtotal'], 2) - number_format($productOrderData->get_data()['total'], 2);
+			$totalLineCouponSaleDiscountPercent = $totalLineCouponSaleDiscountPrice*100/number_format($productOrderData->get_data()['subtotal'], 2);
 
-			// var_dump($totalLineCouponSaleDiscountPrice);
-			// var_dump($totalLineCouponSaleDiscountPercent);
-			
-			$unit_sale_price = $productOrderData->get_data()['total']/$productOrderData->get_data()['quantity'];
-			$unitRegularPrice = $totalRegularPrice / $quantityOrderLine;
+			$unitSalePrice = $productOrderData->get_data()['total']/$productOrderData->get_data()['quantity'];
+			$unitRegularPrice = $totalRegularPrice/$quantityOrderLine;
 
-			$totalLineProductSaleDiscountPercent = $unitSaleDiscountPrice*100/$unitRegularPrice;
-			// var_dump($unitSaleDiscountPrice);
-			// var_dump($unit_sale_price);
+			// descuento en porcentaje solo del descuento por producto
+			var_dump($unitSaleDiscountProductPrice);
+			var_dump(intval($productData->get_regular_price()));
+
+			$totalLineProductSaleDiscountPercent = ($unitSaleDiscountProductPrice*100/intval($productData->get_regular_price())); 
+			var_dump($totalLineProductSaleDiscountPercent);
+			// var_dump($unitSalePrice);
 
 			$productsList .= '
 				{
 					"Product_Id": "'.$productData->get_sku().'",
 					"Order_Id": "'.$productOrderData->get_data()['order_id'].'", // id de orden
 					"Product_Line_Quantity": '.$productOrderData->get_quantity().',
+					"Product_Original_Price": '.$productData->get_regular_price().',
+					"Product_Original_Price_Product_Discount": '.$productData->get_price().',
 					"Product_Unit_Price": '.$unitRegularPrice.',
 					"Product_Line_Total_Price" : '.$totalRegularPrice.', // unid * cant
 					"Product_Line_Product_Discount_Amount": '.$totalLineProductSaleDiscountPrice.', // Descuento Producto subtotal linea 
 					"Product_Line_Product_Discount_Percentage": '.$totalLineProductSaleDiscountPercent.', // Descuento Producto porcentaje total por producto
-					"Product_Line_Coupon_Discount_Amount": '.$totalLineCouponSaleDiscountPrice.', // Descuento total
-					"Product_Line_Coupon_Discount_Percentage": '.$totalLineCouponSaleDiscountPercent.' // Descuento porcentaje total
+					"Product_Line_Coupon_Discount_Amount": '.$totalLineCouponSaleDiscountPrice.', // Descuento cupon producto
+					"Product_Line_Coupon_Discount_Percentage": '.$totalLineCouponSaleDiscountPercent.' // Descuento porcentaje cupon producto
 				}
 			';
 			// var_dump($productsList);

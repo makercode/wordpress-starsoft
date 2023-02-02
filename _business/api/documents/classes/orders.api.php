@@ -41,7 +41,7 @@ class OrdersApi {
 			$productData = new WC_Product( $productOrderData->get_data()['product_id'] );
 			$quantityOrderLine = $productOrderData->get_data()['quantity'];
 
-			var_dump( $productOrderData->get_data() );
+			// var_dump( $productOrderData->get_data() );
 			// var_dump($productOrderData->get_data()['subtotal']);
 			// var_dump($productOrderData->get_data()['total']);
 
@@ -49,8 +49,8 @@ class OrdersApi {
 				$productsList .= ',';
 			}
 
-			var_dump($productData->get_regular_price());
-			var_dump($productData->get_price());
+			// var_dump($productData->get_regular_price());
+			// var_dump($productData->get_price());
 			$unitSaleDiscountProductPrice = intval($productData->get_regular_price()) - intval($productData->get_price());
 
 
@@ -68,20 +68,32 @@ class OrdersApi {
 			$unitRegularPrice = $totalRegularPrice/$quantityOrderLine;
 
 			// descuento en porcentaje solo del descuento por producto
-			var_dump($unitSaleDiscountProductPrice);
-			var_dump(intval($productData->get_regular_price()));
+			// var_dump($unitSaleDiscountProductPrice);
+			// var_dump(intval($productData->get_regular_price()));
 
-			$totalLineProductSaleDiscountPercent = ($unitSaleDiscountProductPrice*100/intval($productData->get_regular_price())); 
-			var_dump($totalLineProductSaleDiscountPercent);
+
+			// precio de venta
+			$regularPrice = $productData->get_regular_price();
+			echo($regularPrice);
+			echo( $productData->get_price() );
+
+			if( !$regularPrice ) {
+				$regularPrice = $productData->get_price();
+			}
+
+
+			$totalLineProductSaleDiscountPercent = ($unitSaleDiscountProductPrice*100/intval($regularPrice)); 
+			// var_dump($totalLineProductSaleDiscountPercent);
 			// var_dump($unitSalePrice);
+
+
 
 			$productsList .= '
 				{
 					"Product_Id": "'.$productData->get_sku().'",
 					"Order_Id": "'.$productOrderData->get_data()['order_id'].'", // id de orden
 					"Product_Line_Quantity": '.$productOrderData->get_quantity().',
-					"Product_Original_Price": '.$productData->get_regular_price().',
-					"Product_Original_Price_Product_Discount": '.$productData->get_price().',
+					"Product_Original_Price": '.$regularPrice.',
 					"Product_Unit_Price": '.$unitRegularPrice.',
 					"Product_Line_Total_Price" : '.$totalRegularPrice.', // unid * cant
 					"Product_Line_Product_Discount_Amount": '.$totalLineProductSaleDiscountPrice.', // Descuento Producto subtotal linea 
@@ -135,7 +147,6 @@ class OrdersApi {
 				]
 			}
 		}';
-		var_dump($orderSyncJson, '-1');
 		return $orderSyncJson;
 	}
 
@@ -158,17 +169,19 @@ class OrdersApi {
 				'body' => $orderSyncJson
 			)
 		);
-		// var_dump($result);
-		if( !is_wp_error( $result ) ) {
-			var_dump($result);
-			var_dump($result['response']['code']);
-			if( $result['response']['code'] == 200 ) {
-				var_dump($result['body']);
-				if($result['body'] == "true") {
-					return true;
-				}
+		var_dump($result);
+
+		if( is_wp_error( $result ) ) {
+			return false;
+		}
+		// var_dump($result['response']['code']);
+		if( $result['response']['code'] == 200 ) {
+			// var_dump($result['body']);
+			if($result['body'] == "true") {
+				return true;
 			}
 		}
+
 		return false;
 	}
 }

@@ -11,7 +11,8 @@
 	}
 
 
-	$capabilities = ['0','1'];
+	$capabilities = ['0'];
+	// $capabilities = ['0','1'];
 
 ?>
 

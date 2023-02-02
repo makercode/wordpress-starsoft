@@ -14,7 +14,6 @@ function starsoft_order_sync_cron_hook_action() {
 
 			$documentsApi = $settingsGlobal->getDocumentsApiInstance();
 			$responseDocumentSetted = $documentsApi->setDocument( $orderId );
-			error_log( 'Mi evento ejecuto el envio de invoice: '.$documentSyncId.'para la orden'.$orderId.'con resultado:'.$responseDocumentSetted );
 					
 			if($responseDocumentSetted==true) {
 				$info = [
@@ -22,6 +21,7 @@ function starsoft_order_sync_cron_hook_action() {
 				];
 				$documentsDatabase->updateDocument( $info, $orderId );
 			}
+			error_log( 'Mi evento ejecuto el envio de invoice: '.$documentSyncId.'para la orden'.$orderId.'con resultado:'.$responseDocumentSetted );
 		}
 	};
 	error_log('ejecutado');

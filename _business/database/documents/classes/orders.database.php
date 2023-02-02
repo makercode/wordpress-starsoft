@@ -5,7 +5,7 @@ class OrdersDatabase {
 	public function __construct() {
 
 		global $wpdb;
-		$this->table = "{$wpdb->prefix}sync_orders";
+		$this->table = "{$wpdb->prefix}starsoft_sync_orders";
 	}
 
 

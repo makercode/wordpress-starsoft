@@ -43,7 +43,7 @@ class ReceiptsApi {
 			$productData = new WC_Product( $productOrderData->get_data()['product_id'] );
 			$quantityOrderLine = $productOrderData->get_data()['quantity'];
 
-			var_dump( $productOrderData->get_data() );
+			// var_dump( $productOrderData->get_data() );
 			// var_dump($productOrderData->get_data()['subtotal']);
 			// var_dump($productOrderData->get_data()['total']);
 
@@ -51,8 +51,8 @@ class ReceiptsApi {
 				$productsList .= ',';
 			}
 
-			var_dump($productData->get_regular_price());
-			var_dump($productData->get_price());
+			// var_dump($productData->get_regular_price());
+			// var_dump($productData->get_price());
 			$unitSaleDiscountProductPrice = intval($productData->get_regular_price()) - intval($productData->get_price());
 
 
@@ -70,26 +70,31 @@ class ReceiptsApi {
 			$unitRegularPrice = $totalRegularPrice/$quantityOrderLine;
 
 			// descuento en porcentaje solo del descuento por producto
-			var_dump($unitSaleDiscountProductPrice);
-			var_dump(intval($productData->get_regular_price()));
+			// var_dump($unitSaleDiscountProductPrice);
+			// var_dump(intval($productData->get_regular_price()));
 
 			$totalLineProductSaleDiscountPercent = ($unitSaleDiscountProductPrice*100/intval($productData->get_regular_price())); 
-			var_dump($totalLineProductSaleDiscountPercent);
+			// var_dump($totalLineProductSaleDiscountPercent);
 			// var_dump($unitSalePrice);
+
+			// precio de venta
+			$regularPrice = $productData->get_regular_price();
+			if( $regularPrice ) {
+				$regularPrice = $productData->get_price();
+			}
 
 			$productsList .= '
 				{
 					"Product_Id": "'.$productData->get_sku().'",
-					"Order_Id": "'.$productOrderData->get_data()['order_id'].'", // id de orden
+					"Order_Id": "'.$productOrderData->get_data()['order_id'].'",
 					"Product_Line_Quantity": '.$productOrderData->get_quantity().',
-					"Product_Original_Price": '.$productData->get_regular_price().',
-					"Product_Original_Price_Product_Discount": '.$productData->get_price().',
+					"Product_Original_Price": '.$regularPrice.',
 					"Product_Unit_Price": '.$unitRegularPrice.',
-					"Product_Line_Total_Price" : '.$totalRegularPrice.', // unid * cant
-					"Product_Line_Product_Discount_Amount": '.$totalLineProductSaleDiscountPrice.', // Descuento Producto subtotal linea 
-					"Product_Line_Product_Discount_Percentage": '.$totalLineProductSaleDiscountPercent.', // Descuento Producto porcentaje total por producto
-					"Product_Line_Coupon_Discount_Amount": '.$totalLineCouponSaleDiscountPrice.', // Descuento cupon producto
-					"Product_Line_Coupon_Discount_Percentage": '.$totalLineCouponSaleDiscountPercent.' // Descuento porcentaje cupon producto
+					"Product_Line_Total_Price" : '.$totalRegularPrice.',
+					"Product_Line_Product_Discount_Amount": '.$totalLineProductSaleDiscountPrice.', 
+					"Product_Line_Product_Discount_Percentage": '.$totalLineProductSaleDiscountPercent.',
+					"Product_Line_Coupon_Discount_Amount": '.$totalLineCouponSaleDiscountPrice.', 
+					"Product_Line_Coupon_Discount_Percentage": '.$totalLineCouponSaleDiscountPercent.'
 				}
 			';
 			// var_dump($productsList);
@@ -109,9 +114,9 @@ class ReceiptsApi {
 			"Customer": {
 				"Customer_Id": "'.$orderCustomerIdentifier.'",
 				"Address": "'.$joinedAddress.'",
-				"Customer_Id_Type": "'.$orderCustomerIdentifierType.'", // 1 = dni
+				"Customer_Id_Type": "'.$orderCustomerIdentifierType.'",
 				"Customer_Id_Number": "'.$orderCustomerIdentifier.'",
-				"Business_Name": "'.$orderObject->get_billing_company().'", //razon social
+				"Business_Name": "'.$orderObject->get_billing_company().'",
 				"First_Name": "'.$orderObject->get_billing_first_name().'",
 				"Second_Name": "",
 				"First_Surname": "'.$orderObject->get_billing_last_name().'",
@@ -120,15 +125,15 @@ class ReceiptsApi {
 			},
 			"OrderStarsoft": {
 				"OrderHeader": {
-					"Order_Id": "'.$orderObject->get_id().'", // order id
+					"Order_Id": "'.$orderObject->get_id().'",
 					"Order_Date": "'.$orderObject->get_date_created()->getTimestamp().'",
-					"Order_Subtotal_Amount": '.$orderObject->get_subtotal().', // precio sin shipping
-					"Order_Discount_Subtotal_Amount": '.( $orderTotalDiscountPrice+$orderData['discount_total'] ).', // Descuentos totales de prods y coupon
-					"Order_Shipping_Subtotal_Amount": '.$orderData['shipping_total'].', // shipping valor
-					"Order_Total_Amount": '.$orderData['total'].', // precio final
+					"Order_Subtotal_Amount": '.$orderObject->get_subtotal().',
+					"Order_Discount_Subtotal_Amount": '.( $orderTotalDiscountPrice+$orderData['discount_total'] ).',
+					"Order_Shipping_Subtotal_Amount": '.$orderData['shipping_total'].', 
+					"Order_Total_Amount": '.$orderData['total'].',
 					"Order_Currency_Type": "'.$currencyStarsoft.'",
-					"Order_Discount_Product_Amount": '.$orderTotalDiscountPrice.', // descuento solo de productos
-					"Order_Discount_Coupon_Amount": '.$orderData['discount_total'].', // descuento solo de cupones
+					"Order_Discount_Product_Amount": '.$orderTotalDiscountPrice.',
+					"Order_Discount_Coupon_Amount": '.$orderData['discount_total'].',
 					"Order_Gloss": "Pedidos Wordpress - '.$orderObject->get_id().'",
 					"Order_Address": "'.$joinedAddress.'"
 				},
@@ -160,15 +165,15 @@ class ReceiptsApi {
 				'body' => $orderSyncJson
 			)
 		);
-		// var_dump($result);
-		if( !is_wp_error( $result ) ) {
-			var_dump($result);
-			var_dump($result['response']['code']);
-			if( $result['response']['code'] == 200 ) {
-				var_dump($result['body']);
-				if($result['body'] == "true") {
-					return true;
-				}
+		var_dump($result);
+
+		if( is_wp_error( $result ) ) {
+			return false;
+		}
+		if( $result['response']['code'] == 200 ) {
+			var_dump($result['body']);
+			if($result['body'] == "true") {
+				return true;
 			}
 		}
 		return false;

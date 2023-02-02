@@ -25,6 +25,9 @@
 					Nro de Orden WordPress
 				</th>
 				<th>
+					Json
+				</th>
+				<th>
 					Fecha
 				</th>
 				<th>
@@ -60,6 +63,7 @@
 						$date = date('m/d/Y', $document['OrderDate']);
 
 						$orderId = $document['OrderId'];
+						$orderJson = $document['OrderJson'];
 
 						$customerIdType = 'DNI';
 						if( $document['CustomerIdType']=='4' ) { $customerIdType = 'CARNET DE EXTRANJERÍA'; };
@@ -87,6 +91,11 @@
 							</td>
 							<td>
 								{$orderId}
+							</td>
+							<td>
+								<div style='max-height: 100px; overflow: scroll;'>
+									{$orderJson}
+								</div>
 							</td>
 							<td>
 								{$date}

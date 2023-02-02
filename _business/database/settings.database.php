@@ -5,7 +5,7 @@ class SettingsDatabase {
 	public function __construct() {
 
 		global $wpdb;
-		$this->table = "{$wpdb->prefix}sync_settings";
+		$this->table = "{$wpdb->prefix}starsoft_sync_settings";
 	}
 
 
@@ -20,9 +20,8 @@ class SettingsDatabase {
 			PRIMARY KEY (`SettingSyncId`)
 		)";
 
-		$wpdb->query($setSettingsTable);
-
-		// return $result;
+		$result = $wpdb->query($setSettingsTable);
+		return $result;
 	}
 
 
@@ -160,8 +159,6 @@ class SettingsDatabase {
 		// or insert
 		$result = $wpdb->update($settings_table, $info, $where);
 		return $result;
-
-
 	}
 
 

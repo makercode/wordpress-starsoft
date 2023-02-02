@@ -3,8 +3,8 @@
 	Plugin Name: Control de pedidos Starsoft
 	Author: Starsoft
 	Author URI: https://starsoft.com.pe
-	Description: Version alpha de sincronizador para el modulo de inventarios de el ERP Starsoft
-	Version: 0.0.1
+	Description: Version alpha de sincronizador para el modulo de inventarios y ventas de el ERP Starsoft
+	Version: 0.0.11
 */
 
 require_once dirname(__file__).'/_business/services/install.service.php';
@@ -39,16 +39,16 @@ function ActivePlugin() {
 	$installService->init();
 
     if( !wp_next_scheduled( 'starsoft_order_sync_cron_hook' ) ) {
-        wp_schedule_event( current_time( 'timestamp' ), 'minutely', 'starsoft_order_sync_cron_hook' );
+        wp_schedule_event( current_time( 'timestamp' ), 'fiveminutely', 'starsoft_order_sync_cron_hook' );
     }
 }
 register_activation_hook(__file__, 'ActivePlugin');
 
 
 function wpshout_add_cron_interval( $schedules ) {
-    $schedules['minutely'] = array(
-            'interval'  => 60, // time in seconds
-            'display'   => 'minutely'
+    $schedules['fiveminutely'] = array(
+        'interval'  => 300, // time in seconds
+        'display'   => 'fiveminutely'
     );
     return $schedules;
 }

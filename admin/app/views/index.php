@@ -20,7 +20,6 @@ $isLogged = $settingsDatabase->isLogged();
 $isValidated = $settingsDatabase->isValidated();
 $isChoosed = $settingsDatabase->isChoosed();
 
-
 if($isLogged=="0" && $isValidated=="0" && $isChoosed=="0") {
 
 	if($isLogged=='0') {

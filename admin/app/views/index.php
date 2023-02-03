@@ -1,10 +1,11 @@
 <?php 
-
+/*
 require_once dirname(__file__).'/../../../_business/database/products.database.php';
 require_once dirname(__file__).'/../../../_business/database/settings.database.php';
 
 require_once dirname(__file__).'/../../../_business/api/products.api.php';
 require_once dirname(__file__).'/../../../_business/helpers/products.helpers.php';
+*/
 
 
 // writting products from woocommerce to sync

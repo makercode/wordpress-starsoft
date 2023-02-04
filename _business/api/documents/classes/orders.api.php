@@ -37,9 +37,60 @@ class OrdersApi {
 
 		$orderTotalDiscountPrice = 0;
 
-		foreach ( $orderObject->get_items() as $productId => $productOrderData ) {
-			$productData = new WC_Product( $productOrderData->get_data()['product_id'] );
-			$quantityOrderLine = $productOrderData->get_data()['quantity'];
+		foreach ( $orderObject->get_items() as $orderLineId => $productOrderData ) {
+			$productData = wc_get_product( $productOrderData->get_data()['product_id'] );
+			$LineTotal = $productOrderData->get_data()['total'];
+			$LineQuantity = $productOrderData->get_data()['quantity'];
+
+
+			$regularPrice  = 0;
+			$listPrice     = 0;
+			$salePrice     = 0;
+
+
+			// Obtain variant ID
+			$variantChildId = $productOrderData->get_data()['variation_id'];
+			// if variant
+			if($variantChildId!==0) {
+				$variation = new WC_Product_Variation($variantChildId);
+
+				$regularPrice = floatval($variation->get_regular_price());
+				if(!$regularPrice) {
+					$regularPrice = floatval($variation->get_price());
+				}
+				$listPrice = floatval($variation->get_sale_price());
+				if(!$listPrice) {
+					$listPrice = floatval($variation->get_price());
+				}
+
+			}
+			// if product
+			else {
+				$regularPrice = floatval($productData->get_regular_price());
+				if(!$regularPrice) {
+					$regularPrice = floatval($productData->get_price());
+				}
+				$listPrice = floatval($productData->get_sale_price());
+				if(!$listPrice) {
+					$listPrice = floatval($productData->get_price());
+				}
+			}
+			$salePrice = $LineTotal/$LineQuantity;
+
+			var_dump($regularPrice);
+			var_dump($listPrice);
+			var_dump($salePrice);
+
+
+			$parentProductId = $productData->get_parent_id();
+			var_dump($parentProductId);
+			if($parentProductId!==0) {
+				var_dump( "Este producto es variacion" );
+			}
+
+			if( !$regularPrice ) {
+				$regularPrice = $productData->get_price();
+			}
 
 			// var_dump( $productOrderData->get_data() );
 			// var_dump($productOrderData->get_data()['subtotal']);
@@ -49,14 +100,14 @@ class OrdersApi {
 				$productsList .= ',';
 			}
 
-			// var_dump($productData->get_regular_price());
-			// var_dump($productData->get_price());
-			$unitSaleDiscountProductPrice = intval($productData->get_regular_price()) - intval($productData->get_price());
+			$unitSaleDiscountProductPrice = number_format($regularPrice) - number_format($productData->get_price());
 
 
+			$quantityOrderLine = $productOrderData->get_data()['quantity'];
 			// $totalLineProductSaleDiscountPrice = 0;
 			$totalLineProductSaleDiscountPrice = $unitSaleDiscountProductPrice*$quantityOrderLine;
-			// $totalLineCouponSaleDiscountPrice = 
+			var_dump($unitSaleDiscountProductPrice);
+			var_dump($quantityOrderLine);
 
 
 			$totalRegularPrice = $productOrderData->get_data()['total'];//+$totalLineProductSaleDiscountPrice
@@ -69,20 +120,13 @@ class OrdersApi {
 
 			// descuento en porcentaje solo del descuento por producto
 			// var_dump($unitSaleDiscountProductPrice);
-			// var_dump(intval($productData->get_regular_price()));
+			// var_dump(number_format($productData->get_regular_price()));
 
 
 			// precio de venta
-			$regularPrice = $productData->get_regular_price();
-			echo($regularPrice);
-			echo( $productData->get_price() );
-
-			if( !$regularPrice ) {
-				$regularPrice = $productData->get_price();
-			}
 
 
-			$totalLineProductSaleDiscountPercent = ($unitSaleDiscountProductPrice*100/intval($regularPrice)); 
+			$totalLineProductSaleDiscountPercent = ($unitSaleDiscountProductPrice*100/number_format($regularPrice)); 
 			// var_dump($totalLineProductSaleDiscountPercent);
 			// var_dump($unitSalePrice);
 

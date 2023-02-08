@@ -4,7 +4,7 @@
 	Author: Starsoft
 	Author URI: https://starsoft.com.pe
 	Description: Version alpha de sincronizador para el modulo de inventarios y ventas de el ERP Starsoft
-	Version: 0.0.11
+	Version: 0.0.15
 */
 
 require_once dirname(__file__).'/_business/services/install.service.php';

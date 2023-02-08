@@ -4,6 +4,7 @@
 function action_woocommerce_thankyou( $orderId ) {
 	$validatedGuard = new ValidatedGuard;
 	$choosedGuard = new ChoosedGuard;
+
 	if( $validatedGuard->isValidated()=="1" && $choosedGuard->isChoosed()=="1" ) {
 		global $wpdb;
 
@@ -12,15 +13,16 @@ function action_woocommerce_thankyou( $orderId ) {
 		$documentsDatabase = $settingsGlobal->getDocumentsDatabaseInstance();
 
 
-		$order = $documentsDatabase->getDocument("{$orderId}");
+		$document = $documentsDatabase->getDocument("{$orderId}");
+
 
 		// ¡ATENCIÓN! Antes de enviar a la api y guardarlos, debe verificar si ya ha sido sincronizado.
-		if(sizeof($order) > 0) {
-			if( $order[0]['OrderSync'] == '1' ) {
+		if(sizeof($document) > 0) {
+			if( $document[0]['OrderSync'] == '1' ) {
 				// var_dump("syncronized");
 				return;
 			}
-			if( $order[0]['OrderId'] == $orderId ) {
+			if( $document[0]['OrderId'] == $orderId ) {
 				// var_dump("duplicated");
 				return;
 			}
@@ -29,6 +31,16 @@ function action_woocommerce_thankyou( $orderId ) {
 		// Getting an instance of the order object
 		$order          = wc_get_order($orderId);
 		$orderData      = $order->get_data();
+
+
+		if($order->get_shipping_country() !== "PE") {
+			return;
+		}
+		if($order->get_currency() !== "PEN") {
+			return;
+		}
+		/*
+		*/
 
 		$orderId        = $order->get_id();
 		$orderJson  	= $documentsApi->getDocumentJson($orderId);

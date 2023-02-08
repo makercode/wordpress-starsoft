@@ -99,9 +99,9 @@ function display_identifier_billing_field( $billing_fields ) {
 		'priority'		=> 25,
 		'options' 		=> array(
 			'-'				=> __( 'ANÓNIMO'  , '' ),
-			'1'				=> __( 'DNI'					, 'DNI' ),
-			'6'				=> __( 'RUC'   					, 'RUC' ),
-			'4'				=> __( 'C. DE EXTRANJERÍA'	, 'CE' )
+			'1'				=> __( 'DNI'					, '1' ),
+			'6'				=> __( 'RUC'   					, '6' ),
+			'4'				=> __( 'C. DE EXTRANJERÍA'	, '4' )
 		),
 		'required'		=> false,
 		'clear'   		=> true,

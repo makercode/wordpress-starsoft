@@ -4,8 +4,8 @@ class OrdersApi {
 
 	public function __construct() {
 
-		$this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
-		// $this->apiUrl = "http://192.168.1.107:8063/Api/RegisterOrder";
+		// $this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
+		$this->apiUrl = "http://192.168.1.108:8063/Api/RegisterOrder";
 	}
 
 

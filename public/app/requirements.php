@@ -74,9 +74,10 @@ function action_condition_checkout() {
 					}
 				}
 				jQuery("#billing_document_type").change( function() {
-					resetIdentifierValue();
 					resetIdentifierTypeValue();
+					resetIdentifierValue();
 					checkDocumentType();
+					checkIdentifierType();
 				});
 				jQuery("#billing_identifier_type").change( function() {
 					resetIdentifierValue();

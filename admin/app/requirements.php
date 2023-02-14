@@ -81,6 +81,37 @@ add_action('admin_enqueue_scripts','action_admin_enqueue_scripts_js');
 
 function bbloomer_billing_sales_checkout_display( $order ) {
 
+	$settingsDatabase = new SettingsDatabase;
+	$typeDocument = $settingsDatabase->getDocumentType();
+
+
+	if($typeDocument=='1') {
+		$billing_document_type = $order->get_meta( '_billing_document_type' );
+		?>
+			<div class="address">
+				<p <?php if( ! $billing_document_type ) { echo ' class="none_set"'; } ?>>
+					<strong>Tipo de Identificación( FACTURA:1 BOLETA:3 ):</strong>
+					<?php echo $billing_document_type ? esc_html( $billing_document_type ) : 'No hay tipo de documento.' ?>
+				</p>
+			</div>
+			<div class="edit_address">
+				<?php
+					woocommerce_wp_select( array(
+						'id' => '_billing_document_type',
+						'label' => 'Tipo de Identificación',
+						'wrapper_class' => 'form-field-wide',
+						'value' => $billing_document_type,
+						'options' => array(
+							'1' => 'FACTURA',
+							'3' => 'BOLETA'
+						)
+					) );
+				?>
+			</div>
+		<?php
+	}
+
+
 	$billing_identifier_type = $order->get_meta( '_billing_identifier_type' );
 	?>
 		<div class="address">
@@ -135,7 +166,10 @@ add_action( 'woocommerce_admin_order_data_after_billing_address', 'bbloomer_bill
 function misha_save_general_details( $order_id ) {
 	
 	update_post_meta( $order_id, '_billing_identifier', wc_clean( $_POST[ '_billing_identifier' ] ) );
+
 	update_post_meta( $order_id, '_billing_identifier_type', wc_clean( $_POST[ '_billing_identifier_type' ] ) );
+
+	update_post_meta( $order_id, '_billing_document_type', wc_clean( $_POST[ '_billing_document_type' ] ) );
 	
 }
 add_action( 'woocommerce_process_shop_order_meta', 'misha_save_general_details' );

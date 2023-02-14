@@ -5,7 +5,7 @@ class ReceiptsApi {
 	public function __construct() {
 
 		// $this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterReceipt";
-		$this->apiUrl = "http://192.168.1.108:8063/Api/RegisterOrder";
+		$this->apiUrl = "http://192.168.1.108:8063/Api/RegisterReceipt";
 	}
 
 
@@ -146,6 +146,7 @@ class ReceiptsApi {
 
 		}
 
+		$typeReceipt = get_post_meta($orderId, '_billing_document_type', true);
 		$orderCustomerIdentifier = get_post_meta($orderId, '_billing_identifier', true);
 		$orderCustomerIdentifierType = get_post_meta($orderId, '_billing_identifier_type', true);
 
@@ -184,15 +185,16 @@ class ReceiptsApi {
 				"OrderHeader": {
 					"Order_Id": "'.$orderObject->get_id().'",
 					"Order_Date": "'.$orderObject->get_date_created()->getTimestamp().'",
-					"Order_Subtotal_Amount": '.$orderObject->get_subtotal().', // precio sin shipping
-					"Order_Discount_Subtotal_Amount": '.( $orderSumProductDiscount+$orderSumCouponDiscount ).', // Descuentos totales de prods y coupon
-					"Order_Shipping_Subtotal_Amount": '.$orderData['shipping_total'].', // shipping valor
+					"Order_Subtotal_Amount": '.$orderObject->get_subtotal().',
+					"Order_Discount_Subtotal_Amount": '.( $orderSumProductDiscount+$orderSumCouponDiscount ).',
+					"Order_Shipping_Subtotal_Amount": '.$orderData['shipping_total'].',
 					"Order_Total_Amount": '.$orderData['total'].', 
 					"Order_Currency_Type": "'.$currencyStarsoft.'",
-					"Order_Discount_Product_Amount": '.$orderSumProductDiscount.', // descuento solo de productos
-					"Order_Discount_Coupon_Amount": '.$orderSumCouponDiscount.', // descuento solo de cupones
+					"Order_Discount_Product_Amount": '.$orderSumProductDiscount.', 
+					"Order_Discount_Coupon_Amount": '.$orderSumCouponDiscount.',
 					"Order_Gloss": "Pedidos Wordpress - '.$orderObject->get_id().'",
-					"Order_Address": "'.$joinedAddress.'"
+					"Order_Address": "'.$joinedAddress.'",
+					"TypeReceipt": "'.$typeReceipt.'"
 				},
 				"orderDetails": [
 					'.$productsList.'

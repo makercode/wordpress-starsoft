@@ -21,9 +21,29 @@ function action_condition_checkout() {
 				function resetIdentifierValue() {
 					jQuery("#billing_identifier").val("");
 				}
-				function checkInput() {
-					$value = jQuery("#billing_identifier_type").val();
-					if($value == "-") {
+				function checkDocumentType() {
+					$identifier_type_input = jQuery("#billing_identifier_type");
+					$document_type_input = jQuery("#billing_document_type");
+					$document_type = $document_type_input.val();
+
+					if($document_type == "1" || $document_type == "FACTURA" ) {
+						$identifier_type_input.html(`
+							<option value="6">RUC</option>
+						`)
+					} else {
+						$identifier_type_input.html(`
+							<option value="-">ANONIMO</option>
+							<option value="1" selected="selected">DNI</option>
+							<option value="6">RUC</option>
+							<option value="4">C. DE EXTRANJERÍA</option>
+						`)
+					}
+				}
+				function checkIdentifierType() {
+					$identifier_type_input = jQuery("#billing_identifier_type");
+					$identifier_type = $identifier_type_input.val();
+
+					if($identifier_type == "-" || $identifier_type == "ANONIMO" || $identifier_type == "") {
 						jQuery("#billing_identifier_field").hide();
 						jQuery("#billing_company").val("");
 						jQuery("#billing_company_field").hide();
@@ -33,17 +53,17 @@ function action_condition_checkout() {
 						jQuery("#billing_company_field").hide();
 						jQuery("#billing_identifier").attr("required", "required");
 
-						if($value == "1") {
+						if($identifier_type == "1" || $identifier_type == "DNI") {
 							jQuery("#billing_identifier").attr("Placeholder", "DNI");
 							jQuery("#billing_identifier").attr("minlength", "8");
 							jQuery("#billing_identifier").attr("maxlength", "8");
 						}
-						if($value == "4") {
+						if($identifier_type == "4" || $identifier_type == "CARNET DE EXTRANJERÍA") {
 							jQuery("#billing_identifier").attr("Placeholder", "CARNET DE EXTRANJERÍA");
 							jQuery("#billing_identifier").attr("minlength", "6");
 							jQuery("#billing_identifier").attr("maxlength", "15");
 						}
-						if($value == "6") {
+						if($identifier_type == "6" || $identifier_type == "RUC") {
 							jQuery("#billing_identifier").attr("Placeholder", "RUC");
 							jQuery("#billing_identifier").attr("minlength", "11");
 							jQuery("#billing_identifier").attr("maxlength", "11");
@@ -53,13 +73,20 @@ function action_condition_checkout() {
 						jQuery("#billing_identifier_field").show();
 					}
 				}
+				jQuery("#billing_document_type").change( function() {
+					resetIdentifierValue();
+					resetIdentifierTypeValue();
+					checkDocumentType();
+				});
 				jQuery("#billing_identifier_type").change( function() {
 					resetIdentifierValue();
-					checkInput();
+					checkIdentifierType();
 				});
 				jQuery( document ).ready( 
 					function() {
-						checkInput();
+						resetIdentifierValue();
+						checkDocumentType();
+						checkIdentifierType();
 						console.log("rdy4pty");
 					}
 				);
@@ -78,14 +105,14 @@ function display_identifier_billing_field( $billing_fields ) {
 	$typeDocument = $settingsDatabase->getDocumentType();
 
 	if($typeDocument=='1') {
-		$billing_fields['billing_order_document'] = array(
+		$billing_fields['billing_document_type'] = array(
 			'type'    		=> 'select',
 			'label'   		=> __('Tipo de Comprobante'),
 			'class'   		=> array('form-row-wide'),
 			'priority'		=> 25,
 			'options' 		=> array(
-				'01'			=> __( 'BOLETA'					, 'BOLETA' ),
-				'03'			=> __( 'FACTURA'   				, 'FACTURA' )
+				'1'			=> __( 'FACTURA'   				, '1' ),
+				'3'			=> __( 'BOLETA'					, '3' )
 			),
 			'required'		=> false,
 			'clear'   		=> true,
@@ -98,14 +125,15 @@ function display_identifier_billing_field( $billing_fields ) {
 		'class'   		=> array('form-row-wide'),
 		'priority'		=> 25,
 		'options' 		=> array(
-			'-'				=> __( 'ANÓNIMO'  , '' ),
+			'-'				=> __( 'ANONIMO'  , '' ),
 			'1'				=> __( 'DNI'					, '1' ),
 			'6'				=> __( 'RUC'   					, '6' ),
-			'4'				=> __( 'C. DE EXTRANJERÍA'	, '4' )
+			'4'				=> __( 'C. DE EXTRANJERÍA'		, '4' )
 		),
 		'required'		=> false,
 		'clear'   		=> true,
 	);
+
 	$billing_fields['billing_identifier'] = array(
 		'type'       	=> 'text',
 		'label'      	=> __('Numero de identificación'),
@@ -116,6 +144,7 @@ function display_identifier_billing_field( $billing_fields ) {
 		'required'   	=> false,
 		'clear'      	=> true,
 	);
+
 	return $billing_fields;
 }
 add_filter( 'woocommerce_billing_fields', 'display_identifier_billing_field', 20, 1 );

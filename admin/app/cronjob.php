@@ -14,7 +14,7 @@ function starsoft_order_sync_cron_hook_action() {
 
 			$documentsApi = $settingsGlobal->getDocumentsApiInstance();
 			$responseDocumentSetted = $documentsApi->setDocument( $orderId );
-					
+
 			if($responseDocumentSetted==true) {
 				$info = [
 					'OrderSync'   => 1

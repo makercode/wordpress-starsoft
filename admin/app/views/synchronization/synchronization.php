@@ -39,20 +39,14 @@
 				<th>
 					Pedido completo
 				</th>
-				<th>
-					Pedido sincronizado a Starsoft
-				</th>
 				<?php if( $documentType=="1" ) { ?>
 					<th>
 						Tipo de comprobante
 					</th>
-					<th>
-						Numero de comprobante
-					</th>
-					<th>
-						Estado de comprobante
-					</th>
 				<?php } ?>
+				<th>
+					Pedido sincronizado a Starsoft
+				</th>
 			</thead>
 			<tbody>
 				<?php 
@@ -65,7 +59,9 @@
 						$orderId = $document['OrderId'];
 						$orderJson = $document['OrderJson'];
 
-						$customerIdType = 'DNI';
+						$customerIdType = 'Anonimo';
+						// var_dump($document['CustomerIdType']);
+						if( $document['CustomerIdType']=='1' ) { $customerIdType = 'DNI'; };
 						if( $document['CustomerIdType']=='4' ) { $customerIdType = 'CARNET DE EXTRANJERÍA'; };
 						if( $document['CustomerIdType']=='6' ) { $customerIdType = 'RUC'; };
 
@@ -75,17 +71,21 @@
 						if( $document['OrderState']==  '1' ) { $orderState = 'Completo'; };
 						if( $document['OrderState']== '-1' ) { $orderState = 'Reembolsado'; };
 
-						$orderSync = ($document['OrderSync']) ? "SI": "NO";
+						$orderSync = ($document['OrderSync']) ? "<span class='green-synced'>SI<span>": "NO";
 
-						$receiptType = 'Boleta';
+						$receiptType = '';
+						
 						if( $document['ReceiptType']=='1' ) { $receiptType = 'Factura'; };
+						if( $document['ReceiptType']=='3' ) { $receiptType = 'Boleta'; };
 
 						$receiptNumber = ($document['ReceiptNumber']) ? "SI": "NO";
 
 						$receiptState = ($document['ReceiptState']) ? "SI": "NO";
 
 						echo "
-						<tr>
+						<tr>";
+
+						echo "
 							<td>
 								{$id}
 							</td>
@@ -108,25 +108,23 @@
 							</td>
 							<td>
 								{$orderState}
-							</td>
-							<td>
-								{$orderSync}
 							</td>";
 
 						if( $documentType=="1" ) {
 							echo "
-								<td>
-									{$receiptType}
-								</td>
-								<td>
-									{$receiptNumber}
-								</td>
-								<td>
-									{$receiptState}
-								</td>
+							<td>
+								{$receiptType}
+							</td>
 							";
 						}
-						echo "</tr>";
+
+						echo "
+							<td>
+								{$orderSync}
+							</td>";
+
+						echo "
+						</tr>";
 					};
 				?>
 			</tbody>

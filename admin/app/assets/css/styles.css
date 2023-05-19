@@ -197,14 +197,28 @@ span.psw {
 	display: flex;
   flex-grow: 1;
   border: 1px solid #999;
+  flex-direction: column;
 }
+.document-type-choose .document-type-choose-item p {
+	margin: 20px 0 20px 40px!important;
+	display: block;
+	width: 100%;
+}
+.document-type-choose .document-type-choose-item h3 {
+    width: 100%;
+}
+
 
 .document-type-choose .document-type-choose-item label {
 	padding: 20px;
 }
 
-.document-type-choose .document-type-choose-item input {
-	margin: 10px 0 10px 20px!important;
+.green-synced {
+	display: inline-block;
+	background: green;
+	color: white;
+	padding: 5px;
+	border-radius: 3px;
 }
 
 

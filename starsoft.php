@@ -1,10 +1,10 @@
 <?php
 /*
-	Plugin Name: Control de pedidos Starsoft
+	Plugin Name: Control de ordenes Starsoft
 	Author: Starsoft
 	Author URI: https://starsoft.com.pe
 	Description: Version alpha de sincronizador para el modulo de inventarios y ventas de el ERP Starsoft
-	Version: 0.0.16
+	Version: 0.1.28
 */
 
 require_once dirname(__file__).'/_business/services/install.service.php';

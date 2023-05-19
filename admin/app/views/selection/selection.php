@@ -11,8 +11,8 @@
 	}
 
 
-	// $capabilities = ['0'];
 	$capabilities = ['0','1'];
+	// $capabilities = ['0','1'];
 
 ?>
 
@@ -26,24 +26,22 @@
 			<form method="post" action="">
 				<div class="document-type-choose">
 					<?php if (in_array('0',$capabilities,true)) { ?>
-						<div class="document-type-choose-item">
-							<input type="radio" name="document_type" value="0" id="order" class="document_type" checked='checked'/> 
-							<label for="order">
-								Enviar desde <br>
-								<b>Orden desde Web</b> ->
+						<label class="document-type-choose-item" for="order">
+							<p>
+								<input type="radio" name="document_type" value="0" id="order" class="document_type" checked='checked'/> 
+								Enviar como <br>
 								<b>Pedido Starsoft</b>
-							</label>
-						</div>
+							</p>
+						</label>
 					<?php } ?>
 					<?php if (in_array('1',$capabilities,true)) { ?>
-						<div class="document-type-choose-item">
-							<input type="radio" name="document_type" value="1" id="receipt" class="document_type"/> 
-							<label for="receipt">
-								Enviar desde <br>
-								<b>Orden desde Web</b> ->
-								<b>Factura Starsoft</b>
-							</label>
-						</div>
+						<label class="document-type-choose-item" for="receipt">
+							<p>
+								<input type="radio" name="document_type" value="1" id="receipt" class="document_type"/> 
+								Enviar como <br>
+								<b>Factura/Boleta Starsoft</b>
+							</p>
+						</label>
 					<?php } ?>
 				</div>
 				<div class="document-type-choose-send">

@@ -4,8 +4,8 @@ class ReceiptsApi {
 
 	public function __construct() {
 
-		// $this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterReceipt";
-		$this->apiUrl = "http://192.168.1.108:8063/Api/RegisterReceipt";
+		$this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterReceipt";
+		// $this->apiUrl = "http://192.168.1.108:8063/Api/RegisterReceipt";
 	}
 
 
@@ -150,7 +150,7 @@ class ReceiptsApi {
 		$orderCustomerIdentifier = get_post_meta($orderId, '_billing_identifier', true);
 		$orderCustomerIdentifierType = get_post_meta($orderId, '_billing_identifier_type', true);
 
-		$orderCustomerIdentifierTypeFormated;
+		$orderCustomerIdentifierTypeFormated = "";
 
 
 		if($orderCustomerIdentifierType=="DNI" || $orderCustomerIdentifierType=="1" ) {
@@ -194,7 +194,7 @@ class ReceiptsApi {
 					"Order_Discount_Coupon_Amount": '.$orderSumCouponDiscount.',
 					"Order_Gloss": "Pedidos Wordpress - '.$orderObject->get_id().'",
 					"Order_Address": "'.$joinedAddress.'",
-					"TypeReceipt": "'.$typeReceipt.'"
+					"Type_Receipt": "'.$typeReceipt.'"
 				},
 				"orderDetails": [
 					'.$productsList.'
@@ -223,17 +223,18 @@ class ReceiptsApi {
 				'body' => $orderSyncJson
 			)
 		);
-		var_dump($result);
+		// var_dump($result);
 
 		if( is_wp_error( $result ) ) {
 			return false;
 		}
 		if( $result['response']['code'] == 200 ) {
-			var_dump($result['body']);
+			// var_dump($result['body']);
 			if($result['body'] == "true") {
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

@@ -11,7 +11,7 @@
 	}
 
 
-	$capabilities = ['0','1'];
+	$capabilities = ['1'];
 
 ?>
 
@@ -28,8 +28,7 @@
 						<div class="document-type-choose-item">
 							<input type="radio" name="document_type" value="0" id="order" class="document_type" checked='checked'/> 
 							<label for="order">
-								Enviar desde <br>
-								<b>Orden desde Web</b> ->
+								Enviar como <br>
 								<b>Pedido Starsoft</b>
 							</label>
 						</div>
@@ -38,9 +37,8 @@
 						<div class="document-type-choose-item">
 							<input type="radio" name="document_type" value="1" id="receipt" class="document_type"/> 
 							<label for="receipt">
-								Enviar desde <br>
-								<b>Orden desde Web</b> ->
-								<b>Factura Starsoft</b>
+								Enviar como <br>
+								<b>Factura/Boleta Starsoft</b>
 							</label>
 						</div>
 					<?php } ?>

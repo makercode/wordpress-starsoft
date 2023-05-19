@@ -5,7 +5,7 @@
 function action_create_menu() {
 	add_menu_page(
 		'Control de ordenes Starsoft', // Titulo de la pagina
-		'Starsoft Pedidos', // Titulo del menu
+		'Starsoft', // Titulo del menu
 		'manage_options', // Capability
 		plugin_dir_path(__file__).'/views/index.php', // slug
 		null,

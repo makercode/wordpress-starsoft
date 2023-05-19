@@ -54,17 +54,17 @@ function action_condition_checkout() {
 						jQuery("#billing_identifier").attr("required", "required");
 
 						if($identifier_type == "1" || $identifier_type == "DNI") {
-							jQuery("#billing_identifier").attr("Placeholder", "DNI");
+							jQuery("#billing_identifier").attr("Placeholder", "Nro de DNI");
 							jQuery("#billing_identifier").attr("minlength", "8");
 							jQuery("#billing_identifier").attr("maxlength", "8");
 						}
 						if($identifier_type == "4" || $identifier_type == "CARNET DE EXTRANJERÍA") {
-							jQuery("#billing_identifier").attr("Placeholder", "CARNET DE EXTRANJERÍA");
+							jQuery("#billing_identifier").attr("Placeholder", "Nro de CARNET DE EXTRANJERÍA");
 							jQuery("#billing_identifier").attr("minlength", "6");
 							jQuery("#billing_identifier").attr("maxlength", "15");
 						}
 						if($identifier_type == "6" || $identifier_type == "RUC") {
-							jQuery("#billing_identifier").attr("Placeholder", "RUC");
+							jQuery("#billing_identifier").attr("Placeholder", "Nro de RUC");
 							jQuery("#billing_identifier").attr("minlength", "11");
 							jQuery("#billing_identifier").attr("maxlength", "11");
 							jQuery("#billing_company_field").show();
@@ -110,10 +110,10 @@ function display_identifier_billing_field( $billing_fields ) {
 			'type'    		=> 'select',
 			'label'   		=> __('Tipo de Comprobante'),
 			'class'   		=> array('form-row-wide'),
-			'priority'		=> 25,
+			'priority'		=> 1001,
 			'options' 		=> array(
-				'1'			=> __( 'FACTURA'   				, '1' ),
-				'3'			=> __( 'BOLETA'					, '3' )
+				'3'			=> __( 'BOLETA'					, '3' ),
+				'1'			=> __( 'FACTURA'   				, '1' )
 			),
 			'required'		=> false,
 			'clear'   		=> true,
@@ -124,7 +124,7 @@ function display_identifier_billing_field( $billing_fields ) {
 		'type'    		=> 'select',
 		'label'   		=> __('Tipo de identificación'),
 		'class'   		=> array('form-row-wide'),
-		'priority'		=> 25,
+		'priority'		=> 1002,
 		'options' 		=> array(
 			'-'				=> __( 'ANONIMO'  , '' ),
 			'1'				=> __( 'DNI'					, '1' ),
@@ -139,7 +139,7 @@ function display_identifier_billing_field( $billing_fields ) {
 		'type'       	=> 'text',
 		'label'      	=> __('Numero de identificación'),
 		'class'      	=> array('form-row-wide'),
-		'priority'   	=> 25,
+		'priority'   	=> 1003,
 		'placeholder'	=> "DNI/RUC/CE",
 		'maxlength'  	=> 20,
 		'required'   	=> false,

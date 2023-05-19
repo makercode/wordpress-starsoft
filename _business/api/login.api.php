@@ -4,8 +4,8 @@ class LoginApi {
 
 	public function __construct() {
 
-		// $this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/Login";
-		$this->apiUrl = "http://192.168.1.108:8063/Api/Login";
+		$this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/Login";
+		// $this->apiUrl = "http://192.168.1.108:8063/Api/Login";
 	}
 
 

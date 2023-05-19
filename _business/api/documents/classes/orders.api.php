@@ -4,8 +4,8 @@ class OrdersApi {
 
 	public function __construct() {
 
-		// $this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
-		$this->apiUrl = "http://192.168.1.108:8063/Api/RegisterOrder";
+		$this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterOrder";
+		// $this->apiUrl = "http://192.168.1.108:8063/Api/RegisterOrder";
 	}
 
 
@@ -149,7 +149,7 @@ class OrdersApi {
 		$orderCustomerIdentifier = get_post_meta($orderId, '_billing_identifier', true);
 		$orderCustomerIdentifierType = get_post_meta($orderId, '_billing_identifier_type', true);
 
-		$orderCustomerIdentifierTypeFormated;
+		$orderCustomerIdentifierTypeFormated = "";
 
 
 		if($orderCustomerIdentifierType=="DNI" || $orderCustomerIdentifierType=="1" ) {
@@ -184,13 +184,13 @@ class OrdersApi {
 				"OrderHeader": {
 					"Order_Id": "'.$orderObject->get_id().'",
 					"Order_Date": "'.$orderObject->get_date_created()->getTimestamp().'",
-					"Order_Subtotal_Amount": '.$orderObject->get_subtotal().', // precio sin shipping
-					"Order_Discount_Subtotal_Amount": '.( $orderSumProductDiscount+$orderSumCouponDiscount ).', // Descuentos totales de prods y coupon
-					"Order_Shipping_Subtotal_Amount": '.$orderData['shipping_total'].', // shipping valor
-					"Order_Total_Amount": '.$orderData['total'].', 
+					"Order_Subtotal_Amount": '.$orderObject->get_subtotal().',
+					"Order_Discount_Subtotal_Amount": '.( $orderSumProductDiscount+$orderSumCouponDiscount ).',
+					"Order_Shipping_Subtotal_Amount": '.$orderData['shipping_total'].',
+					"Order_Total_Amount": '.$orderData['total'].',
 					"Order_Currency_Type": "'.$currencyStarsoft.'",
-					"Order_Discount_Product_Amount": '.$orderSumProductDiscount.', // descuento solo de productos
-					"Order_Discount_Coupon_Amount": '.$orderSumCouponDiscount.', // descuento solo de cupones
+					"Order_Discount_Product_Amount": '.$orderSumProductDiscount.',
+					"Order_Discount_Coupon_Amount": '.$orderSumCouponDiscount.',
 					"Order_Gloss": "Pedidos Wordpress - '.$orderObject->get_id().'",
 					"Order_Address": "'.$joinedAddress.'"
 				},
@@ -221,11 +221,11 @@ class OrdersApi {
 				'body' => $orderSyncJson
 			)
 		);
+		// var_dump($result);
 
 		if( is_wp_error( $result ) ) {
 			return false;
 		}
-		// var_dump($result['response']['code']);
 		if( $result['response']['code'] == 200 ) {
 			// var_dump($result['body']);
 			if($result['body'] == "true") {

@@ -32,7 +32,7 @@ jQuery(document).ready( function($) {
 				password: password
 			},
 			success: function (data) {
-				$("#login-button").prop("disabled", false);
+				// $("#login-button").prop("disabled", false);
 				console.log(data);
 				location.reload();
 			},

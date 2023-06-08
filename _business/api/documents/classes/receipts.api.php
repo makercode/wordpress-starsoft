@@ -165,7 +165,10 @@ class ReceiptsApi {
 
 
 
-		$joinedAddress = $orderObject->get_billing_address_1().'-'.$orderObject->get_billing_address_2().'-'.$orderObject->get_billing_city().'-'.$orderObject->get_billing_country();
+		$joinedAddress = $orderObject->get_billing_address_1().'-'.$orderObject->get_billing_city();
+		if (strlen($joinedAddress) > 100) {
+   			$joinedAddress = substr($joinedAddress, 0, 97) . '...';
+		}
 
 
 		$orderSyncJson = '{

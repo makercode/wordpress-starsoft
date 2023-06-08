@@ -39,16 +39,16 @@ function ActivePlugin() {
 	$installService->init();
 
     if( !wp_next_scheduled( 'starsoft_order_sync_cron_hook' ) ) {
-        wp_schedule_event( current_time( 'timestamp' ), 'minutely', 'starsoft_order_sync_cron_hook' );
+        wp_schedule_event( current_time( 'timestamp' ), 'threehourly', 'starsoft_order_sync_cron_hook' );
     }
 }
 register_activation_hook(__file__, 'ActivePlugin');
 
 
 function wpshout_add_cron_interval( $schedules ) {
-    $schedules['minutely'] = array(
-        'interval'  => 60, // time in seconds
-        'display'   => 'minutely'
+    $schedules['threehourly'] = array(
+        'interval'  => 10800, // time in seconds
+        'display'   => 'threehourly'
     );
     return $schedules;
 }

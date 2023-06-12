@@ -115,7 +115,7 @@ function display_identifier_billing_field( $billing_fields ) {
 				'3'			=> __( 'BOLETA'					, '3' ),
 				'1'			=> __( 'FACTURA'   				, '1' )
 			),
-			'required'		=> false,
+			'required'		=> true,
 			'clear'   		=> true,
 		);
 	}
@@ -131,7 +131,7 @@ function display_identifier_billing_field( $billing_fields ) {
 			'6'				=> __( 'RUC'   					, '6' ),
 			'4'				=> __( 'C. DE EXTRANJERÍA'		, '4' )
 		),
-		'required'		=> false,
+		'required'		=> true,
 		'clear'   		=> true,
 	);
 
@@ -142,9 +142,11 @@ function display_identifier_billing_field( $billing_fields ) {
 		'priority'   	=> 1003,
 		'placeholder'	=> "DNI/RUC/CE",
 		'maxlength'  	=> 20,
-		'required'   	=> false,
+		'required'   	=> true,
 		'clear'      	=> true,
 	);
+
+	$billing_fields['billing_company']['priority'] = 1004;
 
 	return $billing_fields;
 }

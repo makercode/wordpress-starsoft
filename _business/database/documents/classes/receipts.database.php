@@ -20,7 +20,7 @@ class ReceiptsDatabase {
 			`OrderJson` TEXT NULL,
 			`CustomerIdType` VARCHAR(11) NULL,
 			`CustomerId` VARCHAR(45) NULL,
-			`OrderDate` VARCHAR(45) NULL,
+			`OrderDate` date NULL,
 			`OrderState` INT(11) NULL,
 			`OrderSync` INT(11) NULL,
 			`ReceiptType` VARCHAR(11) NULL,
@@ -36,7 +36,9 @@ class ReceiptsDatabase {
 
 		global $wpdb;
 
-		$GetReceiptsQuery = "SELECT * FROM {$this->table}";
+        $startDate = date('Y-m-d',strtotime("-90 days"));
+        $endDate   = date('Y-m-d',strtotime("+1 days"));
+		$GetReceiptsQuery = "SELECT * FROM {$this->table} WHERE OrderDate BETWEEN '$startDate' AND '$endDate'";
 		$receiptsArray = $wpdb->get_results($GetReceiptsQuery, ARRAY_A);
 
 		if( empty($receiptsArray) ) {

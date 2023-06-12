@@ -1,5 +1,8 @@
 <?php 
 
+require_once dirname(__file__).'/_business/models/product.sku.dto.model.php';
+require_once dirname(__file__).'/_business/models/product.sync.dto.model.php';
+
 
 require_once dirname(__file__).'/_business/database/customers.database.php';
 require_once dirname(__file__).'/_business/database/products.database.php';
@@ -34,3 +37,6 @@ require_once dirname(__file__).'/_business/database/documents/adapters/receipts.
 
 
 require_once dirname(__file__).'/_business/globals/settings.global.php';
+
+require_once dirname(__file__).'/_business/services/syncronizer.service.php';
+require_once dirname(__file__).'/_business/services/install.service.php';

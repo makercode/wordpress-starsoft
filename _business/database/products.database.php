@@ -1,8 +1,5 @@
 <?php
 
-require_once dirname(__file__).'/../models/product.sync.dto.model.php';
-require_once dirname(__file__).'/../models/product.sku.dto.model.php';
-
 class ProductsDatabase {
 
 	public function __construct() {

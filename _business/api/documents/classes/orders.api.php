@@ -17,6 +17,7 @@ class OrdersApi {
 		$order = $documentsDatabase->getDocument("{$orderId}");
 		// var_dump($documentsDatabase);
 
+		// If Json exists in DB the return Json of DB
 		if ( sizeof($order)>=1 ) {
 			$orderSyncJson = $order['0']['OrderJson'];
 			return $orderSyncJson;
@@ -206,7 +207,7 @@ class OrdersApi {
 	}
 
 
-	public function setOrder( $orderId ) {
+	public function sendOrder( $orderId ) {
 
 		$settingsDatabase = new SettingsDatabase;
 		$token = $settingsDatabase->getToken();

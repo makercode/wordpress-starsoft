@@ -1,4 +1,17 @@
 <?php
+	
+	// if post received
+	/**/
+
+	if( isset($_POST['orderId']) ) {
+		$syncronizerService = new SyncronizerService;
+		$isSynced = $syncronizerService->syncronizeOrder($_POST['orderId']);
+		error_log('ejecutado boton vista  '.$isSynced);
+	}
+
+
+
+
 	// get invoices
 	$settingsGlobal = new SettingsGlobal;
 	$documentsDatabase = $settingsGlobal->getDocumentsDatabaseInstance();
@@ -24,7 +37,7 @@
 				<th>
 					Nro de Orden WordPress
 				</th>
-				<th>
+				<th class='d-none'>
 					Json
 				</th>
 				<th>
@@ -47,6 +60,9 @@
 				<th>
 					Pedido sincronizado a Starsoft
 				</th>
+				<th>
+					Acciones
+				</th>
 			</thead>
 			<tbody>
 				<?php 
@@ -54,7 +70,7 @@
 						// var_dump($document);
 						$id = $document['DocumentSyncId'];
 
-						$date = date('m/d/Y', $document['OrderDate']);
+						$date = $document['OrderDate'];
 
 						$orderId = $document['OrderId'];
 						$orderJson = $document['OrderJson'];
@@ -92,7 +108,7 @@
 							<td>
 								{$orderId}
 							</td>
-							<td>
+							<td class='d-none'>
 								<div style='max-height: 100px; overflow: scroll;'>
 									{$orderJson}
 								</div>
@@ -121,7 +137,29 @@
 						echo "
 							<td>
 								{$orderSync}
-							</td>";
+							</td>
+							";
+
+						echo "
+							<td>
+							";
+
+						if( !$document['OrderSync'] ) {
+							echo "
+								<form action='' method='post'>
+									<input type='hidden' name='orderId' value='{$orderId}'>
+									<textarea disabled='disabled'>
+										{$orderJson}
+									</textarea>
+									<button type='submit'>
+										Reenviar
+									</button>
+								</form>
+							";
+						}
+						echo "
+							</td>
+							";
 
 						echo "
 						</tr>";

@@ -15,7 +15,7 @@ class DocumentsApi implements IDocumentsApi {
 	}
 
 
-	public function setDocument( $orderId ) {
-		return $this->documentsApiAdapter->setDocument( $orderId );
+	public function sendDocument( $orderId ) {
+		return $this->documentsApiAdapter->sendDocument( $orderId );
 	}
 }

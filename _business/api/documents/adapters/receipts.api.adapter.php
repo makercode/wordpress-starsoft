@@ -15,7 +15,7 @@ class ReceiptsApiAdapter implements IDocumentsApi {
 	}
 
 
-	public function setDocument( $orderId ) {
-		return $this->receiptsApi->setReceipt($orderId);
+	public function sendDocument( $orderId ) {
+		return $this->receiptsApi->sendReceipt($orderId);
 	}
 }

@@ -1,8 +1,5 @@
 <?php
 
-require_once dirname(__file__).'/../database/customers.database.php';
-require_once dirname(__file__).'/../database/products.database.php';
-require_once dirname(__file__).'/../database/settings.database.php';
 
 class InstallService {
 

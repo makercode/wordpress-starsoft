@@ -44,7 +44,7 @@ function action_woocommerce_thankyou( $orderId ) {
 		$customerIdType = get_post_meta($orderId, '_billing_identifier_type', true);
 		$customerId     = get_post_meta($orderId, '_billing_identifier', true);
 		$documentType   = get_post_meta($orderId, '_billing_document_type', true);
-		$orderDate      = $orderData['date_created']->getTimestamp();
+		$orderDate      = date( 'Y-m-d.', strtotime( $order->get_date_created() ));
 		$orderState     = ( $order->has_status('completed') ) ? 1 : 0 ;
 		$orderSync      = 0;
 		$receiptType    = ''; 
@@ -70,7 +70,7 @@ function action_woocommerce_thankyou( $orderId ) {
 		$documentsDatabase->setDocument( $info, $orderId );
 
 
-		$responseInvoiceSetted = $documentsApi->setDocument( $orderId );
+		$responseInvoiceSetted = $documentsApi->sendDocument( $orderId );
 
 		echo "<!--";
 		echo $responseInvoiceSetted;

@@ -208,7 +208,7 @@ class ReceiptsApi {
 	}
 
 
-	public function setReceipt( $orderId ) {
+	public function sendReceipt( $orderId ) {
 
 		$settingsDatabase = new SettingsDatabase;
 		$token = $settingsDatabase->getToken();

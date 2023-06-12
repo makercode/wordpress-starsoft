@@ -32,7 +32,7 @@ function action_condition_checkout() {
 						`)
 					} else {
 						$identifier_type_input.html(`
-							<option value="-">ANONIMO</option>
+							<!--option value="-">ANONIMO</option-->
 							<option value="1" selected="selected">DNI</option>
 							<option value="6">RUC</option>
 							<option value="4">C. DE EXTRANJERÍA</option>
@@ -126,7 +126,7 @@ function display_identifier_billing_field( $billing_fields ) {
 		'class'   		=> array('form-row-wide'),
 		'priority'		=> 1002,
 		'options' 		=> array(
-			'-'				=> __( 'ANONIMO'  , '' ),
+			/*'-'				=> __( 'ANONIMO'  , '' ),*/
 			'1'				=> __( 'DNI'					, '1' ),
 			'6'				=> __( 'RUC'   					, '6' ),
 			'4'				=> __( 'C. DE EXTRANJERÍA'		, '4' )

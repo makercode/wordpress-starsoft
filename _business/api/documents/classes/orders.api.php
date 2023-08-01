@@ -187,7 +187,7 @@ class OrdersApi {
 			"OrderStarsoft": {
 				"OrderHeader": {
 					"Order_Id": "'.$orderObject->get_id().'",
-					"Order_Date": "'.$orderObject->get_date_created()->getTimestamp().'",
+					"Order_Date": "'.$orderObject->get_date_created().'",
 					"Order_Subtotal_Amount": '.$orderObject->get_subtotal().',
 					"Order_Discount_Subtotal_Amount": '.( $orderSumProductDiscount+$orderSumCouponDiscount ).',
 					"Order_Shipping_Subtotal_Amount": '.$orderData['shipping_total'].',

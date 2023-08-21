@@ -32,7 +32,7 @@ function action_condition_checkout() {
 						`)
 					} else {
 						$identifier_type_input.html(`
-							<!--option value="-">ANONIMO</option-->
+							<option value="-">ANONIMO</option>
 							<option value="1" selected="selected">DNI</option>
 							<option value="6">RUC</option>
 							<option value="4">C. DE EXTRANJERÍA</option>
@@ -58,7 +58,7 @@ function action_condition_checkout() {
 							jQuery("#billing_identifier").attr("minlength", "8");
 							jQuery("#billing_identifier").attr("maxlength", "8");
 						}
-						if($identifier_type == "4" || $identifier_type == "CARNET DE EXTRANJERÍA") {
+						if($identifier_type == "4" || $identifier_type == "CARNET DE EXTRANJERÍA" || $identifier_type == "C. DE EXTRANJERÍA") {
 							jQuery("#billing_identifier").attr("Placeholder", "Nro de CARNET DE EXTRANJERÍA");
 							jQuery("#billing_identifier").attr("minlength", "6");
 							jQuery("#billing_identifier").attr("maxlength", "15");
@@ -83,10 +83,10 @@ function action_condition_checkout() {
 					resetIdentifierValue();
 					checkIdentifierType();
 				});
-				jQuery( document ).ready( 
+				jQuery( document ).ready(
 					function() {
-						resetIdentifierValue();
-						checkDocumentType();
+						// resetIdentifierValue();
+						// checkDocumentType();
 						checkIdentifierType();
 						console.log("rdy4pty");
 					}
@@ -127,7 +127,7 @@ function display_identifier_billing_field( $billing_fields ) {
 			'class'   		=> array('form-row-wide'),
 			'priority'		=> 1002,
 			'options' 		=> array(
-				/*'-'				=> __( 'ANONIMO'  , '' ),*/
+				'-'				=> __( 'ANONIMO'  , '-' ),
 				'1'				=> __( 'DNI'					, '1' ),
 				'6'				=> __( 'RUC'   					, '6' ),
 				'4'				=> __( 'C. DE EXTRANJERÍA'		, '4' )
@@ -142,7 +142,7 @@ function display_identifier_billing_field( $billing_fields ) {
 			'class'      	=> array('form-row-wide'),
 			'priority'   	=> 1003,
 			'placeholder'	=> "DNI/RUC/CE",
-			'maxlength'  	=> 20,
+			'maxlength'  	=> 15,
 			'required'   	=> true,
 			'clear'      	=> true,
 		);

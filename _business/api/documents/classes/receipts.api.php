@@ -4,7 +4,7 @@ class ReceiptsApi {
 
 	public function __construct() {
 
-		$this->apiUrl = "http://www.starsoftweb.com/ApiWooCommerce/Api/RegisterReceipt";
+		$this->apiUrl = "https://starsoftweb.com/ApiWooCommerce/Api/RegisterReceipt";
 		// $this->apiUrl = "http://192.168.1.108:8063/Api/RegisterReceipt";
 	}
 

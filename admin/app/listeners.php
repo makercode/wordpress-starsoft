@@ -238,3 +238,7 @@ function action_woocommerce_order_processing( $orderId ) {
 
 }
 add_action( 'woocommerce_order_status_processing', 'action_woocommerce_order_processing' );
+
+add_filter('http_request_timeout', function($timeout) {
+    return 30; 
+});

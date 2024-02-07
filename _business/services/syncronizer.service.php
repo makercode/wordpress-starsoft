@@ -18,7 +18,7 @@ class SyncronizerService {
 				$documentSyncId = $document['DocumentSyncId'];
 				$orderId = $document['OrderId'];
 
-				$documentsApi = $this->$settingsGlobal->getDocumentsApiInstance();
+				$documentsApi = $this->settingsGlobal->getDocumentsApiInstance();
 				$responseDocumentSetted = $documentsApi->sendDocument( $orderId );
 
 				if($responseDocumentSetted==true) {
